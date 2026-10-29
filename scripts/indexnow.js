@@ -45,11 +45,14 @@ async function main() {
 
   console.log('IndexNow: submitting ' + urlList.length + ' URLs for ' + HOST);
 
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), 20000);
   const response = await fetch(ENDPOINT, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json; charset=utf-8' },
-    body: JSON.stringify(payload)
-  });
+    body: JSON.stringify(payload),
+    signal: controller.signal
+  }).finally(() => clearTimeout(timer));
 
   if (!response.ok) {
     const detail = await response.text().catch(() => '');
