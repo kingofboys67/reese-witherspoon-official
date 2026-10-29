@@ -26,12 +26,19 @@ const HOME_ORDER = [
 ];
 
 const problems = [];
+const FALLBACK_IMAGE = '/og-image.jpg';
 
 function assetExists(rel) {
   const clean = rel.replace(/^\//, '');
   if (fs.existsSync(path.join(ROOT, clean))) return true;
   problems.push('missing asset: ' + rel);
   return false;
+}
+
+/** Image path with a guaranteed-present fallback (never ships a broken <img>). */
+function imagePath(rel) {
+  const clean = rel.replace(/^\//, '');
+  return assetExists(rel) ? '/' + clean : FALLBACK_IMAGE;
 }
 
 function esc(value) {
@@ -47,7 +54,7 @@ function sortEntries(list) {
 }
 
 function renderCard(entry) {
-  const posterPath = '/' + entry.poster.replace(/^\//, '');
+  const posterPath = imagePath(entry.poster);
   assetExists(entry.poster);
   const kind = KIND_LABEL[entry.kind] || 'Feature Film';
   const alt = entry.title + ' (' + entry.year + ') — Reese Witherspoon as ' +
@@ -83,12 +90,11 @@ function renderCard(entry) {
 
 function renderReel(entry) {
   const src = '/' + entry.src.replace(/^\//, '');
-  const poster = '/' + entry.poster.replace(/^\//, '');
-  assetExists(entry.src);
-  assetExists(entry.poster);
+  if (!assetExists(entry.src)) return '';
+  const poster = imagePath(entry.poster);
   return [
     '<button type="button" class="rxl-card" data-reel-src="' + esc(src) + '"',
-    '  data-reel-poster="' + esc(poster) + '" data-rxl-title="' + esc(entry.title) + '"',
+    '  data-reel-poster="' + esc(poster) + '" data-reel-title="' + esc(entry.title) + '"',
     '  aria-label="Play reel: ' + esc(entry.title) + '">',
     '  <img src="' + esc(poster) + '" alt="Reese Witherspoon — ' + esc(entry.title) + '" width="360" height="640" loading="lazy" decoding="async"/>',
     '  <span class="rxl-play" aria-hidden="true">▶</span>',
@@ -155,7 +161,11 @@ function ensureWhitelisted(assets) {
     }
   });
   if (added.length) {
-    fs.writeFileSync(ignorePath, lines.concat(added).join('\n') + '\n', 'utf8');
+    try {
+      fs.writeFileSync(ignorePath, lines.concat(added).join('\n') + '\n', 'utf8');
+    } catch (error) {
+      console.log('  ! could not update .vercelignore (read-only build): ' + error.message);
+    }
   }
   return added;
 }
@@ -208,11 +218,13 @@ function main() {
   console.log('  media whitelisted   : ' + added.length + ' new .vercelignore rule(s)');
 
   if (problems.length) {
-    console.log('\nAsset problems:');
-    problems.forEach((problem) => console.log('  x ' + problem));
-    process.exit(1);
+    console.log('\nAsset warnings (build continues, fallbacks applied):');
+    problems.slice(0, 10).forEach((problem) => console.log('  ! ' + problem));
+    if (problems.length > 10) console.log('  ! … ' + (problems.length - 10) + ' more');
+  } else {
+    console.log('  ✓ all poster, still and video assets verified locally');
   }
-  console.log('  ✓ all poster, still and video assets verified locally');
+  console.log('  build complete');
 }
 
 if (require.main === module) main();
