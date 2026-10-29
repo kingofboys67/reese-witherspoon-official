@@ -232,10 +232,10 @@ const html = `<!DOCTYPE html>
 </body>
 </html>`;
 
-const fileContent = \`export function getWelcomeEmailHtml(from_name, from_email) {
-  return \\\`\${html}\\\`;
+const fileContent = `export function getWelcomeEmailHtml(from_name, from_email) {
+  return \`${html}\`;
 }
-\`;
+`;
 
 fs.writeFileSync('api/template.js', fileContent);
 console.log('Template created');

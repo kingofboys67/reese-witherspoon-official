@@ -152,7 +152,7 @@
       desc: 'Reese announces this month\'s Reese\'s Book Club pick — every selection changes a book\'s destiny.',
       src: 'reesewitherspoon/reesesbookclub_1658941496_2891732822644896018_2249417883.mp4',
       poster: 'reesewitherspoon/reesesbookclub_1693063724_3177971311774135084_2249417883.jpg',
-      duration: 'Book Club', tags: 'book club monthly pick announcement Reese's books reading selection'
+      duration: 'Book Club', tags: 'book club monthly pick announcement Reese\'s books reading selection'
     },
     {
       id: 'hs02', tab: 'sunshine', catLabel: '☀️ Hello Sunshine',
