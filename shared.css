@@ -619,3 +619,26 @@ nav a.nav-join:active {
     margin-top: 8px !important;
   }
 }
+
+/* ── ACCESSIBILITY SKIP LINK ─────────────────────────────────── */
+.skip-link {
+  position: absolute;
+  top: -100px;
+  left: 16px;
+  padding: 10px 20px;
+  background: #FFD700;
+  color: #0d0820;
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.88rem;
+  font-weight: 700;
+  border-radius: 8px;
+  z-index: 999999;
+  transition: top 0.2s ease;
+  text-decoration: none;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+}
+.skip-link:focus {
+  top: 16px;
+  outline: 3px solid #fff;
+}
+

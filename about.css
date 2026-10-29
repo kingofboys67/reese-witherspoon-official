@@ -22,6 +22,16 @@
 .ti-title{font-size:1.1rem;font-weight:700;margin-bottom:10px;}
 .ti-desc{font-size:.9rem;color:var(--muted);line-height:1.75;}
 .ti-badge{margin-top:14px;display:inline-block;padding:5px 14px;background:rgba(245,158,11,.12);border:1px solid rgba(245,158,11,.3);border-radius:100px;font-size:.75rem;font-weight:700;color:#fcd34d;}
+.timeline-controls{margin-top:36px;display:flex;flex-direction:column;align-items:center;gap:14px;text-align:center;}
+.ti-filters{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;}
+.ti-pill{display:inline-flex;align-items:center;gap:8px;padding:9px 18px;border-radius:100px;font-size:.82rem;font-weight:600;letter-spacing:.02em;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);color:var(--text);cursor:pointer;transition:all .25s ease;}
+.ti-pill:hover{background:rgba(236,72,153,.12);border-color:rgba(236,72,153,.4);color:#fff;}
+.ti-pill.active{background:linear-gradient(135deg,rgba(124,58,237,.35),rgba(236,72,153,.35));border-color:rgba(236,72,153,.7);color:#fff;box-shadow:0 0 16px rgba(236,72,153,.35);}
+.ti-pill-count{display:inline-block;padding:2px 7px;border-radius:100px;font-size:.7rem;font-weight:700;background:rgba(255,255,255,.12);color:var(--muted);}
+.ti-pill.active .ti-pill-count{background:rgba(255,255,255,.25);color:#fff;}
+.ti-era-meta{font-size:.85rem;color:var(--muted);max-width:620px;line-height:1.5;}
+.ti-era-link{display:inline-flex;align-items:center;gap:4px;margin-top:12px;font-size:.8rem;font-weight:700;color:var(--pink-2);text-decoration:none;transition:color .2s,transform .2s;}
+.ti-era-link:hover{color:#fff;transform:translateX(3px);}
 
 /* ── BIO GRID ───────────────────────────────────────────── */
 .bio-grid{display:grid;grid-template-columns:1.4fr .6fr;gap:60px;align-items:start;}
@@ -55,7 +65,8 @@
 /* ── PHILANTHROPY ───────────────────────────────────────── */
 .philan-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:start;}
 .philan-cards{display:flex;flex-direction:column;gap:14px;}
-.pc-item{display:flex;align-items:center;gap:16px;padding:20px 24px;}
+.pc-item{display:flex;align-items:center;gap:16px;padding:20px 24px;transition:transform .25s ease,box-shadow .25s ease,border-color .25s ease;}
+.pc-item:hover{transform:translateY(-3px);border-color:rgba(236,72,153,.5);box-shadow:0 12px 30px rgba(124,58,237,.2);}
 .pc-icon{font-size:2rem;flex-shrink:0;}
 .pc-name{font-size:.95rem;font-weight:700;}
 .pc-role{font-size:.8rem;color:var(--muted);margin-top:3px;}

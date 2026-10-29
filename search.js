@@ -144,13 +144,24 @@
       groups[item.type].push(item);
     });
 
+    function resolvePath(p) {
+      if (!p || p.startsWith('http') || p.startsWith('//') || p.startsWith('data:')) return p;
+      const isNested = window.location.pathname.includes('/films/') || 
+                       window.location.pathname.includes('/awards/') || 
+                       window.location.pathname.includes('/career/');
+      const clean = p.replace(/^\.\.\//, '').replace(/^\//, '');
+      return isNested ? '../' + clean : clean;
+    }
+
     let html = '';
     Object.entries(groups).forEach(([type, items]) => {
       html += `<div class="so-section-title">${type}</div>`;
       items.forEach(item => {
+        const itemUrl = resolvePath(item.url);
+        const itemImg = resolvePath(item.img);
         html += `
-          <a href="${item.url}" class="so-result-item">
-            <img class="so-result-thumb" src="${item.img}" alt="${item.title}" onerror="this.src=''" loading="lazy"/>
+          <a href="${itemUrl}" class="so-result-item">
+            <img class="so-result-thumb" src="${itemImg}" alt="${item.title} — Reese Witherspoon official page" onerror="this.src=''" loading="lazy"/>
             <div>
               <div class="so-result-type">${item.type} ${item.year ? `· ${item.year}` : ''}</div>
               <div class="so-result-title">${highlight(item.title, q)}</div>

