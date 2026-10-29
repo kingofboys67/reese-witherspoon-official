@@ -556,7 +556,7 @@ function isManagedNode(node) {
 }
 
 const MANAGED_COMMENTS =
-  /<!--\s*(SEO[^>\n]*|Open Graph[^>\n]*|Twitter \/ X Card|Structured Data JSON-LD Schemas|Verified entity profiles|=[^\n]*OFFICIAL ENTITY SEO[^\n]*|Reese Witherspoon Official Website[^\n]*built[^\n]*)\s*-->/gi;
+  /<!--\s*(SEO[^>\n]*|Open Graph[^>\n]*|Twitter \/ X Card|Structured Data JSON-LD Schemas|Verified entity profiles|Favicon[^>\n]*|Master JSON-LD[^>\n]*|=[^>\n]*OFFICIAL ENTITY SEO[^>\n]*|Reese Witherspoon Official Website[^>\n]*built[^>\n]*)\s*-->/gi;
 
 function stripManagedHead(head) {
   let out = head.replace(MANAGED_COMMENTS, '');
