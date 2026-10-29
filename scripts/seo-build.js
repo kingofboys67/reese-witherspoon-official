@@ -37,6 +37,7 @@ const OG_IMAGE = SITE + '/og-image.jpg';
 const LOGO_ICON = SITE + '/icon-512x512.png';
 
 const NAV_LINKS = [
+  { id: 'about', name: 'About — Official Biography', url: SITE + '/about' },
   { id: 'filmography', name: 'Filmography', url: SITE + '/films' },
   { id: 'reels', name: 'Watch Reels', url: SITE + '/reels' },
   { id: 'facts', name: 'Facts', url: SITE + '/facts' },
@@ -285,6 +286,15 @@ function personSchema() {
     ],
     award: AWARDS,
     knowsAbout: KNOWS_ABOUT,
+    spouse: [
+      { '@type': 'Person', name: 'Ryan Phillippe' },
+      { '@type': 'Person', name: 'Jim Toth' }
+    ],
+    children: [
+      { '@type': 'Person', name: 'Ava Phillippe' },
+      { '@type': 'Person', name: 'Deacon Phillippe' },
+      { '@type': 'Person', name: 'Tennessee Toth' }
+    ],
     performerIn: PERFORMER_IN,
     email: CONTACT_EMAIL,
     sameAs: SOCIALS,
