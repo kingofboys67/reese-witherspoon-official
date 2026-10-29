@@ -4,10 +4,12 @@
   "description": "Official website of Reese Witherspoon — reesewitherspoonofficial.com",
   "main": "index.js",
   "scripts": {
-    "build": "node scripts/seo-build.js && node scripts/seo-validate.js",
+    "build": "node scripts/build-showcase.js && node scripts/seo-build.js && node scripts/seo-validate.js",
     "seo:build": "node scripts/seo-build.js",
     "seo:check": "node scripts/seo-validate.js",
+    "seo:showcase": "node scripts/build-showcase.js",
     "seo:indexnow": "node scripts/indexnow.js",
+    "icons": "python3 scripts/build-icons.py",
     "test": "node scripts/seo-validate.js"
   },
   "keywords": [

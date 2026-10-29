@@ -56,7 +56,8 @@ function resolveInternal(target) {
   if (!clean.startsWith('/')) return true;
   if (clean === '/') return fs.existsSync(path.join(ROOT, 'index.html'));
   const rel = clean.slice(1);
-  if (/\.[a-z0-9]{2,5}$/i.test(rel)) return fs.existsSync(path.join(ROOT, rel));
+  if (fs.existsSync(path.join(ROOT, rel))) return true;
+  if (/\.[a-z0-9]{2,6}$/i.test(rel)) return false;
   return fs.existsSync(path.join(ROOT, rel + '.html')) ||
     fs.existsSync(path.join(ROOT, rel, 'index.html'));
 }
@@ -125,6 +126,18 @@ function checkPage(file) {
     if (!tw[key]) fail(file + ': missing ' + key);
   }
 
+  /* ---- favicon / brand icon suite ---- */
+  const iconHrefs = (head.match(/<link\s+rel="(?:icon|apple-touch-icon|manifest)"[^>]*>/gi) || [])
+    .map((tag) => attr(tag, 'href'));
+  for (const required of ['/favicon.ico', '/favicon.svg', '/favicon-48x48.png',
+    '/icon-192x192.png', '/icon-512x512.png', '/apple-touch-icon.png', '/site.webmanifest']) {
+    if (!iconHrefs.includes(required)) fail(file + ': missing <link> for ' + required);
+  }
+  if (og['og:image'] !== SITE + '/og-image.jpg') fail(file + ': og:image must be ' + SITE + '/og-image.jpg');
+  if (og['og:image:width'] !== '1200' || og['og:image:height'] !== '630') {
+    fail(file + ': og:image must declare 1200x630');
+  }
+
   /* ---- structured data ---- */
   const nodes = [];
   const blocks = html.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/gi) || [];
@@ -133,7 +146,14 @@ function checkPage(file) {
     const body = block.replace(/^<script[^>]*>/i, '').replace(/<\/script>$/i, '').trim();
     try {
       const parsed = JSON.parse(body);
-      (Array.isArray(parsed) ? parsed : [parsed]).forEach((node) => nodes.push(node));
+      const roots = Array.isArray(parsed) ? parsed : [parsed];
+      roots.forEach((root) => {
+        if (root && Array.isArray(root['@graph'])) {
+          root['@graph'].forEach((node) => nodes.push(node));
+        } else {
+          nodes.push(root);
+        }
+      });
     } catch (error) {
       fail(file + ': invalid JSON-LD (' + error.message.slice(0, 60) + ')');
     }
@@ -179,12 +199,53 @@ function checkPage(file) {
     if (!faq) fail(file + ': missing FAQPage schema');
     else {
       const questions = faq.mainEntity || [];
-      if (questions.length < 5) fail(file + ': FAQPage needs at least 5 questions');
+      if (questions.length < 6) fail(file + ': FAQPage needs at least 6 questions');
       const asked = questions.map((q) => q.name).join(' | ');
       if (!/official website of Reese Witherspoon/i.test(asked)) {
         fail(file + ': FAQPage missing "What is the official website of Reese Witherspoon?"');
       }
+      if (!/reels/i.test(asked)) fail(file + ': FAQPage missing the reels question');
+
+      // Every schema question must exist as visible on-page content.
+      const summaries = [...html.matchAll(/<summary[^>]*>([\s\S]*?)<\/summary>/gi)]
+        .map((match) => match[1].replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim().toLowerCase());
+      for (const question of questions) {
+        const text = String(question.name || '').replace(/\s+/g, ' ').trim().toLowerCase();
+        if (!summaries.some((summary) => summary === text)) {
+          fail(file + ': FAQ question not visible on page → ' + question.name);
+        }
+      }
     }
+  }
+
+  /* ---- filmography ItemList + reel VideoObjects ---- */
+  const videos = nodes.filter((node) => node['@type'] === 'VideoObject');
+  if (route === '' || route === 'reels') {
+    if (videos.length < 8) fail(file + ': expected 8+ VideoObject nodes, found ' + videos.length);
+    for (const video of videos) {
+      for (const key of ['name', 'description', 'thumbnailUrl', 'uploadDate', 'embedUrl', 'contentUrl']) {
+        if (!video[key]) fail(file + ': VideoObject missing ' + key);
+      }
+      if (!video.actor || video.actor['@id'] !== PERSON_ID) {
+        fail(file + ': VideoObject.actor must reference ' + PERSON_ID);
+      }
+    }
+  }
+  if (route === '' || route === 'films') {
+    const list = nodes.find((node) => node['@type'] === 'ItemList');
+    if (!list) fail(file + ': missing filmography ItemList schema');
+    else if (!Array.isArray(list.itemListElement) || list.itemListElement.length < 30) {
+      fail(file + ': ItemList must list 30+ filmography entries');
+    }
+  }
+  const org = nodes.find((node) => node['@type'] === 'Organization');
+  if (org) {
+    const logo = org.logo && (org.logo.url || org.logo.contentUrl || org.logo);
+    if (logo !== SITE + '/icon-512x512.png') {
+      fail(file + ': Organization.logo must be ' + SITE + '/icon-512x512.png');
+    }
+  } else {
+    fail(file + ': missing Organization schema');
   }
 
   /* ---- headings & images ---- */
@@ -217,8 +278,8 @@ function checkPage(file) {
   /* ---- retired placeholder traces ---- */
   const traces = html.match(LEGACY_PATTERN);
   if (traces) fail(file + ': retired placeholder traces (' + traces.length + ')');
-  if (/\b(unofficial|fan site|independent archive)\b/i.test(head)) {
-    fail(file + ': head contains unofficial / fan-site language');
+  if (/\b(unofficial|fan site|fan archive|independent archive)\b/i.test(html)) {
+    fail(file + ': contains unofficial / fan-site language');
   }
 
   /* ---- robots directive ---- */
@@ -231,8 +292,108 @@ function checkPage(file) {
 
 
 /* ------------------------------------------------------------------ */
-/* Site-wide discovery files                                           */
+/* Official brand assets (favicons, manifest, OG image)                */
 /* ------------------------------------------------------------------ */
+
+function pngSize(file) {
+  const buffer = fs.readFileSync(file);
+  if (buffer.readUInt32BE(0) !== 0x89504e47) return null;
+  return { width: buffer.readUInt32BE(16), height: buffer.readUInt32BE(20) };
+}
+
+function jpegSize(file) {
+  const buffer = fs.readFileSync(file);
+  let offset = 2;
+  while (offset < buffer.length) {
+    if (buffer[offset] !== 0xff) { offset += 1; continue; }
+    const marker = buffer[offset + 1];
+    const length = buffer.readUInt16BE(offset + 2);
+    if (marker >= 0xc0 && marker <= 0xcf && marker !== 0xc4 && marker !== 0xc8 && marker !== 0xcc) {
+      return { height: buffer.readUInt16BE(offset + 5), width: buffer.readUInt16BE(offset + 7) };
+    }
+    offset += 2 + length;
+  }
+  return null;
+}
+
+function checkIcons() {
+  const expected = [
+    ['favicon.svg', null],
+    ['favicon.ico', null],
+    ['favicon-48x48.png', 48],
+    ['icon-192x192.png', 192],
+    ['icon-512x512.png', 512],
+    ['apple-touch-icon.png', 180]
+  ];
+  for (const [name, size] of expected) {
+    const file = path.join(ROOT, name);
+    if (!fs.existsSync(file)) { fail('missing icon asset: ' + name); continue; }
+    if (!size || !name.endsWith('.png')) continue;
+    const dims = pngSize(file);
+    if (!dims) { fail(name + ': not a valid PNG'); continue; }
+    if (dims.width !== size || dims.height !== size) {
+      fail(name + ': expected ' + size + 'x' + size + ', found ' + dims.width + 'x' + dims.height);
+    }
+  }
+
+  const og = path.join(ROOT, 'og-image.jpg');
+  if (!fs.existsSync(og)) fail('missing og-image.jpg');
+  else {
+    const dims = jpegSize(og);
+    if (!dims) fail('og-image.jpg: not a valid JPEG');
+    else if (dims.width !== 1200 || dims.height !== 630) {
+      fail('og-image.jpg: expected 1200x630, found ' + dims.width + 'x' + dims.height);
+    }
+  }
+
+  const manifestPath = path.join(ROOT, 'site.webmanifest');
+  if (!fs.existsSync(manifestPath)) return fail('missing site.webmanifest');
+  let manifest;
+  try {
+    manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf8'));
+  } catch (error) {
+    return fail('site.webmanifest is not valid JSON');
+  }
+  if (manifest.name !== 'Reese Witherspoon — Official Website') {
+    fail('site.webmanifest: name must be "Reese Witherspoon — Official Website"');
+  }
+  if (manifest.short_name !== 'Reese Witherspoon') {
+    fail('site.webmanifest: short_name must be "Reese Witherspoon"');
+  }
+  const sizes = (manifest.icons || []).map((icon) => icon.sizes);
+  for (const required of ['192x192', '512x512']) {
+    if (!sizes.includes(required)) fail('site.webmanifest: missing ' + required + ' icon');
+  }
+}
+
+function checkFilmographyAndReels() {
+  const home = fs.readFileSync(path.join(ROOT, 'index.html'), 'utf8');
+  const films = fs.readFileSync(path.join(ROOT, 'films.html'), 'utf8');
+  const reels = fs.readFileSync(path.join(ROOT, 'reels.html'), 'utf8');
+
+  const count = (html, pattern) => (html.match(pattern) || []).length;
+
+  if (count(home, /class="fgx-card"/g) < 10) fail('index.html: homepage filmography needs 10+ cards');
+  if (count(films, /class="fgx-card"/g) < 30) fail('films.html: full filmography needs 30+ cards');
+  if (count(films, /<time datetime="\d{4}"/g) < 30) fail('films.html: cards need <time datetime> years');
+  if (count(home, /data-reel-src="[^"]+\.mp4"/g) < 8) fail('index.html: reels rail needs 8+ playable clips');
+  if (count(reels, /data-reel-src="[^"]+\.mp4"/g) < 8) fail('reels.html: reels rail needs 8+ playable clips');
+
+  for (const [label, html] of [['index.html', home], ['films.html', films]]) {
+    const filters = count(html, /class="fgx-tab" type="button" data-filter="(all|feature|series|producer|award)"/g);
+    if (filters < 5) fail(label + ': filmography needs 5 filter tabs (all, feature, series, producer, award)');
+  }
+
+  // Every card image must reference an existing local asset.
+  const source = home + films;
+  const imageRe = /<img[^>]+src="(\/[^"]+)"[^>]*>/g;
+  let match;
+  while ((match = imageRe.exec(source))) {
+    const rel = match[1].slice(1).split('?')[0];
+    if (!fs.existsSync(path.join(ROOT, rel))) fail('broken card image → ' + match[1]);
+  }
+}
+
 
 function checkRobots() {
   const file = path.join(ROOT, 'robots.txt');
@@ -279,6 +440,14 @@ function checkSitemap(pages) {
   }
   if (!homepageBlock.includes('<lastmod>' + TODAY + '</lastmod>')) {
     warn('sitemap.xml: homepage lastmod is not today (' + TODAY + ')');
+  }
+  if (!/xmlns:video="http:\/\/www\.google\.com\/schemas\/sitemap-video\/1\.1"/.test(body)) {
+    fail('sitemap.xml: missing the video sitemap namespace');
+  }
+  const videoEntries = (body.match(/<video:video>/g) || []).length;
+  if (videoEntries < 10) fail('sitemap.xml: expected 10+ <video:video> entries, found ' + videoEntries);
+  for (const key of ['<video:thumbnail_loc>', '<video:title>', '<video:description>', '<video:content_loc>']) {
+    if (!body.includes(key)) fail('sitemap.xml: video entries missing ' + key);
   }
 
   for (const page of pages.filter((entry) => entry.indexable)) {
@@ -351,6 +520,8 @@ function main() {
   checkLlmsTxt(locs);
   checkIndexNow();
   checkSupportingSitemaps();
+  checkIcons();
+  checkFilmographyAndReels();
 
   const indexable = pages.filter((page) => page.indexable).length;
   console.log('Reese Witherspoon SEO validation — ' + TODAY);

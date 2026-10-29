@@ -1,10 +1,71 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
   <url>
     <loc>https://reesewitherspoonofficial.com/</loc>
     <lastmod>2026-10-29</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
+    <video:video>
+      <video:thumbnail_loc>https://reesewitherspoonofficial.com/reesewitherspoon/primevideo_1778080751_3891145722754448008_1684102154.jpg</video:thumbnail_loc>
+      <video:title>Reese Witherspoon — Legally Blonde 3 — Official Announcement</video:title>
+      <video:description>Reese Witherspoon announces Elle Woods&apos; return in Legally Blonde 3 with Prime Video.</video:description>
+      <video:content_loc>https://reesewitherspoonofficial.com/reesewitherspoon/primevideo_1778083206_3891149648178026686_1684102154.mp4</video:content_loc>
+      <video:player_loc>https://reesewitherspoonofficial.com/reels?reel=legally-blonde-3-announcement</video:player_loc>
+      <video:publication_date>2025-05-06</video:publication_date>
+      <video:family_friendly>yes</video:family_friendly>
+      <video:live>no</video:live>
+    </video:video>
+    <video:video>
+      <video:thumbnail_loc>https://reesewitherspoonofficial.com/reesewitherspoon/reesewitherspoon_1640021819_2733023570386325475_367315644.jpg</video:thumbnail_loc>
+      <video:title>Reese Witherspoon — The Morning Show — Apple TV+ First Look</video:title>
+      <video:description>Bradley Jackson returns in the Apple TV+ drama Reese Witherspoon stars in and executive produces.</video:description>
+      <video:content_loc>https://reesewitherspoonofficial.com/reesewitherspoon/appletv_1752069614_3672932722377193549_6672060127.mp4</video:content_loc>
+      <video:player_loc>https://reesewitherspoonofficial.com/reels?reel=the-morning-show-first-look</video:player_loc>
+      <video:publication_date>2025-07-09</video:publication_date>
+      <video:family_friendly>yes</video:family_friendly>
+      <video:live>no</video:live>
+    </video:video>
+    <video:video>
+      <video:thumbnail_loc>https://reesewitherspoonofficial.com/reesewitherspoon/reesewitherspoon_1591975593_2329982613323954854_367315644.jpg</video:thumbnail_loc>
+      <video:title>Reese Witherspoon — Little Fires Everywhere — Behind the Scenes</video:title>
+      <video:description>On set with Reese Witherspoon and Kerry Washington for the Hulu limited series.</video:description>
+      <video:content_loc>https://reesewitherspoonofficial.com/reesewitherspoon/kerrywashington_1661799678_2915708616331989391_20240005.mp4</video:content_loc>
+      <video:player_loc>https://reesewitherspoonofficial.com/reels?reel=little-fires-behind-the-scenes</video:player_loc>
+      <video:publication_date>2024-08-29</video:publication_date>
+      <video:family_friendly>yes</video:family_friendly>
+      <video:live>no</video:live>
+    </video:video>
+    <video:video>
+      <video:thumbnail_loc>https://reesewitherspoonofficial.com/reesewitherspoon/reesewitherspoon_1690722597_3158332521502672884_367315644.jpg</video:thumbnail_loc>
+      <video:title>Reese Witherspoon — The Tonight Show — 2024 Interview</video:title>
+      <video:description>Reese Witherspoon joins Jimmy Fallon to talk The Morning Show and Legally Blonde 3.</video:description>
+      <video:content_loc>https://reesewitherspoonofficial.com/reesewitherspoon/fallontonight_1757645311_3719720795687025530_18100510.mp4</video:content_loc>
+      <video:player_loc>https://reesewitherspoonofficial.com/reels?reel=tonight-show-2024</video:player_loc>
+      <video:publication_date>2024-09-12</video:publication_date>
+      <video:family_friendly>yes</video:family_friendly>
+      <video:live>no</video:live>
+    </video:video>
+    <video:video>
+      <video:thumbnail_loc>https://reesewitherspoonofficial.com/reesewitherspoon/cosmopolitan_1750240854_3657592786824360179_42725516.jpg</video:thumbnail_loc>
+      <video:title>Reese Witherspoon — Cosmopolitan — Cover Interview</video:title>
+      <video:description>Reese Witherspoon on storytelling, Hello Sunshine and her cover shoot with Cosmopolitan.</video:description>
+      <video:content_loc>https://reesewitherspoonofficial.com/reesewitherspoon/cosmopolitan_1750240854_3657592860719674368_42725516.mp4</video:content_loc>
+      <video:player_loc>https://reesewitherspoonofficial.com/reels?reel=cosmopolitan-cover-interview</video:player_loc>
+      <video:publication_date>2025-06-18</video:publication_date>
+      <video:family_friendly>yes</video:family_friendly>
+      <video:live>no</video:live>
+    </video:video>
+    <video:video>
+      <video:thumbnail_loc>https://reesewitherspoonofficial.com/reesewitherspoon/reesewitherspoon_1601570758_2410472685298603652_367315644.jpg</video:thumbnail_loc>
+      <video:title>Reese Witherspoon — Women in Power — Melinda French Gates</video:title>
+      <video:description>Reese Witherspoon and Melinda French Gates on women, philanthropy and media.</video:description>
+      <video:content_loc>https://reesewitherspoonofficial.com/reesewitherspoon/melindafrenchgates_1723223967_3430972630644457653_612780582.mp4</video:content_loc>
+      <video:player_loc>https://reesewitherspoonofficial.com/reels?reel=women-in-power-melinda-gates</video:player_loc>
+      <video:publication_date>2024-08-09</video:publication_date>
+      <video:family_friendly>yes</video:family_friendly>
+      <video:live>no</video:live>
+    </video:video>
   </url>
   <url>
     <loc>https://reesewitherspoonofficial.com/about</loc>
@@ -53,6 +114,106 @@
     <lastmod>2026-10-29</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
+    <video:video>
+      <video:thumbnail_loc>https://reesewitherspoonofficial.com/reesewitherspoon/primevideo_1778080751_3891145722754448008_1684102154.jpg</video:thumbnail_loc>
+      <video:title>Reese Witherspoon — Legally Blonde 3 — Official Announcement</video:title>
+      <video:description>Reese Witherspoon announces Elle Woods&apos; return in Legally Blonde 3 with Prime Video.</video:description>
+      <video:content_loc>https://reesewitherspoonofficial.com/reesewitherspoon/primevideo_1778083206_3891149648178026686_1684102154.mp4</video:content_loc>
+      <video:player_loc>https://reesewitherspoonofficial.com/reels?reel=legally-blonde-3-announcement</video:player_loc>
+      <video:publication_date>2025-05-06</video:publication_date>
+      <video:family_friendly>yes</video:family_friendly>
+      <video:live>no</video:live>
+    </video:video>
+    <video:video>
+      <video:thumbnail_loc>https://reesewitherspoonofficial.com/reesewitherspoon/reesewitherspoon_1640021819_2733023570386325475_367315644.jpg</video:thumbnail_loc>
+      <video:title>Reese Witherspoon — The Morning Show — Apple TV+ First Look</video:title>
+      <video:description>Bradley Jackson returns in the Apple TV+ drama Reese Witherspoon stars in and executive produces.</video:description>
+      <video:content_loc>https://reesewitherspoonofficial.com/reesewitherspoon/appletv_1752069614_3672932722377193549_6672060127.mp4</video:content_loc>
+      <video:player_loc>https://reesewitherspoonofficial.com/reels?reel=the-morning-show-first-look</video:player_loc>
+      <video:publication_date>2025-07-09</video:publication_date>
+      <video:family_friendly>yes</video:family_friendly>
+      <video:live>no</video:live>
+    </video:video>
+    <video:video>
+      <video:thumbnail_loc>https://reesewitherspoonofficial.com/reesewitherspoon/reesewitherspoon_1591975593_2329982613323954854_367315644.jpg</video:thumbnail_loc>
+      <video:title>Reese Witherspoon — Little Fires Everywhere — Behind the Scenes</video:title>
+      <video:description>On set with Reese Witherspoon and Kerry Washington for the Hulu limited series.</video:description>
+      <video:content_loc>https://reesewitherspoonofficial.com/reesewitherspoon/kerrywashington_1661799678_2915708616331989391_20240005.mp4</video:content_loc>
+      <video:player_loc>https://reesewitherspoonofficial.com/reels?reel=little-fires-behind-the-scenes</video:player_loc>
+      <video:publication_date>2024-08-29</video:publication_date>
+      <video:family_friendly>yes</video:family_friendly>
+      <video:live>no</video:live>
+    </video:video>
+    <video:video>
+      <video:thumbnail_loc>https://reesewitherspoonofficial.com/reesewitherspoon/reesewitherspoon_1690722597_3158332521502672884_367315644.jpg</video:thumbnail_loc>
+      <video:title>Reese Witherspoon — The Tonight Show — 2024 Interview</video:title>
+      <video:description>Reese Witherspoon joins Jimmy Fallon to talk The Morning Show and Legally Blonde 3.</video:description>
+      <video:content_loc>https://reesewitherspoonofficial.com/reesewitherspoon/fallontonight_1757645311_3719720795687025530_18100510.mp4</video:content_loc>
+      <video:player_loc>https://reesewitherspoonofficial.com/reels?reel=tonight-show-2024</video:player_loc>
+      <video:publication_date>2024-09-12</video:publication_date>
+      <video:family_friendly>yes</video:family_friendly>
+      <video:live>no</video:live>
+    </video:video>
+    <video:video>
+      <video:thumbnail_loc>https://reesewitherspoonofficial.com/reesewitherspoon/cosmopolitan_1750240854_3657592786824360179_42725516.jpg</video:thumbnail_loc>
+      <video:title>Reese Witherspoon — Cosmopolitan — Cover Interview</video:title>
+      <video:description>Reese Witherspoon on storytelling, Hello Sunshine and her cover shoot with Cosmopolitan.</video:description>
+      <video:content_loc>https://reesewitherspoonofficial.com/reesewitherspoon/cosmopolitan_1750240854_3657592860719674368_42725516.mp4</video:content_loc>
+      <video:player_loc>https://reesewitherspoonofficial.com/reels?reel=cosmopolitan-cover-interview</video:player_loc>
+      <video:publication_date>2025-06-18</video:publication_date>
+      <video:family_friendly>yes</video:family_friendly>
+      <video:live>no</video:live>
+    </video:video>
+    <video:video>
+      <video:thumbnail_loc>https://reesewitherspoonofficial.com/reesewitherspoon/reesewitherspoon_1601570758_2410472685298603652_367315644.jpg</video:thumbnail_loc>
+      <video:title>Reese Witherspoon — Women in Power — Melinda French Gates</video:title>
+      <video:description>Reese Witherspoon and Melinda French Gates on women, philanthropy and media.</video:description>
+      <video:content_loc>https://reesewitherspoonofficial.com/reesewitherspoon/melindafrenchgates_1723223967_3430972630644457653_612780582.mp4</video:content_loc>
+      <video:player_loc>https://reesewitherspoonofficial.com/reels?reel=women-in-power-melinda-gates</video:player_loc>
+      <video:publication_date>2024-08-09</video:publication_date>
+      <video:family_friendly>yes</video:family_friendly>
+      <video:live>no</video:live>
+    </video:video>
+    <video:video>
+      <video:thumbnail_loc>https://reesewitherspoonofficial.com/reesewitherspoon/reesewitherspoon_1779634961_3904183028792210490_367315644.jpg</video:thumbnail_loc>
+      <video:title>Reese Witherspoon — Reese Witherspoon — Personal Reel 2025</video:title>
+      <video:description>A year of moments from Reese Witherspoon&apos;s official reel archive.</video:description>
+      <video:content_loc>https://reesewitherspoonofficial.com/reesewitherspoon/reesewitherspoon_1779298397_3901355394135873294_367315644.mp4</video:content_loc>
+      <video:player_loc>https://reesewitherspoonofficial.com/reels?reel=personal-reel-2025</video:player_loc>
+      <video:publication_date>2025-12-02</video:publication_date>
+      <video:family_friendly>yes</video:family_friendly>
+      <video:live>no</video:live>
+    </video:video>
+    <video:video>
+      <video:thumbnail_loc>https://reesewitherspoonofficial.com/reesewitherspoon/reesewitherspoon_1631032626_2657616754214583213_367315644.jpg</video:thumbnail_loc>
+      <video:title>Reese Witherspoon — On Set — Official Reel 2024</video:title>
+      <video:description>Behind the camera on set with Reese Witherspoon during her 2024 productions.</video:description>
+      <video:content_loc>https://reesewitherspoonofficial.com/reesewitherspoon/reesewitherspoon_1778602580_3895522713301136158_367315644.mp4</video:content_loc>
+      <video:player_loc>https://reesewitherspoonofficial.com/reels?reel=on-set-2024</video:player_loc>
+      <video:publication_date>2024-11-20</video:publication_date>
+      <video:family_friendly>yes</video:family_friendly>
+      <video:live>no</video:live>
+    </video:video>
+    <video:video>
+      <video:thumbnail_loc>https://reesewitherspoonofficial.com/reesewitherspoon/reesewitherspoon_1778888767_3897921861991215508_367315644.jpg</video:thumbnail_loc>
+      <video:title>Reese Witherspoon — Good Inside — Dr. Becky Kennedy</video:title>
+      <video:description>Reese Witherspoon in conversation with Dr. Becky Kennedy on parenting and storytelling.</video:description>
+      <video:content_loc>https://reesewitherspoonofficial.com/reesewitherspoon/drbeckyatgoodinside_1696453628_3206406297930444801_25924063931.mp4</video:content_loc>
+      <video:player_loc>https://reesewitherspoonofficial.com/reels?reel=good-inside-podcast</video:player_loc>
+      <video:publication_date>2023-10-04</video:publication_date>
+      <video:family_friendly>yes</video:family_friendly>
+      <video:live>no</video:live>
+    </video:video>
+    <video:video>
+      <video:thumbnail_loc>https://reesewitherspoonofficial.com/reesewitherspoon/reesewitherspoon_1778780649_3897016730459253662_367315644.jpg</video:thumbnail_loc>
+      <video:title>Reese Witherspoon — Tonight Show — Funniest Moments</video:title>
+      <video:description>Reese Witherspoon and Jimmy Fallon&apos;s funniest late-night moments.</video:description>
+      <video:content_loc>https://reesewitherspoonofficial.com/reesewitherspoon/fallontonight_1665016428_2942689790496040938_18100510.mp4</video:content_loc>
+      <video:player_loc>https://reesewitherspoonofficial.com/reels?reel=tonight-show-funniest-moments</video:player_loc>
+      <video:publication_date>2024-01-18</video:publication_date>
+      <video:family_friendly>yes</video:family_friendly>
+      <video:live>no</video:live>
+    </video:video>
   </url>
   <url>
     <loc>https://reesewitherspoonofficial.com/upcoming</loc>

