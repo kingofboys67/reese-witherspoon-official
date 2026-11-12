@@ -429,7 +429,7 @@ The official reel rail is embedded on https://reesewitherspoonofficial.com/#reel
 https://reesewitherspoonofficial.com/reels. Clips are served from the official domain and play
 in-page (native HTML5 player, 9:16 vertical framing, no redirect). Each reel publishes a
 `VideoObject` with name, description, thumbnailUrl, uploadDate, contentUrl, embedUrl and
-`actor → https://reesewitherspoonofficial.com/#reese-witherspoon`.
+`actor → https://reesewitherspoonofficial.com/#person`.
 
 Index of official reels:
 1. Legally Blonde 3 — Official Announcement — /reels#legally-blonde-3-announcement

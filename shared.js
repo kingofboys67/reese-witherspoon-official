@@ -17,16 +17,16 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 })();
 
-// ── Sticky nav shadow ─────────────────────────────────────
-window.addEventListener('scroll', function() {
+// ── Sticky nav shadow & frosted backdrop ──────────────────
+function syncNavScrollState() {
   var nav = document.getElementById('nav');
   if (!nav) return;
-  if (window.scrollY > 20) {
-    nav.style.boxShadow = '0 2px 40px rgba(0,0,0,0.4)';
-  } else {
-    nav.style.boxShadow = '';
-  }
-}, { passive: true });
+  var scrolled = window.scrollY > 20;
+  nav.classList.toggle('nav-scrolled', scrolled);
+  nav.style.boxShadow = scrolled ? '0 4px 40px rgba(0,0,0,0.48)' : '';
+}
+window.addEventListener('scroll', syncNavScrollState, { passive: true });
+syncNavScrollState();
 
 // ── Mobile hamburger ──────────────────────────────────────
 function initHamburger() {
@@ -145,7 +145,8 @@ function initHamburger() {
 
   // Close when any nav link is tapped
   navLinks.addEventListener('click', function(e) {
-    if (e.target.tagName === 'A') closeMenu();
+    var link = e.target && e.target.closest ? e.target.closest('a') : (e.target.tagName === 'A' ? e.target : null);
+    if (link) closeMenu();
   });
 
   // Escape key closes menu
@@ -154,9 +155,44 @@ function initHamburger() {
   });
 }
 
+// ── Smooth in-page scroll for Join Now / Community / Fan Club triggers ──
+function initJoinNowSmoothScroll() {
+  document.addEventListener('click', function(e) {
+    var link = e.target && e.target.closest ? e.target.closest('a') : null;
+    if (!link) return;
+    var href = (link.getAttribute('href') || '').trim();
+    var isJoinTrigger =
+      link.id === 'nav-join-link' ||
+      link.classList.contains('nav-join') ||
+      href === '#fan-club' ||
+      href === '/#fan-club' ||
+      href === '#community' ||
+      href === '/#community';
+    if (!isJoinTrigger) return;
+
+    var target = document.getElementById('fan-club') || document.getElementById('community') || document.getElementById('fan-club-home');
+    if (!target) return; // On subpages without #fan-club, allow clean navigation to /#fan-club
+
+    e.preventDefault();
+    if (window.history && typeof window.history.replaceState === 'function') {
+      var nextHash = href.indexOf('community') !== -1 ? '#community' : '#fan-club';
+      window.history.replaceState(null, '', nextHash);
+    }
+    if (typeof window.focusFanClubGenerator === 'function') {
+      window.focusFanClubGenerator();
+    } else {
+      var reduceMotion = Boolean(
+        window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches
+      );
+      target.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' });
+    }
+  });
+}
+
 // ── Init ──────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', function() {
   initHamburger();
+  initJoinNowSmoothScroll();
 });
 
 // ── Scroll Reveal ────────────────────────────────────────

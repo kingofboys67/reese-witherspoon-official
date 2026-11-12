@@ -31,7 +31,33 @@
 
   /* ── LocalStorage Keys ──────────────────────────────────── */
   const LS_KEY       = 'rw_newsletter_v2';
-  const LS_EXIT_KEY  = 'rw_nl_exit_shown';
+  const FANCLUB_KEY  = 'rw_fanclub_member';
+
+  /* ── Fan Club Member State ──────────────────────────────── */
+  function isFanClubMember() {
+    try { return Boolean(localStorage.getItem(FANCLUB_KEY)); } catch { return false; }
+  }
+  function syncFanClubUI() {
+    const member = isFanClubMember();
+    const section = document.getElementById('fan-club') || document.getElementById('fan-club-home');
+    if (section) {
+      section.classList.toggle('is-registered', member);
+    }
+    if (member) {
+      const popup = document.getElementById('nl-exit-popup');
+      if (popup && popup.classList.contains('open')) {
+        popup.classList.remove('open');
+        document.body.classList.remove('rw-popup-locked');
+      }
+    }
+  }
+  function setFanClubMember() {
+    try { localStorage.setItem(FANCLUB_KEY, '1'); } catch { }
+    syncFanClubUI();
+  }
+  window.isFanClubMember = isFanClubMember;
+  window.setFanClubMember = setFanClubMember;
+  window.syncFanClubUI   = syncFanClubUI;
 
   /* ── Subscriber State ───────────────────────────────────── */
   function getState() {
@@ -229,71 +255,136 @@
     btn.addEventListener('click', openModal);
   }
 
-  /* ── 3. EXIT INTENT POPUP ───────────────────────────────── */
-  function buildExitPopup() {
-    if (document.getElementById('nl-exit-popup')) return;
-    if (isSubscribed()) return;
-    if (sessionStorage.getItem(LS_EXIT_KEY)) return;
+  /* ── 3. ENTRY FAN CLUB POPUP ────────────────────────────── */
+  let popupPrevFocus = null;
 
-    const popup = document.createElement('div');
+  function ensureExitPopup() {
+    let popup = document.getElementById('nl-exit-popup');
+    if (popup) return popup;
+
+    const inPageFanClub = document.getElementById('fan-club') || document.getElementById('fan-club-home');
+    const submitHref = inPageFanClub ? '#fan-club' : '/#fan-club';
+
+    popup = document.createElement('div');
     popup.id = 'nl-exit-popup';
+    popup.setAttribute('role', 'dialog');
+    popup.setAttribute('aria-modal', 'true');
+    popup.setAttribute('aria-labelledby', 'nl-exit-heading');
     popup.innerHTML = `
       <div class="nl-exit-inner">
-        <div class="nl-exit-emoji">☀️</div>
+        <div class="nl-exit-emoji" aria-hidden="true">☀️</div>
         <div class="nl-exit-text">
-          <h3>Wait — Don't Miss Reese's Latest!</h3>
-          <p>Join free and get her exclusive wallpaper pack + monthly scoop delivered to you.</p>
+          <h3 id="nl-exit-heading">Join Reese's Fan Club</h3>
+          <p>Founding member access — first look at new projects, book club picks, and behind-the-scenes notes. Free.</p>
         </div>
         <div class="nl-exit-form">
-          <input class="nl-exit-input" id="nl-exit-email" type="email" placeholder="your@email.com" autocomplete="email"/>
-          <button class="btn-nl-gold" id="nl-exit-submit" style="padding:11px 20px;font-size:.85rem">Subscribe Free ☀️</button>
+          <a href="${submitHref}" class="btn-nl-gold nl-exit-cta" id="nl-exit-submit">Join the Fan Club ☀️</a>
         </div>
-        <button class="nl-exit-dismiss" id="nl-exit-dismiss">No thanks, I'll skip the free gift</button>
-        <button class="nl-exit-close" id="nl-exit-close" aria-label="Close">✕</button>
+        <button type="button" class="nl-exit-dismiss" id="nl-exit-dismiss">Maybe later</button>
+        <button type="button" class="nl-exit-close" id="nl-exit-close" aria-label="Close">✕</button>
       </div>`;
     document.body.appendChild(popup);
 
-    const closeExit = () => {
-      popup.classList.remove('open');
-      sessionStorage.setItem(LS_EXIT_KEY, '1');
-    };
-    popup.querySelector('#nl-exit-close').addEventListener('click', closeExit);
-    popup.querySelector('#nl-exit-dismiss').addEventListener('click', closeExit);
+    popup.querySelector('#nl-exit-close').addEventListener('click', closeFanClubPopup);
+    popup.querySelector('#nl-exit-dismiss').addEventListener('click', closeFanClubPopup);
+    popup.addEventListener('click', (e) => {
+      if (e.target === popup) closeFanClubPopup();
+    });
 
-    // Submit quick subscribe
-    popup.querySelector('#nl-exit-submit').addEventListener('click', () => {
-      const emailEl = popup.querySelector('#nl-exit-email');
-      const email   = emailEl.value.trim();
-      if (!validEmail(email)) {
-        emailEl.style.borderColor = 'rgba(236,72,153,.7)';
-        emailEl.placeholder = 'Enter a valid email';
+    popup.querySelector('#nl-exit-submit').addEventListener('click', (e) => {
+      setFanClubMember();
+      popup.classList.remove('open');
+      document.body.classList.remove('rw-popup-locked');
+      const targetSection = document.getElementById('fan-club') || document.getElementById('fan-club-home');
+      if (targetSection) {
+        e.preventDefault();
+        if (typeof window.focusFanClubGenerator === 'function') {
+          window.focusFanClubGenerator();
+        } else {
+          const reduceMotion = Boolean(
+            window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches
+          );
+          targetSection.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' });
+        }
+      }
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (!popup.classList.contains('open')) return;
+      if (e.key === 'Escape') {
+        e.preventDefault();
+        closeFanClubPopup();
         return;
       }
-      const btn = popup.querySelector('#nl-exit-submit');
-      btn.textContent = 'Subscribing…';
-      btn.disabled = true;
-      simulateSubmit({ email, name: '', interests: [] }, () => {
-        popup.querySelector('.nl-exit-inner').innerHTML = `
-          <div class="nl-exit-emoji">✦</div>
-          <div class="nl-exit-text">
-            <h3>You're in! Check your email for your wallpaper pack. ☀️</h3>
-            <p>Welcome to the Reese Sunshine community!</p>
-          </div>
-          <button class="nl-exit-close" style="position:absolute;top:10px;right:12px;background:none;border:none;color:var(--muted);font-size:1.1rem;cursor:pointer" onclick="this.closest('#nl-exit-popup').classList.remove('open')">✕</button>`;
-        toast('🎉 Subscribed! Your wallpaper pack is on its way.');
-        setTimeout(() => closeExit(), 3500);
-      });
-    });
-
-    // Trigger on mouse leaving viewport top
-    let exitFired = false;
-    document.addEventListener('mouseleave', (e) => {
-      if (e.clientY < 10 && !exitFired && !isSubscribed() && !sessionStorage.getItem(LS_EXIT_KEY)) {
-        exitFired = true;
-        // Delay to not immediately show on page load
-        setTimeout(() => popup.classList.add('open'), 300);
+      if (e.key === 'Tab') {
+        const focusables = Array.from(
+          popup.querySelectorAll('a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])')
+        );
+        if (!focusables.length) return;
+        const first = focusables[0];
+        const last  = focusables[focusables.length - 1];
+        if (e.shiftKey) {
+          if (document.activeElement === first || !popup.contains(document.activeElement)) {
+            e.preventDefault();
+            last.focus();
+          }
+        } else {
+          if (document.activeElement === last || !popup.contains(document.activeElement)) {
+            e.preventDefault();
+            first.focus();
+          }
+        }
       }
     });
+
+    return popup;
+  }
+
+  function openFanClubPopup() {
+    const popup = ensureExitPopup();
+    if (popup.classList.contains('open')) {
+      const btn = popup.querySelector('#nl-exit-submit');
+      if (btn) btn.focus({ preventScroll: true });
+      return;
+    }
+    popupPrevFocus = document.activeElement;
+    popup.classList.add('open');
+    document.body.classList.add('rw-popup-locked');
+    const primaryBtn = popup.querySelector('#nl-exit-submit');
+    if (primaryBtn) primaryBtn.focus({ preventScroll: true });
+  }
+
+  function closeFanClubPopup() {
+    const popup = document.getElementById('nl-exit-popup');
+    if (!popup || !popup.classList.contains('open')) return;
+    popup.classList.remove('open');
+    document.body.classList.remove('rw-popup-locked');
+    const target = popupPrevFocus;
+    popupPrevFocus = null;
+    if (target && target !== document.body && typeof target.focus === 'function' && document.contains(target)) {
+      target.focus({ preventScroll: true });
+    } else {
+      if (document.activeElement && popup.contains(document.activeElement) && typeof document.activeElement.blur === 'function') {
+        document.activeElement.blur();
+      }
+      if (target === document.body && document.body.hasAttribute('tabindex')) {
+        document.body.focus({ preventScroll: true });
+      }
+    }
+  }
+
+  window.openFanClubPopup  = openFanClubPopup;
+  window.closeFanClubPopup = closeFanClubPopup;
+
+  function buildExitPopup() {
+    // Check key BEFORE starting the open timer so returning members never see a flash
+    if (isFanClubMember()) return;
+    ensureExitPopup();
+    setTimeout(() => {
+      if (!isFanClubMember()) {
+        openFanClubPopup();
+      }
+    }, 800);
   }
 
   /* ── 4. FOOTER NEWSLETTER STRIP ─────────────────────────── */
@@ -576,10 +667,16 @@
 
   /* ── INIT ───────────────────────────────────────────────── */
   function init() {
+    syncFanClubUI();
     buildModal();
     buildFloatBtn();
     injectFooterStrip();
     buildExitPopup();
+
+    window.addEventListener('pageshow', syncFanClubUI);
+    window.addEventListener('storage', (e) => {
+      if (!e.key || e.key === FANCLUB_KEY) syncFanClubUI();
+    });
 
     // Hero banner mount
     document.querySelectorAll('[data-nl-hero-mount]').forEach(window.buildNlHeroBanner);

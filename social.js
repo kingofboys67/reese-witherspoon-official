@@ -200,14 +200,30 @@
             <span>Join Reese's Book Club</span>
             <span style="margin-left:auto;color:var(--muted)">↗</span>
           </a>
-          <a href="community.html" class="cm-social-link">
-            <span class="cm-social-icon">🗳️</span>
-            <span>Vote in Fan Polls</span>
+          <a href="/#fan-club" class="cm-social-link" id="cm-fanclub-link">
+            <span class="cm-social-icon">💳</span>
+            <span>Claim Your Official Reese Witherspoon Fan Card</span>
             <span style="margin-left:auto;color:var(--pink-2)">→</span>
           </a>
         </div>
       </div>`;
     document.body.appendChild(modal);
+
+    const cmFanclubLink = modal.querySelector('#cm-fanclub-link');
+    if (cmFanclubLink) {
+      cmFanclubLink.addEventListener('click', (e) => {
+        const target = document.getElementById('fan-club') || document.getElementById('community');
+        if (target) {
+          e.preventDefault();
+          closeModal();
+          if (typeof window.focusFanClubGenerator === 'function') {
+            window.focusFanClubGenerator();
+          } else {
+            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+        }
+      });
+    }
 
     // Close
     modal.querySelector('#cm-close').addEventListener('click', closeModal);
@@ -237,10 +253,25 @@
     if (document.getElementById('float-community-btn')) return;
     const btn = document.createElement('button');
     btn.id = 'float-community-btn';
+    btn.type = 'button';
     btn.setAttribute('aria-label', 'Join the Community');
     btn.innerHTML = `<span>✦</span><span class="fc-pill">Join the Community</span>`;
     document.body.appendChild(btn);
-    btn.addEventListener('click', openModal);
+    btn.addEventListener('click', () => {
+      const inPageTarget = document.getElementById('fan-club') || document.getElementById('community');
+      if (inPageTarget) {
+        if (typeof window.focusFanClubGenerator === 'function') {
+          window.focusFanClubGenerator();
+        } else {
+          const reduceMotion = Boolean(
+            window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches
+          );
+          inPageTarget.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' });
+        }
+      } else {
+        openModal();
+      }
+    });
   }
 
   /* ── Toast (fallback if polls.js not loaded) ──────────────── */

@@ -12,7 +12,7 @@ const fs = require('fs');
 const path = require('path');
 
 const cfg = require('./seo-config');
-const { ROOT, SITE, SITE_NAME, PERSON_ID, TODAY, EXCLUDE_FROM_SITEMAP } = cfg;
+const { ROOT, SITE, SITE_NAME, PERSON_ID, LOGO, CORE_FAQ, TODAY, EXCLUDE_FROM_SITEMAP } = cfg;
 
 const errors = [];
 const warnings = [];
@@ -49,6 +49,11 @@ function attr(tag, name) {
 function decode(value) {
   return (value || '').replace(/&amp;/g, '&').replace(/&quot;/g, '"').replace(/&#39;/g, "'")
     .replace(/&lt;/g, '<').replace(/&gt;/g, '>');
+}
+
+/** Strips tags, decodes entities and collapses whitespace for text parity checks. */
+function normalizeText(value) {
+  return decode(String(value || '').replace(/<[^>]+>/g, ' ')).replace(/\s+/g, ' ').trim();
 }
 
 function resolveInternal(target) {
@@ -100,6 +105,17 @@ function checkPage(file) {
     fail(file + ': canonical is "' + canonical + '", expected "' + expectedUrl + '"');
   }
   if (/\.html$/i.test(canonical)) fail(file + ': canonical must be a clean URL');
+
+  /* ---- hreflang (en-US + x-default must equal the canonical) ---- */
+  const alternates = (head.match(/<link\s+rel="alternate"\s+hreflang="[^"]*"[^>]*>/gi) || [])
+    .map((tag) => ({ hreflang: attr(tag, 'hreflang'), href: attr(tag, 'href') }));
+  for (const required of ['en-US', 'x-default']) {
+    const alternate = alternates.find((entry) => entry.hreflang === required);
+    if (!alternate) fail(file + ': missing hreflang="' + required + '"');
+    else if (alternate.href !== canonical) {
+      fail(file + ': hreflang="' + required + '" must equal the canonical URL');
+    }
+  }
 
   /* ---- Open Graph ---- */
   const og = {};
@@ -174,8 +190,11 @@ function checkPage(file) {
       fail(file + ': Person.alternateName must include the legal name');
     }
     const roles = Array.isArray(person.jobTitle) ? person.jobTitle.join(' ') : String(person.jobTitle || '');
-    for (const role of ['Actress', 'Producer', 'Founder']) {
+    for (const role of ['Actress', 'Producer']) {
       if (!new RegExp(role, 'i').test(roles)) fail(file + ': Person.jobTitle missing "' + role + '"');
+    }
+    if (!/Founder|Entrepreneur/i.test(roles)) {
+      fail(file + ': Person.jobTitle must include Founder or Entrepreneur');
     }
     if (!Array.isArray(person.award) || !person.award.some((award) => /Emmy/i.test(award))) {
       fail(file + ': Person.award must include the Emmy Award');
@@ -190,29 +209,36 @@ function checkPage(file) {
     fail(file + ': empty breadcrumb');
   }
 
-  if (route === '') {
-    if (!nodes.some((node) => node['@type'] === 'ProfilePage' &&
-      node.mainEntity && node.mainEntity['@id'] === PERSON_ID)) {
-      fail(file + ': ProfilePage.mainEntity must reference ' + PERSON_ID);
-    }
+  /* ---- official FAQ: schema must mirror the visible FAQ exactly ---- */
+  const FAQ_ROUTES = new Set(['', 'faq', 'fan-club']);
+  if (FAQ_ROUTES.has(route)) {
     const faq = nodes.find((node) => node['@type'] === 'FAQPage');
     if (!faq) fail(file + ': missing FAQPage schema');
     else {
       const questions = faq.mainEntity || [];
-      if (questions.length < 6) fail(file + ': FAQPage needs at least 6 questions');
-      const asked = questions.map((q) => q.name).join(' | ');
-      if (!/official website of Reese Witherspoon/i.test(asked)) {
-        fail(file + ': FAQPage missing "What is the official website of Reese Witherspoon?"');
+      if (questions.length !== CORE_FAQ.length) {
+        fail(file + ': FAQPage has ' + questions.length + ' questions, expected ' + CORE_FAQ.length);
       }
-      if (!/reels/i.test(asked)) fail(file + ': FAQPage missing the reels question');
-
-      // Every schema question must exist as visible on-page content.
       const summaries = [...html.matchAll(/<summary[^>]*>([\s\S]*?)<\/summary>/gi)]
-        .map((match) => match[1].replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim().toLowerCase());
-      for (const question of questions) {
-        const text = String(question.name || '').replace(/\s+/g, ' ').trim().toLowerCase();
-        if (!summaries.some((summary) => summary === text)) {
-          fail(file + ': FAQ question not visible on page → ' + question.name);
+        .map((match) => normalizeText(match[1]));
+      const answers = [...html.matchAll(/<p[^>]*class="[^"]*faq-answer[^"]*"[^>]*>([\s\S]*?)<\/p>/gi)]
+        .map((match) => normalizeText(match[1]));
+
+      for (const item of CORE_FAQ) {
+        const question = questions.find((entry) => normalizeText(entry.name) === normalizeText(item.q));
+        if (!question) {
+          fail(file + ': FAQPage missing question → ' + item.q);
+          continue;
+        }
+        const answer = normalizeText(question.acceptedAnswer && question.acceptedAnswer.text);
+        if (answer !== normalizeText(item.a)) {
+          fail(file + ': FAQPage answer differs from the official copy → ' + item.q);
+        }
+        if (!summaries.includes(normalizeText(item.q))) {
+          fail(file + ': FAQ question not visible on page → ' + item.q);
+        }
+        if (!answers.includes(normalizeText(item.a))) {
+          fail(file + ': FAQ answer not visible, or differs from schema → ' + item.q);
         }
       }
     }
@@ -220,7 +246,7 @@ function checkPage(file) {
 
   /* ---- filmography ItemList + reel VideoObjects ---- */
   const videos = nodes.filter((node) => node['@type'] === 'VideoObject');
-  if (route === '' || route === 'reels') {
+  if (route === 'reels') {
     if (videos.length < 8) fail(file + ': expected 8+ VideoObject nodes, found ' + videos.length);
     for (const video of videos) {
       for (const key of ['name', 'description', 'thumbnailUrl', 'uploadDate', 'embedUrl', 'contentUrl']) {
@@ -231,7 +257,7 @@ function checkPage(file) {
       }
     }
   }
-  if (route === '' || route === 'films') {
+  if (route === 'films') {
     const list = nodes.find((node) => node['@type'] === 'ItemList');
     if (!list) fail(file + ': missing filmography ItemList schema');
     else if (!Array.isArray(list.itemListElement) || list.itemListElement.length < 30) {
@@ -241,8 +267,8 @@ function checkPage(file) {
   const org = nodes.find((node) => node['@type'] === 'Organization');
   if (org) {
     const logo = org.logo && (org.logo.url || org.logo.contentUrl || org.logo);
-    if (logo !== SITE + '/icon-512x512.png') {
-      fail(file + ': Organization.logo must be ' + SITE + '/icon-512x512.png');
+    if (logo !== LOGO) {
+      fail(file + ': Organization.logo must be ' + LOGO);
     }
   } else {
     fail(file + ': missing Organization schema');
@@ -323,6 +349,7 @@ function checkIcons() {
     ['favicon-48x48.png', 48],
     ['icon-192x192.png', 192],
     ['icon-512x512.png', 512],
+    ['logo.png', 512],
     ['apple-touch-icon.png', 180]
   ];
   for (const [name, size] of expected) {
@@ -431,24 +458,42 @@ function checkSitemap(pages) {
   for (const loc of locs) {
     if (!loc.startsWith(SITE + '/')) fail('sitemap.xml: off-domain loc → ' + loc);
     if (/\.html$/i.test(loc)) fail('sitemap.xml: clean URL expected → ' + loc);
+    if (/\.(?:png|jpe?g|webp|gif|svg|mp4|m4v)$/i.test(loc)) {
+      fail('sitemap.xml: asset URL in <loc> → ' + loc);
+    }
   }
 
-  const homepageBlock =
-    (body.match(/<url>\s*<loc>https:\/\/reesewitherspoonofficial\.com\/<\/loc>[\s\S]*?<\/url>/) || [''])[0];
+  /* Clean contract: exactly loc, lastmod, changefreq, priority per <url>. */
+  const blocks = body.match(/<url>[\s\S]*?<\/url>/g) || [];
+  if (blocks.length !== locs.length) {
+    fail('sitemap.xml: ' + blocks.length + ' <url> blocks for ' + locs.length + ' <loc> entries');
+  }
+  for (const block of blocks) {
+    for (const tag of ['loc', 'lastmod', 'changefreq', 'priority']) {
+      if (!block.includes('<' + tag + '>')) fail('sitemap.xml: <url> block missing <' + tag + '>');
+    }
+    if (/<(?:image|video):/i.test(block)) {
+      fail('sitemap.xml: media belongs in image-sitemap.xml / video-sitemap.xml');
+    }
+  }
+
+  const blockFor = (url) =>
+    (body.match(new RegExp('<url>\s*<loc>' + url.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') +
+      '</loc>[\s\S]*?</url>')) || [''])[0];
+
+  const homepageBlock = blockFor(SITE + '/');
   if (!/<priority>1\.0<\/priority>/.test(homepageBlock)) {
     fail('sitemap.xml: homepage must have <priority>1.0</priority>');
   }
   if (!homepageBlock.includes('<lastmod>' + TODAY + '</lastmod>')) {
     warn('sitemap.xml: homepage lastmod is not today (' + TODAY + ')');
   }
-  if (!/xmlns:video="http:\/\/www\.google\.com\/schemas\/sitemap-video\/1\.1"/.test(body)) {
-    fail('sitemap.xml: missing the video sitemap namespace');
+  const fanClubBlock = blockFor(SITE + '/fan-club');
+  if (!fanClubBlock) fail('sitemap.xml: missing /fan-club');
+  else if (!/<priority>1\.0<\/priority>/.test(fanClubBlock)) {
+    fail('sitemap.xml: /fan-club must have <priority>1.0</priority>');
   }
-  const videoEntries = (body.match(/<video:video>/g) || []).length;
-  if (videoEntries < 10) fail('sitemap.xml: expected 10+ <video:video> entries, found ' + videoEntries);
-  for (const key of ['<video:thumbnail_loc>', '<video:title>', '<video:description>', '<video:content_loc>']) {
-    if (!body.includes(key)) fail('sitemap.xml: video entries missing ' + key);
-  }
+  if (!blockFor(SITE + '/faq')) fail('sitemap.xml: missing /faq');
 
   for (const page of pages.filter((entry) => entry.indexable)) {
     if (!locs.includes(page.canonical)) fail('sitemap.xml: missing route ' + page.canonical);

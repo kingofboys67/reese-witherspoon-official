@@ -7,12 +7,15 @@
  * within minutes of deployment.
  *
  * Usage: npm run seo:indexnow
+ *        npm run seo:indexnow -- --dry-run   (validate the URL list, send nothing)
  * The key file must be deployed at https://reesewitherspoonofficial.com/<key>.txt
  */
 'use strict';
 
 const fs = require('fs');
 const path = require('path');
+
+const DRY_RUN = process.argv.includes('--dry-run');
 
 const ROOT = path.resolve(__dirname, '..');
 const HOST = 'reesewitherspoonofficial.com';
@@ -44,6 +47,12 @@ async function main() {
   };
 
   console.log('IndexNow: submitting ' + urlList.length + ' URLs for ' + HOST);
+
+  if (DRY_RUN) {
+    urlList.forEach((url) => console.log('  would submit ' + url));
+    console.log('IndexNow: dry run — nothing sent.');
+    return;
+  }
 
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), 20000);

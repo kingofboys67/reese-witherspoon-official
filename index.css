@@ -85,6 +85,11 @@
   -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
 }
 .hero-desc { max-width:520px;margin-bottom:36px; }
+.hero-official {
+  font-size:.95rem;font-weight:600;letter-spacing:.02em;
+  color:var(--gold-2);margin:-14px 0 22px;
+}
+
 .hero-btns { display:flex;gap:14px;flex-wrap:wrap; }
 
 .hero-visual { position:relative; }
@@ -145,6 +150,772 @@
   line-height:1;margin-bottom:8px;
 }
 .stat-lbl { font-size:.8rem;font-weight:500;color:var(--muted);letter-spacing:.06em;text-transform:uppercase; }
+
+/* ── FAN CLUB SECTION ───────────────────────────────────── */
+.fc-section {
+  position: relative;
+  overflow: hidden;
+  border-bottom: 1px solid var(--glass-border);
+  scroll-margin-top: 96px;
+}
+.fc-anchor-target {
+  display: block;
+  position: relative;
+  top: -96px;
+  height: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+.fc-bg-glow {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 65% 60% at 15% 50%, rgba(124,58,237,0.22) 0%, transparent 60%),
+    radial-gradient(ellipse 55% 55% at 85% 50%, rgba(236,72,153,0.16) 0%, transparent 60%),
+    linear-gradient(160deg, var(--bg-2) 0%, var(--bg-3) 100%);
+}
+.fc-top-line {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  z-index: 1;
+  background: linear-gradient(90deg, transparent, rgba(157,91,240,0.5), rgba(252,211,77,0.3), transparent);
+}
+.fc-container {
+  position: relative;
+  z-index: 2;
+}
+.fc-home-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.05fr;
+  gap: 52px;
+  align-items: start;
+}
+.fc-body {
+  max-width: 580px;
+  margin-bottom: 28px;
+}
+.fc-cta-pair {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-bottom: 32px;
+}
+.fc-btn-primary {
+  min-height: 44px;
+  justify-content: center;
+}
+.fc-btn-secondary {
+  min-height: 44px;
+  justify-content: center;
+  border-color: rgba(252,211,77,0.4);
+  color: var(--gold-2);
+}
+.fc-btn-secondary:hover {
+  background: rgba(245,158,11,0.1);
+  border-color: var(--gold-2);
+  color: var(--gold-2);
+}
+
+/* Registered confirmation state */
+.fc-registered-status {
+  display: none;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  min-height: 48px;
+  padding: 12px 22px;
+  margin-bottom: 32px;
+  background: var(--glass-2);
+  border: 1px solid rgba(252,211,77,0.38);
+  border-radius: 100px;
+  font-size: 0.96rem;
+  font-weight: 700;
+  color: var(--white);
+  box-shadow: 0 8px 28px rgba(245,158,11,0.14);
+}
+.fc-registered-check {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--gold), var(--gold-2));
+  color: var(--bg-2);
+  font-size: 0.9rem;
+  font-weight: 900;
+  flex-shrink: 0;
+}
+.fc-edit-card-link {
+  margin-left: 6px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--gold-2);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.fc-edit-card-link:hover {
+  color: var(--white);
+}
+.fc-section.is-registered .fc-cta-pair,
+#fan-club.is-registered .fc-cta-pair,
+#fan-club-home.is-registered .fc-cta-pair {
+  display: none;
+}
+.fc-section.is-registered .fc-registered-status,
+#fan-club.is-registered .fc-registered-status,
+#fan-club-home.is-registered .fc-registered-status {
+  display: inline-flex;
+}
+
+/* 2x2 benefit grid */
+.fc-benefits-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+  margin-bottom: 24px;
+}
+.fc-benefit-card {
+  padding: 20px 18px;
+  border-radius: var(--radius-sm);
+  transition: transform var(--dur) var(--ease), border-color var(--dur) var(--ease), background var(--dur) var(--ease);
+}
+.fc-benefit-card:hover {
+  transform: translateY(-3px);
+}
+.fc-benefit-icon {
+  font-size: 1.7rem;
+  margin-bottom: 8px;
+  line-height: 1;
+}
+.fc-benefit-title {
+  font-weight: 800;
+  font-size: 0.92rem;
+  margin-bottom: 4px;
+  color: var(--white);
+}
+.fc-benefit-desc {
+  font-size: 0.8rem;
+  color: var(--muted);
+  line-height: 1.5;
+}
+.fc-inline-link {
+  color: var(--gold-2);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+/* 2.4M+ / 127 / 100% stat row */
+.fc-stats-row {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 18px 24px;
+  border-radius: var(--radius-sm);
+}
+.fc-stat-item {
+  flex: 1;
+  text-align: center;
+}
+.fc-stat-val {
+  font-size: 1.45rem;
+  font-weight: 900;
+  line-height: 1.1;
+  background: linear-gradient(135deg, var(--gold-2), var(--purple-2));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.fc-stat-lbl {
+  font-size: 0.7rem;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-top: 3px;
+}
+.fc-stat-divider {
+  width: 1px;
+  align-self: stretch;
+  background: var(--glass-border);
+}
+
+/* Right column: Live Interactive Official Fan Card + Generator */
+.fc-visual-col {
+  width: 100%;
+  min-width: 0;
+}
+.fc-generator-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  width: 100%;
+}
+
+/* Luxury Obsidian Card Shell with Glowing Purple-Pink Border */
+.fc-live-card-shell {
+  position: relative;
+  width: 100%;
+  padding: 2px;
+  border-radius: 20px;
+  background: linear-gradient(135deg, #7c3aed 0%, #a855f7 48%, #ec4899 100%);
+  box-shadow:
+    0 24px 60px rgba(140, 60, 220, 0.38),
+    0 0 32px rgba(236, 72, 153, 0.18);
+  transition: transform 0.35s var(--ease), box-shadow 0.35s var(--ease);
+}
+.fc-live-card-shell:hover {
+  transform: translateY(-3px);
+  box-shadow:
+    0 28px 72px rgba(140, 60, 220, 0.48),
+    0 0 42px rgba(236, 72, 153, 0.28);
+}
+.fc-live-card-inner {
+  position: relative;
+  width: 100%;
+  min-height: 298px;
+  border-radius: 18px;
+  padding: 22px 24px 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 16px;
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse 65% 55% at 12% 18%, rgba(124, 58, 237, 0.24) 0%, transparent 62%),
+    radial-gradient(ellipse 60% 55% at 88% 85%, rgba(236, 72, 153, 0.2) 0%, transparent 62%),
+    radial-gradient(ellipse 45% 45% at 50% 50%, rgba(245, 158, 11, 0.06) 0%, transparent 70%),
+    linear-gradient(155deg, #0b0816 0%, #130c28 52%, #090612 100%);
+  border: 1px solid rgba(252, 211, 77, 0.16);
+}
+
+/* Luxury Editorial Portrait Blend of Reese Witherspoon */
+.fc-lc-reese-art {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 54%;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+.fc-lc-reese-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 16%;
+  opacity: 0.78;
+  filter: contrast(1.06) saturate(1.04);
+}
+.fc-lc-reese-vignette {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(
+      90deg,
+      #100a22 0%,
+      rgba(16, 10, 34, 0.94) 18%,
+      rgba(16, 10, 34, 0.54) 48%,
+      rgba(11, 8, 22, 0.14) 78%,
+      rgba(9, 6, 18, 0.44) 100%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(10, 7, 20, 0.78) 0%,
+      rgba(10, 7, 20, 0.08) 28%,
+      rgba(10, 7, 20, 0.12) 70%,
+      rgba(9, 6, 18, 0.86) 100%
+    ),
+    radial-gradient(circle at 74% 38%, rgba(245, 158, 11, 0.14) 0%, transparent 62%);
+}
+
+/* Card Header */
+.fc-lc-header {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.fc-lc-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+  flex: 1;
+}
+.fc-lc-sunburst {
+  flex-shrink: 0;
+  filter: drop-shadow(0 0 8px rgba(252, 211, 77, 0.45));
+}
+.fc-lc-club-title {
+  font-family: 'Outfit', sans-serif;
+  font-size: clamp(0.62rem, 1.05vw, 0.76rem);
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  background: linear-gradient(135deg, #fff4b8 0%, #fcd34d 45%, #f59e0b 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 1.25;
+  filter: drop-shadow(0 1px 6px rgba(0, 0, 0, 0.75));
+}
+.fc-lc-tier-badge {
+  flex-shrink: 0;
+  padding: 5px 11px;
+  border-radius: 100px;
+  font-size: 0.62rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #fde68a;
+  background: linear-gradient(135deg, rgba(15, 10, 32, 0.86), rgba(38, 18, 68, 0.82));
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(252, 211, 77, 0.56);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.42), 0 0 14px rgba(245, 158, 11, 0.18);
+}
+.fc-lc-divider {
+  position: relative;
+  z-index: 2;
+  height: 1px;
+  width: 100%;
+  background: linear-gradient(90deg, rgba(252, 211, 77, 0.48), rgba(168, 85, 247, 0.35), rgba(252, 211, 77, 0.12));
+}
+
+/* Card Body: Circular Avatar + Personalized Details */
+.fc-lc-body {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  min-width: 0;
+}
+.fc-lc-avatar-slot {
+  position: relative;
+  width: 96px;
+  height: 96px;
+  flex-shrink: 0;
+  cursor: pointer;
+  display: block;
+}
+.fc-lc-avatar-halo {
+  position: absolute;
+  inset: -5px;
+  border-radius: 50%;
+  border: 1.5px dashed rgba(252, 211, 77, 0.42);
+  pointer-events: none;
+}
+.fc-lc-avatar-frame {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 2.5px solid #fcd34d;
+  background: radial-gradient(circle at 30% 25%, rgba(124, 58, 237, 0.35), #0e081d 75%);
+  box-shadow:
+    0 0 20px rgba(245, 158, 11, 0.28),
+    inset 0 0 14px rgba(245, 158, 11, 0.12);
+}
+.fc-lc-avatar-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: none;
+}
+.fc-lc-avatar-slot.has-photo .fc-lc-avatar-img {
+  display: block;
+}
+.fc-lc-avatar-slot.has-photo .fc-lc-avatar-placeholder {
+  display: none;
+}
+.fc-lc-avatar-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fcd34d;
+  width: 100%;
+  height: 100%;
+}
+.fc-lc-avatar-silhouette {
+  opacity: 0.85;
+}
+.fc-lc-avatar-initials {
+  display: none;
+  font-family: 'Playfair Display', serif;
+  font-size: 1.65rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  background: linear-gradient(135deg, #fff4b8, #fcd34d, #f59e0b);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.fc-lc-avatar-slot.has-initials .fc-lc-avatar-silhouette {
+  display: none;
+}
+.fc-lc-avatar-slot.has-initials .fc-lc-avatar-initials {
+  display: inline-block;
+}
+.fc-lc-avatar-cam {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: rgba(8, 5, 18, 0.72);
+  color: #fde68a;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.22s ease;
+}
+.fc-lc-avatar-slot:hover .fc-lc-avatar-cam {
+  opacity: 1;
+}
+
+.fc-lc-details {
+  flex: 1;
+  min-width: 0;
+  max-width: 68%;
+  filter: drop-shadow(0 2px 10px rgba(0, 0, 0, 0.72));
+}
+.fc-lc-micro-label {
+  display: block;
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(252, 211, 77, 0.62);
+  margin-bottom: 3px;
+}
+.fc-lc-member-name {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(1.35rem, 2.3vw, 1.95rem);
+  font-weight: 900;
+  line-height: 1.12;
+  letter-spacing: 0.02em;
+  background: linear-gradient(135deg, #fff7cc 0%, #fcd34d 42%, #f59e0b 78%, #fde68a 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  margin-bottom: 12px;
+}
+.fc-lc-member-name.is-medium {
+  font-size: clamp(1.15rem, 1.85vw, 1.55rem);
+}
+.fc-lc-member-name.is-long {
+  font-size: clamp(0.98rem, 1.45vw, 1.25rem);
+}
+.fc-lc-meta-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+  gap: 14px;
+}
+.fc-lc-meta-item {
+  min-width: 0;
+}
+.fc-lc-meta-lbl {
+  display: block;
+  font-size: 0.58rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.45);
+  margin-bottom: 2px;
+}
+.fc-lc-meta-val {
+  display: block;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.92);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Card Footer: Member ID + Holographic Verified Seal */
+.fc-lc-footer {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  flex-wrap: wrap;
+}
+.fc-lc-id-block {
+  min-width: 0;
+  filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.75));
+}
+.fc-lc-member-id {
+  display: block;
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.88rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  color: #fcd34d;
+  font-variant-numeric: tabular-nums;
+}
+.fc-lc-verified-seal {
+  position: relative;
+  overflow: hidden;
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 13px;
+  border-radius: 100px;
+  background: linear-gradient(135deg, rgba(14, 9, 30, 0.88), rgba(52, 20, 88, 0.82));
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(252, 211, 77, 0.56);
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.45), 0 0 18px rgba(168, 85, 247, 0.24);
+  cursor: default;
+}
+.fc-lc-seal-text {
+  position: relative;
+  z-index: 2;
+  font-size: 0.64rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  background: linear-gradient(90deg, #fde68a, #fff, #f9a8d4, #fcd34d);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.fc-lc-seal-shimmer {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(
+    115deg,
+    transparent 20%,
+    rgba(255, 255, 255, 0.32) 42%,
+    rgba(244, 114, 182, 0.38) 50%,
+    rgba(252, 211, 77, 0.35) 58%,
+    transparent 80%
+  );
+  transform: translateX(-130%);
+  transition: transform 0.75s var(--ease);
+  pointer-events: none;
+}
+.fc-live-card-shell:hover .fc-lc-seal-shimmer,
+.fc-lc-verified-seal:hover .fc-lc-seal-shimmer {
+  transform: translateX(130%);
+}
+
+/* Generator Form Panel */
+.fc-generator-panel {
+  padding: 22px 22px 20px;
+  border-radius: var(--radius-md);
+  scroll-margin-top: 100px;
+  transition: border-color 0.35s var(--ease), box-shadow 0.35s var(--ease);
+}
+.fc-generator-panel.is-highlighted {
+  border-color: rgba(252, 211, 77, 0.65);
+  box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.18), 0 20px 50px rgba(124, 58, 237, 0.3);
+}
+.fc-gen-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+.fc-gen-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.18rem;
+  font-weight: 800;
+  color: var(--white);
+  margin-bottom: 2px;
+}
+.fc-gen-sub {
+  font-size: 0.78rem;
+  color: var(--muted);
+}
+.fc-gen-live-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 100px;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--gold-2);
+  background: rgba(245, 158, 11, 0.12);
+  border: 1px solid rgba(252, 211, 77, 0.3);
+  flex-shrink: 0;
+}
+.fc-gen-live-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--gold-2);
+  box-shadow: 0 0 8px var(--gold);
+}
+.fc-gen-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px 14px;
+}
+.fc-gen-field {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  min-width: 0;
+}
+.fc-gen-field label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.fc-req {
+  color: var(--pink-2);
+}
+.fc-gen-field input[type="text"],
+.fc-gen-field input[type="email"] {
+  width: 100%;
+  min-height: 44px;
+  padding: 10px 14px;
+  border-radius: var(--radius-sm);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--glass-border-2);
+  color: var(--white);
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.9rem;
+  outline: none;
+  transition: border-color 0.22s ease, background 0.22s ease, box-shadow 0.22s ease;
+}
+.fc-gen-field input[type="text"]:focus,
+.fc-gen-field input[type="email"]:focus {
+  border-color: rgba(168, 85, 247, 0.65);
+  background: rgba(255, 255, 255, 0.08);
+  box-shadow: 0 0 0 3px rgba(168, 85, 247, 0.14);
+}
+.fc-gen-field input.is-invalid {
+  border-color: rgba(236, 72, 153, 0.85);
+}
+.fc-gen-field input::placeholder {
+  color: var(--subtle);
+}
+
+.fc-photo-upload-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+.fc-photo-upload-btn {
+  flex: 1;
+  min-width: 0;
+  min-height: 44px;
+  padding: 10px 14px;
+  border-radius: var(--radius-sm);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px dashed rgba(252, 211, 77, 0.42);
+  color: var(--gold-2);
+  font-size: 0.84rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: background 0.22s ease, border-color 0.22s ease;
+}
+.fc-photo-upload-btn:hover {
+  background: rgba(245, 158, 11, 0.1);
+  border-color: var(--gold-2);
+}
+#fc-photo-filename {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.fc-photo-clear-btn {
+  width: 40px;
+  height: 44px;
+  flex-shrink: 0;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--glass-border-2);
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--muted);
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: color 0.2s ease, background 0.2s ease;
+}
+.fc-photo-clear-btn:hover {
+  color: var(--white);
+  background: rgba(236, 72, 153, 0.2);
+}
+.fc-photo-file-input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.fc-gen-feedback {
+  margin-top: 12px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--pink-2);
+}
+.fc-gen-feedback.is-success {
+  color: var(--gold-2);
+}
+
+.fc-gen-actions {
+  display: flex;
+  margin-top: 16px;
+}
+.fc-gen-activate-btn {
+  width: 100%;
+  min-height: 48px;
+  justify-content: center;
+  padding: 13px 22px;
+  font-size: 0.92rem;
+  border: none;
+}
+.fc-gen-activate-btn:disabled {
+  opacity: 0.72;
+  cursor: wait;
+  transform: none;
+}
 
 /* ── LATEST WORKS ───────────────────────────────────────── */
 .section-header { margin-bottom:56px; }
@@ -257,8 +1028,48 @@
   .books-inner{grid-template-columns:1fr;}
   .stats-grid{grid-template-columns:repeat(2,1fr);}
   .fc-2,.fc-3{display:none;}
+  .fc-home-grid{grid-template-columns:1fr;gap:40px;}
 }
 @media(max-width:640px){
   .works-grid{grid-template-columns:1fr;}
   .stats-grid{grid-template-columns:1fr 1fr;}
+  .fc-cta-pair{flex-direction:column;}
+  .fc-btn-primary,.fc-btn-secondary{width:100%;white-space:normal;text-align:center;}
+  .fc-benefits-grid{grid-template-columns:1fr;}
+  .fc-live-card-inner{padding:18px 16px 16px;min-height:auto;}
+  .fc-lc-reese-art{width:56%;}
+  .fc-lc-details{max-width:100%;}
+  .fc-lc-avatar-slot{width:76px;height:76px;}
+  .fc-lc-body{gap:14px;}
+  .fc-gen-grid{grid-template-columns:1fr;}
+  .fc-gen-actions{flex-direction:column;}
+  .fc-gen-activate-btn{width:100%;white-space:normal;text-align:center;}
+}
+@media(max-width:420px){
+  .fc-lc-header{align-items:flex-start;}
+  .fc-lc-body{flex-direction:column;align-items:flex-start;}
+  .fc-lc-details{width:100%;}
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal] {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  .orb,
+  .float-card,
+  .hero-img,
+  .hero-scroll {
+    animation: none;
+  }
+  .fc-live-card-shell,
+  .fc-lc-seal-shimmer,
+  .fc-benefit-card,
+  .work-card,
+  .work-img-wrap img,
+  .ai-front,
+  .bg-img {
+    transition: none;
+  }
 }

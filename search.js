@@ -21,18 +21,6 @@
     });
   }
 
-  /* ── Inject Community Nav Link ─────────────────────────── */
-  function injectCommunityLink() {
-    document.querySelectorAll('.nav-links').forEach(ul => {
-      if (ul.querySelector('a[href="community.html"]')) return;
-      const li = document.createElement('li');
-      li.innerHTML = `<a href="community.html">Community</a>`;
-      // Insert before last li (Watch Now CTA)
-      const last = ul.querySelector('li:last-child');
-      ul.insertBefore(li, last);
-    });
-  }
-
   /* ── Build Overlay ─────────────────────────────────────── */
   function buildOverlay() {
     if (document.getElementById('search-overlay')) return;
@@ -201,7 +189,6 @@
   /* ── Init ──────────────────────────────────────────────── */
   function init() {
     injectSearchBtn();
-    injectCommunityLink();
     buildOverlay();
   }
 

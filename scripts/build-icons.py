@@ -3,8 +3,9 @@
 
 Outputs (site root, served at reesewitherspoonofficial.com):
   favicon.svg, favicon.ico, favicon-48x48.png, icon-192x192.png,
-  icon-512x512.png, apple-touch-icon.png, og-image.jpg, site.webmanifest
+  icon-512x512.png, apple-touch-icon.png, logo.png, og-image.jpg, site.webmanifest
 """
+import math
 import os
 
 from PIL import Image, ImageDraw, ImageFont
@@ -110,6 +111,50 @@ def build_crest(size, transparent=False, padding_ratio=0.0):
         return canvas
     return crest
 
+def draw_sun(canvas, size):
+    """Gold sun glyph, optically centred — the official logo mark."""
+    draw = ImageDraw.Draw(canvas)
+    centre = size / 2.0
+    core = size * 0.150
+
+    # 12 tapered rays; alternating lengths give the mark its rhythm.
+    for index in range(12):
+        angle = math.radians(index * 30 - 90)
+        long_ray = index % 2 == 0
+        inner = size * (0.235 if long_ray else 0.215)
+        outer = size * (0.400 if long_ray else 0.340)
+        width = max(3, int(size * (0.030 if long_ray else 0.022)))
+        draw.line(
+            [
+                (centre + math.cos(angle) * inner, centre + math.sin(angle) * inner),
+                (centre + math.cos(angle) * outer, centre + math.sin(angle) * outer),
+            ],
+            fill=GOLD_SOFT,
+            width=width,
+        )
+
+    draw.ellipse(
+        (centre - core, centre - core, centre + core, centre + core),
+        fill=GOLD,
+    )
+    # Inner warm highlight so the core reads as light, not a flat disc.
+    inner = core * 0.45
+    draw.ellipse(
+        (centre - inner, centre - inner, centre + inner, centre + inner),
+        fill=CREAM,
+    )
+    return canvas
+
+
+def build_logo(size=512):
+    """512x512 brand logo: gold sun glyph on the site's dark violet (#0d0920)."""
+    sample = 4
+    big = size * sample
+    canvas = Image.new("RGBA", (big, big), INK + (255,))
+    draw_sun(canvas, big)
+    return canvas.resize((size, size), Image.LANCZOS)
+
+
 def build_og_image():
     width, height = 1200, 630
     canvas = vertical_gradient((width, height), INK, (26, 11, 46)).convert("RGBA")
@@ -151,7 +196,7 @@ def build_og_image():
         left_draw.line([(x, 0), (x, height)], fill=(13, 9, 32, alpha))
     canvas = Image.alpha_composite(canvas, left_scrim)
 
-    crest = build_crest(112)
+    crest = build_logo(112)
     canvas.paste(crest, (78, 78), crest)
 
     draw = ImageDraw.Draw(canvas)
@@ -209,6 +254,9 @@ def main():
     build_crest(192).save(os.path.join(ROOT, "icon-192x192.png"), "PNG", optimize=True)
     build_crest(48).save(os.path.join(ROOT, "favicon-48x48.png"), "PNG", optimize=True)
 
+    # Brand logo referenced by Organization.logo, the OG card and the footer.
+    build_logo(512).save(os.path.join(ROOT, "logo.png"), "PNG", optimize=True)
+
     # Apple touch icon: opaque, full-bleed (iOS applies its own corner mask).
     apple = Image.new("RGBA", (180, 180), INK + (255,))
     icon = build_crest(180, padding_ratio=0.06)
@@ -231,7 +279,7 @@ def main():
 
     print("Icons written:")
     for name in ("favicon.ico", "favicon-48x48.png", "icon-192x192.png",
-                 "icon-512x512.png", "apple-touch-icon.png", "og-image.jpg",
+                 "icon-512x512.png", "apple-touch-icon.png", "logo.png", "og-image.jpg",
                  "site.webmanifest"):
         path = os.path.join(ROOT, name)
         print("  %-24s %6d bytes" % (name, os.path.getsize(path)))
