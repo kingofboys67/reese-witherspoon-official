@@ -643,10 +643,14 @@
                 <input type="email" id="fc-input-email" name="email" required aria-required="true" maxlength="100" placeholder="you@example.com" autocomplete="email"/>
               </div>
               <div class="fc-gen-field">
+                <label for="fan-phone">Phone Number <span class="fc-req" aria-hidden="true">*</span></label>
+                <input type="tel" id="fan-phone" name="phone" required aria-required="true" maxlength="32" placeholder="+1 (555) 234-5678" autocomplete="tel"/>
+              </div>
+              <div class="fc-gen-field">
                 <label for="fc-input-country">Country</label>
                 <input type="text" id="fc-input-country" name="country" maxlength="36" placeholder="United States" autocomplete="country-name"/>
               </div>
-              <div class="fc-gen-field">
+              <div class="fc-gen-field fc-gen-field--full">
                 <label for="fc-input-photo">Upload Profile Photo</label>
                 <div class="fc-photo-upload-row">
                   <label for="fc-input-photo" class="fc-photo-upload-btn" id="fc-photo-upload-label">

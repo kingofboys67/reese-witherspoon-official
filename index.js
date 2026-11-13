@@ -44,6 +44,7 @@ document.querySelectorAll('.work-card').forEach((card, i) => {
   const formEl = document.getElementById('fc-generator-panel');
   const nameInput = document.getElementById('fc-input-name');
   const emailInput = document.getElementById('fc-input-email');
+  const phoneInput = document.getElementById('fan-phone');
   const countryInput = document.getElementById('fc-input-country');
   const photoInput = document.getElementById('fc-input-photo');
   const photoFilenameEl = document.getElementById('fc-photo-filename');
@@ -102,6 +103,7 @@ document.querySelectorAll('.work-card').forEach((card, i) => {
   saveProfile({
     name: saved.name || '',
     email: saved.email || '',
+    phone: saved.phone || '',
     country: saved.country || '',
     memberId,
     joinDate,
@@ -163,12 +165,20 @@ document.querySelectorAll('.work-card').forEach((card, i) => {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
   }
 
+  function validPhone(phone) {
+    const trimmed = String(phone || '').trim();
+    const digits = trimmed.replace(/\D/g, '');
+    return digits.length >= 7 && digits.length <= 18 && /^[+\d()\s.-]+$/.test(trimmed);
+  }
+
   function validateRequiredFields() {
     const nameVal = nameInput ? nameInput.value.trim() : '';
     const emailVal = emailInput ? emailInput.value.trim() : '';
+    const phoneVal = phoneInput ? phoneInput.value.trim() : '';
 
     if (nameInput) nameInput.classList.remove('is-invalid');
     if (emailInput) emailInput.classList.remove('is-invalid');
+    if (phoneInput) phoneInput.classList.remove('is-invalid');
 
     if (nameVal.length < 2) {
       if (nameInput) {
@@ -186,6 +196,14 @@ document.querySelectorAll('.work-card').forEach((card, i) => {
       showFeedback('Please enter a valid Email Address to register your Founding Membership.');
       return false;
     }
+    if (!validPhone(phoneVal)) {
+      if (phoneInput) {
+        phoneInput.classList.add('is-invalid');
+        phoneInput.focus();
+      }
+      showFeedback('Please enter a valid Phone Number to register your Founding Membership.');
+      return false;
+    }
     showFeedback('');
     return true;
   }
@@ -194,6 +212,7 @@ document.querySelectorAll('.work-card').forEach((card, i) => {
     const profile = {
       name: nameInput ? nameInput.value.trim() : '',
       email: emailInput ? emailInput.value.trim() : '',
+      phone: phoneInput ? phoneInput.value.trim() : '',
       country: countryInput ? countryInput.value.trim() : '',
       memberId,
       joinDate,
@@ -230,6 +249,7 @@ document.querySelectorAll('.work-card').forEach((card, i) => {
     setTimeout(() => {
       if (nameInput && !nameInput.value.trim()) nameInput.focus({ preventScroll: true });
       else if (emailInput && !emailInput.value.trim()) emailInput.focus({ preventScroll: true });
+      else if (phoneInput && !phoneInput.value.trim()) phoneInput.focus({ preventScroll: true });
       else if (nameInput) nameInput.focus({ preventScroll: true });
     }, 260);
   }
@@ -261,6 +281,7 @@ document.querySelectorAll('.work-card').forEach((card, i) => {
   // Hydrate inputs from saved profile if present
   if (nameInput && saved.name) nameInput.value = saved.name;
   if (emailInput && saved.email) emailInput.value = saved.email;
+  if (phoneInput && saved.phone) phoneInput.value = saved.phone;
   if (countryInput && saved.country) countryInput.value = saved.country;
 
   syncSectionState();
@@ -275,6 +296,11 @@ document.querySelectorAll('.work-card').forEach((card, i) => {
   if (emailInput) {
     emailInput.addEventListener('input', () => {
       emailInput.classList.remove('is-invalid');
+    });
+  }
+  if (phoneInput) {
+    phoneInput.addEventListener('input', () => {
+      phoneInput.classList.remove('is-invalid');
     });
   }
   if (countryInput) {
@@ -762,6 +788,7 @@ document.querySelectorAll('.work-card').forEach((card, i) => {
 
       const fullName = nameInput ? nameInput.value.trim() : '';
       const emailAddr = emailInput ? emailInput.value.trim() : '';
+      const phoneVal = phoneInput ? phoneInput.value.trim() : '';
       const countryVal = (countryInput && countryInput.value.trim()) || 'Worldwide';
       const submittedAt = new Date().toISOString();
 
@@ -778,6 +805,7 @@ document.querySelectorAll('.work-card').forEach((card, i) => {
         body: JSON.stringify({
           from_name: fullName,
           from_email: emailAddr,
+          phone: phoneVal,
           country: countryVal,
           member_id: memberId,
           join_date: joinDate,

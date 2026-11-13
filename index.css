@@ -794,6 +794,9 @@
   gap: 5px;
   min-width: 0;
 }
+.fc-gen-field--full {
+  grid-column: 1 / -1;
+}
 .fc-gen-field label {
   font-size: 0.7rem;
   font-weight: 700;
@@ -805,7 +808,8 @@
   color: var(--pink-2);
 }
 .fc-gen-field input[type="text"],
-.fc-gen-field input[type="email"] {
+.fc-gen-field input[type="email"],
+.fc-gen-field input[type="tel"] {
   width: 100%;
   min-height: 44px;
   padding: 10px 14px;
@@ -819,7 +823,8 @@
   transition: border-color 0.22s ease, background 0.22s ease, box-shadow 0.22s ease;
 }
 .fc-gen-field input[type="text"]:focus,
-.fc-gen-field input[type="email"]:focus {
+.fc-gen-field input[type="email"]:focus,
+.fc-gen-field input[type="tel"]:focus {
   border-color: rgba(168, 85, 247, 0.65);
   background: rgba(255, 255, 255, 0.08);
   box-shadow: 0 0 0 3px rgba(168, 85, 247, 0.14);
@@ -855,6 +860,9 @@
   gap: 8px;
   cursor: pointer;
   transition: background 0.22s ease, border-color 0.22s ease;
+}
+.fc-gen-field--full .fc-photo-upload-btn {
+  justify-content: center;
 }
 .fc-photo-upload-btn:hover {
   background: rgba(245, 158, 11, 0.1);

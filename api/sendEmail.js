@@ -87,6 +87,10 @@ export default async function handler(req, res) {
               <td><a href="mailto:${safeEmail}" style="color: #fcd34d; text-decoration: none; font-weight: 600;">${safeEmail}</a></td>
             </tr>
             <tr style="border-bottom: 1px solid rgba(255,255,255,0.08);">
+              <td style="color: #c4b5fd; font-weight: 600;">Phone Number</td>
+              <td style="color: #ffffff; font-weight: 600;">${safePhone || 'Not provided'}</td>
+            </tr>
+            <tr style="border-bottom: 1px solid rgba(255,255,255,0.08);">
               <td style="color: #c4b5fd; font-weight: 600;">Country / Location</td>
               <td style="color: #ffffff;">${safeCountry}</td>
             </tr>
@@ -98,11 +102,6 @@ export default async function handler(req, res) {
             <tr style="border-bottom: 1px solid rgba(255,255,255,0.08);">
               <td style="color: #c4b5fd; font-weight: 600;">Join Date</td>
               <td style="color: #ffffff;">${safeJoinDate}</td>
-            </tr>` : ''}
-            ${safePhone ? `
-            <tr style="border-bottom: 1px solid rgba(255,255,255,0.08);">
-              <td style="color: #c4b5fd; font-weight: 600;">Phone</td>
-              <td style="color: #ffffff;">${safePhone}</td>
             </tr>` : ''}
             ${safeInterests ? `
             <tr style="border-bottom: 1px solid rgba(255,255,255,0.08);">
