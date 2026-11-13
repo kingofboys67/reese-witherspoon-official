@@ -125,7 +125,7 @@
       director: 'Alexander Payne',
       producers: 'Albert Berger, Ron Yerxa',
       studio: 'Paramount', boxOffice: '$17M',
-      poster: 'https://image.tmdb.org/t/p/w780/jH0UVCJhVlJBzlU8xE9K95bT9mF.jpg',
+      poster: '/reesewitherspoon/reesewitherspoon_1584634208_2268398610779615984_367315644.jpg',
       posterFallback: 'reesewitherspoon/reesewitherspoon_1577901649_2211921814496504844_367315644.jpg',
       trailerYt: 'tBgM_Kw6PSM',
       watch: [{ name: 'Netflix', url: 'https://netflix.com' }, { name: 'Paramount+', url: 'https://www.paramountplus.com' }]
@@ -161,7 +161,7 @@
       studio: 'Touchstone', boxOffice: '$180M',
       poster: 'posters/Sweet Home Alabama.jpg',
       posterFallback: 'reesewitherspoon/reesewitherspoon_1579536534_2225636222888326103_367315644.jpg',
-      trailerYt: 'YMfEJ4N4PbA',
+      trailerYt: 'E2ySMc4iT04',
       watch: [{ name: 'Disney+', url: 'https://www.disneyplus.com' }, { name: 'Amazon', url: 'https://www.amazon.com/primevideo' }]
     },
     {
@@ -263,7 +263,7 @@
       studio: 'DreamWorks Animation', boxOffice: '$381M',
       poster: 'posters/Monsters vs. Aliens.jpg',
       posterFallback: 'reesewitherspoon/reesewitherspoon_1580749895_2235814635028670860_367315644.jpg',
-      trailerYt: 'pA_O6AOHM5Q',
+      trailerYt: 'Egpr_CAS3U8',
       watch: [{ name: 'Paramount+', url: 'https://www.paramountplus.com' }, { name: 'Amazon', url: 'https://www.amazon.com/primevideo' }]
     },
     {
@@ -280,7 +280,7 @@
       studio: '20th Century Fox', boxOffice: '$117M',
       poster: 'posters/Water for Elephants.jpg',
       posterFallback: 'reesewitherspoon/reesewitherspoon_1581311973_2240529682690946700_367315644.jpg',
-      trailerYt: 'RRKuS9z9-vA',
+      trailerYt: 'OOPHFQZ5aiM',
       watch: [{ name: 'Disney+', url: 'https://www.disneyplus.com' }, { name: 'Amazon', url: 'https://www.amazon.com/primevideo' }]
     },
     {

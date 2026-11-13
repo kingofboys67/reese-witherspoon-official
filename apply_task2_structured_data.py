@@ -42,10 +42,10 @@ PERSON_SCHEMA = {
     "worksFor": {
         "@type": "Organization",
         "name": "Hello Sunshine",
-        "url": "https://hellosunshine.com"
+        "url": "https://hello-sunshine.com"
     },
     "founder": [
-        {"@type": "Organization", "name": "Hello Sunshine", "url": "https://hellosunshine.com"},
+        {"@type": "Organization", "name": "Hello Sunshine", "url": "https://hello-sunshine.com"},
         {"@type": "Organization", "name": "Draper James", "url": "https://draperjames.com"},
         {"@type": "Organization", "name": "Reese's Book Club", "url": "https://reesesbookclub.com"}
     ],
@@ -78,7 +78,7 @@ ORGANIZATION_SCHEMA = {
     "logo": PORTRAIT_IMG,
     "founder": {"@id": f"{BASE_URL}/#person"},
     "sameAs": [
-        "https://hellosunshine.com",
+        "https://hello-sunshine.com",
         "https://reesesbookclub.com",
         "https://draperjames.com"
     ]

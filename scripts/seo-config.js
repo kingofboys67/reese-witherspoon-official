@@ -100,7 +100,7 @@ const BING_SITE_VERIFICATION =
  * already trusts. Only add URLs that are genuinely operated by the subject.
  */
 const BRAND_SITES = [
-  { name: 'Hello Sunshine', url: 'https://hellosunshine.com' },
+  { name: 'Hello Sunshine', url: 'https://hello-sunshine.com' },
   { name: "Reese's Book Club", url: 'https://reesesbookclub.com' },
   { name: 'Draper James', url: 'https://draperjames.com' },
   { name: 'Sunnie', url: 'https://www.getsunnie.com' }

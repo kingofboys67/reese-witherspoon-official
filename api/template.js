@@ -271,7 +271,7 @@ export function getWelcomeEmailHtml(from_name, from_email, details = {}) {
                     <span style="color: #4A4557;">•</span>
                     <a href="https://twitter.com/RWitherspoon" style="font-size: 13px; font-weight: 600; color: #FFCC00; text-decoration: none; margin: 0 5px;">Twitter</a>
                     <span style="color: #4A4557;">•</span>
-                    <a href="https://hellosunshine.com" style="font-size: 13px; font-weight: 600; color: #FFCC00; text-decoration: none; margin: 0 5px;">Hello Sunshine</a>
+                    <a href="https://hello-sunshine.com" style="font-size: 13px; font-weight: 600; color: #FFCC00; text-decoration: none; margin: 0 5px;">Hello Sunshine</a>
                   </td>
                 </tr>
               </table>

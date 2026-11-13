@@ -204,7 +204,7 @@ const SEARCH_DATA = [
     "title": "Election",
     "desc": "Starring as Tracy Flick. Directed by Alexander Payne. Her breakthrough performance as the fiercely ambitious Tracy Flick in Alexander Payne's dark political satire....",
     "tags": "film movie election tracy flick alexander payne 1999 award winner \ud83c\udf1f golden globe nominated",
-    "img": "https://image.tmdb.org/t/p/w780/jH0UVCJhVlJBzlU8xE9K95bT9mF.jpg",
+    "img": "/reesewitherspoon/reesewitherspoon_1584634208_2268398610779615984_367315644.jpg",
     "url": "/films/election",
     "year": "1999"
   },

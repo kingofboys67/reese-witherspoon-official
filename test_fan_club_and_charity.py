@@ -56,7 +56,7 @@ new_philan_block = """    <div class="philan-cards" data-reveal data-reveal-dela
           <div class="pc-role">Global Ambassador &amp; Supporter</div>
         </div>
       </a>
-      <a href="https://www.avonworldwide.com/responsible-business/avon-foundation" target="_blank" rel="noopener noreferrer" class="pc-item glass" style="text-decoration:none;color:inherit;cursor:pointer;">
+      <a href="https://www.avonworldwide.com/responsible-business" target="_blank" rel="noopener noreferrer" class="pc-item glass" style="text-decoration:none;color:inherit;cursor:pointer;">
         <div class="pc-icon">🎗️</div>
         <div style="flex:1;">
           <div class="pc-name" style="display:flex;align-items:center;justify-content:space-between;">Avon Foundation for Women <span style="font-size:0.75rem;color:var(--pink-2);">↗</span></div>

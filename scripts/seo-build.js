@@ -298,7 +298,7 @@ function personSchema() {
         '@type': 'Organization',
         '@id': SITE + '/#hellosunshine',
         name: 'Hello Sunshine',
-        url: 'https://hellosunshine.com',
+        url: 'https://hello-sunshine.com',
         description: 'Media company founded by Reese Witherspoon in 2016.'
       },
       ...BRAND_SITES.filter((brand) => brand.name !== 'Hello Sunshine').map((brand) => ({
@@ -519,10 +519,10 @@ function homeGraph(meta) {
       worksFor: {
         '@type': 'Organization',
         name: 'Hello Sunshine',
-        url: 'https://hellosunshine.com'
+        url: 'https://hello-sunshine.com'
       },
       founder: [
-        { '@type': 'Organization', name: 'Hello Sunshine', url: 'https://hellosunshine.com' },
+        { '@type': 'Organization', name: 'Hello Sunshine', url: 'https://hello-sunshine.com' },
         { '@type': 'Organization', name: 'Draper James', url: 'https://draperjames.com' },
         { '@type': 'Organization', name: "Reese's Book Club", url: 'https://reesesbookclub.com' }
       ],

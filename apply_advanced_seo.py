@@ -22,10 +22,10 @@ PERSON_SCHEMA = {
     "worksFor": {
         "@type": "Organization",
         "name": "Hello Sunshine",
-        "url": "https://hellosunshine.com"
+        "url": "https://hello-sunshine.com"
     },
     "founder": [
-        {"@type": "Organization", "name": "Hello Sunshine", "url": "https://hellosunshine.com"},
+        {"@type": "Organization", "name": "Hello Sunshine", "url": "https://hello-sunshine.com"},
         {"@type": "Organization", "name": "Draper James", "url": "https://draperjames.com"},
         {"@type": "Organization", "name": "Reese's Book Club", "url": "https://reesesbookclub.com"}
     ],

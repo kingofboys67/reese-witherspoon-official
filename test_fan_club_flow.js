@@ -114,7 +114,7 @@ function runFanClubTests() {
     // Verify all 4 links are outbound and open in new tab with security rel
     assert(aboutHtml.includes("https://www.childrensdefense.org"), "Childrens Defense Fund external link present");
     assert(aboutHtml.includes("https://www.savethechildren.org"), "Save the Children external link present");
-    assert(aboutHtml.includes("https://www.avonworldwide.com/responsible-business/avon-foundation"), "Avon Foundation external link present");
+    assert(aboutHtml.includes("https://www.avonworldwide.com/responsible-business"), "Avon Foundation external link present");
     assert(aboutHtml.includes("https://www.donorschoose.org"), "DonorsChoose external link present");
     assert(aboutHtml.includes("rel=\"noopener noreferrer\""), "Security rel tag on external charity links");
 

