@@ -72,18 +72,37 @@
   function validEmail(e) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e); }
   function validName(n)  { return n.trim().length >= 2; }
 
-  /* ── Simulate Backend Submission ────────────────────────── */
-  function simulateSubmit(data, callback) {
-    // REPLACE THIS with real API call (see comments above)
-    setTimeout(() => {
-      setState({
-        email:     data.email,
-        name:      data.name,
-        interests: data.interests,
-        date:      new Date().toISOString(),
+  /* ── Real Backend Submission via Vercel Resend (/api/sendEmail) ── */
+  function submitNewsletterToApi(data, callback) {
+    const submittedAt = new Date().toISOString();
+    setState({
+      email:     data.email,
+      name:      data.name,
+      interests: data.interests,
+      date:      submittedAt,
+    });
+
+    fetch('/api/sendEmail', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        from_name:  data.name || 'Sunshine Subscriber',
+        from_email: data.email,
+        interests:  data.interests || [],
+        timestamp:  submittedAt,
+        source:     data.source || 'Subscribe to Sunshine Newsletter',
+      }),
+    })
+      .then(async (res) => {
+        const payload = await res.json().catch(() => ({}));
+        if (!res.ok) throw new Error(payload.error || `HTTP ${res.status}`);
+        console.log('✅ Sunshine Newsletter email delivered (200 OK):', payload);
+        callback(true, payload);
+      })
+      .catch((err) => {
+        console.warn('⚠️ Sunshine Newsletter email warning:', err);
+        callback(false);
       });
-      callback(true);
-    }, 900);
   }
 
   /* ── Toast ──────────────────────────────────────────────── */
@@ -422,16 +441,16 @@
       const btn = strip.querySelector('button[type="submit"]');
       btn.textContent = 'Subscribing…';
       btn.disabled = true;
-      simulateSubmit({ email, name: '', interests: [] }, () => {
+      submitNewsletterToApi({ email, name: 'Sunshine Subscriber', interests: [], source: 'Footer Subscribe to Sunshine' }, () => {
         strip.querySelector('.footer-nl-inner').innerHTML = `
           <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap">
             <div style="font-size:1.8rem">☀️</div>
             <div>
               <div style="font-weight:800;font-size:1rem;margin-bottom:3px">You're subscribed! Welcome to the community.</div>
-              <div style="font-size:.82rem;color:var(--muted)">Check your email for your free wallpaper pack.</div>
+              <div style="font-size:.82rem;color:var(--muted)">Check your email for your welcome note and free wallpaper pack.</div>
             </div>
           </div>`;
-        toast('🎉 Subscribed! Your wallpaper pack is on its way.');
+        toast('🎉 Subscribed! Welcome email sent to your inbox.');
       });
     });
   }
@@ -636,9 +655,9 @@
     if (btnLoad) { btnText.style.display = 'none'; btnLoad.style.display = ''; }
     else submitBtn.textContent = 'Subscribing…';
 
-    simulateSubmit({ name, email, interests }, () => {
+    submitNewsletterToApi({ name, email, interests, source: `Subscribe to Sunshine (${form.id || 'form'})` }, () => {
       showSuccess(form, successEl);
-      toast('🎉 You\'re subscribed! Your free wallpaper pack is on its way.');
+      toast('🎉 You\'re subscribed! Check your inbox for your welcome email.');
       // If subscribed from modal, update float btn
       const floatBtn = document.getElementById('nl-float-btn');
       if (floatBtn) { floatBtn.innerHTML = `<span>✓</span><span class="nl-float-label">Subscribed</span>`; floatBtn.style.background = 'linear-gradient(135deg,#059669,#10b981)'; floatBtn.style.color='white'; floatBtn.style.boxShadow='0 8px 28px rgba(5,150,105,.35)'; floatBtn.onclick = null; }

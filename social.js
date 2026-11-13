@@ -233,14 +233,32 @@
     // Subscribe
     modal.querySelector('#cm-subscribe').addEventListener('click', () => {
       const email = modal.querySelector('#cm-email').value.trim();
-      if (!email || !email.includes('@')) {
+      if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
         window.showToast && window.showToast('❗ Please enter a valid email');
         return;
       }
-      modal.querySelector('#cm-subscribe').textContent = '✓ Subscribed!';
-      modal.querySelector('#cm-subscribe').style.background = 'linear-gradient(135deg,#059669,#10b981)';
-      modal.querySelector('#cm-email').disabled = true;
-      window.showToast && window.showToast('🎉 You\'re in! Welcome to the community.');
+      const subBtn = modal.querySelector('#cm-subscribe');
+      subBtn.disabled = true;
+      subBtn.textContent = 'Subscribing…';
+      fetch('/api/sendEmail', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          from_name: 'Community Member',
+          from_email: email,
+          timestamp: new Date().toISOString(),
+          source: 'Join the Community Modal (#community-modal)',
+        }),
+      })
+        .then(res => res.json().catch(() => ({})))
+        .then(data => console.log('✅ Community modal signup delivered:', data))
+        .catch(err => console.warn('⚠️ Community modal email warning:', err))
+        .finally(() => {
+          subBtn.textContent = '✓ Subscribed!';
+          subBtn.style.background = 'linear-gradient(135deg,#059669,#10b981)';
+          modal.querySelector('#cm-email').disabled = true;
+          window.showToast && window.showToast('🎉 You\'re in! Check your email for your welcome note.');
+        });
     });
   }
 

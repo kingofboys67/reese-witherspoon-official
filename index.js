@@ -760,15 +760,47 @@ document.querySelectorAll('.work-card').forEach((card, i) => {
       updateCardPreview();
       persistMembership();
 
+      const fullName = nameInput ? nameInput.value.trim() : '';
+      const emailAddr = emailInput ? emailInput.value.trim() : '';
+      const countryVal = (countryInput && countryInput.value.trim()) || 'Worldwide';
+      const submittedAt = new Date().toISOString();
+
       const originalLabel = activateBtn ? activateBtn.textContent : '✦ Claim Founding Membership';
       if (activateBtn) {
         activateBtn.disabled = true;
         activateBtn.textContent = '✦ Claiming Membership…';
       }
 
+      // Send real Founding Membership details to Zoho inbox + fan welcome email via Vercel Resend API
+      const emailPromise = fetch('/api/sendEmail', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          from_name: fullName,
+          from_email: emailAddr,
+          country: countryVal,
+          member_id: memberId,
+          join_date: joinDate,
+          timestamp: submittedAt,
+          source: 'Official Fan Club — Claim Founding Membership (#fan-club)',
+        }),
+      })
+        .then(async (res) => {
+          const payload = await res.json().catch(() => ({}));
+          if (!res.ok) {
+            throw new Error(payload.error || `HTTP ${res.status}`);
+          }
+          console.log('✅ Founding Membership email delivered (200 OK):', payload);
+          return { ok: true, status: res.status, payload };
+        })
+        .catch((err) => {
+          console.warn('⚠️ Founding Membership email delivery warning:', err);
+          return { ok: false, error: err?.message || String(err) };
+        });
+
       try {
         const canvas = await renderFanCardCanvas();
-        const safeSlug = (nameInput?.value.trim() || 'member')
+        const safeSlug = (fullName || 'member')
           .toLowerCase()
           .replace(/[^a-z0-9]+/g, '-')
           .replace(/^-|-$/g, '') || 'member';
@@ -798,12 +830,29 @@ document.querySelectorAll('.work-card').forEach((card, i) => {
           triggerDownload(canvas.toDataURL('image/png'));
         }
 
-        showFeedback(`✦ Founding Membership confirmed! Official ID: ${memberId} — your Fan Card PNG is downloading.`, true);
-        if (typeof window.showToast === 'function') {
-          window.showToast('✦ Welcome, Founding Member! Your Official Fan Card PNG has downloaded.');
+        const emailResult = await emailPromise;
+        if (emailResult.ok) {
+          showFeedback(
+            `✦ Founding Membership confirmed! Official ID: ${memberId} — welcome email sent to ${emailAddr} & Fan Card PNG downloading.`,
+            true
+          );
+          if (typeof window.showToast === 'function') {
+            window.showToast('✦ Welcome, Founding Member! Confirmation email sent & Fan Card PNG downloaded.');
+          }
+        } else {
+          showFeedback(`✦ Founding Membership confirmed! Official ID: ${memberId} — your Fan Card PNG is downloading.`, true);
+          if (typeof window.showToast === 'function') {
+            window.showToast('✦ Welcome, Founding Member! Your Official Fan Card PNG has downloaded.');
+          }
         }
       } catch {
-        showFeedback(`✦ Founding Membership confirmed! Official ID: ${memberId}.`, true);
+        const emailResult = await emailPromise;
+        showFeedback(
+          emailResult.ok
+            ? `✦ Founding Membership confirmed! Official ID: ${memberId} — welcome email sent to ${emailAddr}.`
+            : `✦ Founding Membership confirmed! Official ID: ${memberId}.`,
+          true
+        );
       } finally {
         if (activateBtn) {
           activateBtn.disabled = false;

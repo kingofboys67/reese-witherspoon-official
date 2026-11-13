@@ -1771,7 +1771,11 @@ form.addEventListener('submit', function(e) {
       body: JSON.stringify({
         from_name: fname + ' ' + lname,
         from_email: email,
-        phone: phone
+        phone: phone,
+        member_id: memberId,
+        message: message,
+        timestamp: memberData.joinedAt,
+        source: 'Official Fan Club — Join Page (/join)'
       })
     })
     .then(res => res.json())

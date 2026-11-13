@@ -1,4 +1,15 @@
-export function getWelcomeEmailHtml(from_name, from_email) {
+export function getWelcomeEmailHtml(from_name, from_email, details = {}) {
+  const { memberId = '', country = '', joinDate = '' } = details || {};
+  const memberBadgeHtml = memberId ? `
+                          <table width="100%" border="0" cellspacing="0" cellpadding="0" bgcolor="#160F29" style="background-color: #160F29; border-radius: 14px; border: 1px solid #D4AF37; margin-bottom: 18px;">
+                            <tr>
+                              <td style="padding: 16px 18px; color: #FFFFFF; font-family: 'Outfit', sans-serif;">
+                                <div style="font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: #FFCC00; font-weight: 800; margin-bottom: 6px;">✦ Official Founding Member Credential</div>
+                                <div style="font-size: 16px; font-weight: 800; color: #FFFFFF; margin-bottom: 4px;">${from_name}</div>
+                                <div style="font-size: 13px; color: #E2D9F3;">Member ID: <strong style="color: #FFCC00;">${memberId}</strong>${country ? ` &nbsp;·&nbsp; ${country}` : ''}${joinDate ? ` &nbsp;·&nbsp; Joined ${joinDate}` : ''}</div>
+                              </td>
+                            </tr>
+                          </table>` : '';
   return `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -193,7 +204,7 @@ export function getWelcomeEmailHtml(from_name, from_email) {
                     <table width="100%" border="0" cellspacing="0" cellpadding="0" bgcolor="#FFFFFF" style="border-radius: 20px; border: 1px solid #EAE3D2; box-shadow: 0 4px 12px rgba(107,33,168,0.05);">
                       <tr>
                         <td style="padding: 25px 20px;">
-                          
+                          ${memberBadgeHtml}
                           <h3 style="font-family: 'Playfair Display', serif; font-size: 20px; color: #6B21A8; margin: 0 0 15px 0;">What You Unlock Today:</h3>
                           
                           <table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-bottom: 10px;">
@@ -216,7 +227,7 @@ export function getWelcomeEmailHtml(from_name, from_email) {
                           </table>
 
                           <div style="text-align: center;">
-                            <a href="https://reesewitherspoonofficial.com/join.html" style="background: linear-gradient(135deg, #7C3AED 0%, #EC4899 100%); color: #FFCC00; text-decoration: none; padding: 14px 28px; border-radius: 50px; font-weight: bold; display: inline-block;">Explore the Club Dashboard ☀️</a>
+                            <a href="https://reesewitherspoonofficial.com/#fan-club" style="background: linear-gradient(135deg, #7C3AED 0%, #EC4899 100%); color: #FFCC00; text-decoration: none; padding: 14px 28px; border-radius: 50px; font-weight: bold; display: inline-block;">Explore the Official Fan Club ☀️</a>
                           </div>
 
                         </td>
